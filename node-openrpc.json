@@ -13,6 +13,7 @@
       {
         "name": "coinbaseCloud_getBalances",
         "summary": "Get balances across one or more tokens",
+        "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`.",
         "tags": [
           {
             "name": "balances"
@@ -29,18 +30,26 @@
           },
           {
             "name": "blockchain",
-            "description": "List of account or contact addresses and token identifiers. For Ethereum the token identifier is the token contract address.",
+            "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/blockchain"
+              "$ref": "#/components/schemas/Blockchain"
+            }
+          },
+          {
+            "name": "network",
+            "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Network"
             }
           }
         ],
         "result": {
-          "name": "pets",
-          "description": "A paged array of pets",
+          "name": "balances",
+          "description": "A list of balance amounts for the given token identifier and Block range in which the balances were computed. Note that Start is always genesis for this API.",
           "schema": {
-            "$ref": "#/components/schemas/Pets"
+            "$ref": "#/components/schemas/Balances"
           }
         },
         "errors": [
@@ -175,11 +184,10 @@
         }
       },
       "schemas": {
-        "blockchain": {
-          "type": "string",
-          "description": "doot doot"
+        "Blockchain": {
+          "type": "string"
         },
-        "network": {
+        "Network": {
           "type": "string"
         },
         "PetId": {
@@ -229,6 +237,59 @@
           "type": "array",
           "items": {
             "$ref": "#/components/schemas/AddressAndContract"
+          }
+        },
+        "TokenBalance": {
+          "type": "object",
+          "required": [
+            "contract",
+            "amount",
+            "decimals"
+          ],
+          "properties": {
+            "contract": {
+              "description": "Token identifier",
+              "type": "string"
+            },
+            "amount": {
+              "description": "Balance Amount (For ERC-721 it is the number of tokens owned).",
+              "type": "integer"
+            },
+            "decimals": {
+              "description": "Unit (decimals for ERC-20).",
+              "type": "integer"
+            }
+          }
+        },
+        "Balance": {
+          "type": "object",
+          "required": [
+            "blockHeight",
+            "address",
+            "tokenBalances"
+          ],
+          "properties": {
+            "blockHeight": {
+              "description": "Block range in which the balances were computed. Start is genesis.",
+              "type": "integer"
+            },
+            "address": {
+              "description": "Account address",
+              "type": "string"
+            },
+            "tokenBalances": {
+              "type": "array",
+              "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network. Balance is returned in the smallest possible unit.",
+              "items": {
+                "$ref": "#/components/schemas/TokenBalance"
+              }
+            }
+          }
+        },
+        "Balances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Balance"
           }
         }
       }
