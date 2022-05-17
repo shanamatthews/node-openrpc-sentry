@@ -23,6 +23,7 @@
         "params": [
           {
             "name": "addressAndContractList",
+            "summary": "List of addresses and token identifiers",
             "description": "List of account or contact addresses and token identifiers. For Ethereum the token identifier is the token contract address.",
             "required": true,
             "schema": {
@@ -31,23 +32,26 @@
           },
           {
             "name": "blockchain",
+            "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
             "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Blockchain"
+              "type": "string"
             }
           },
           {
             "name": "network",
+            "summary": "E.g. Mainnet, testnet",
             "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Network"
+              "type": "string"
             }
           }
         ],
         "result": {
           "name": "balances",
+          "summary": "Returned lsit of balance amounts",
           "description": "A list of balance amounts for the given token identifier and Block range in which the balances were computed. Note that Start is always genesis for this API.",
           "schema": {
             "$ref": "#/components/schemas/Balances"
@@ -152,7 +156,7 @@
       {
         "name": "coinbaseCloud_getSingleBalance",
         "paramStructure": "by-name",
-        "summary": "Get an accurate balance for a single token and a single account address",
+        "summary": "Get balance for a single token and a single account address",
         "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller should expect low latency from this API compared to a more heavy weight GetBalances.",
         "tags": [
           {
@@ -162,10 +166,18 @@
         "params": [
           {
             "name": "address",
-            "description": "List of account or contact addresses and token identifiers. For Ethereum the token identifier is the token contract address.",
+            "description": "Can be an account address or a contract address.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/AddressAndContractList"
+              "type": "string"
+            }
+          },
+          {
+            "name": "contract",
+            "description": "Token identifier. For Ethereum the token identifier is the token contract address.",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -173,7 +185,7 @@
             "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Blockchain"
+              "type": "string"
             }
           },
           {
@@ -181,7 +193,7 @@
             "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Network"
+              "type": "string"
             }
           }
         ],
@@ -257,7 +269,7 @@
             "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Blockchain"
+              "type": "string"
             }
           },
           "Network": {
@@ -265,17 +277,11 @@
             "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Network"
+              "type": "string"
             }
           }
       },
       "schemas": {
-        "Blockchain": {
-          "type": "string"
-        },
-        "Network": {
-          "type": "string"
-        },
         "AddressAndContract": {
           "type": "object",
           "required": [
