@@ -12,6 +12,7 @@
     "methods": [
       {
         "name": "coinbaseCloud_getBalances",
+        "paramStructure": "by-name",
         "summary": "Get balances across one or more tokens",
         "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`.",
         "tags": [
@@ -54,28 +55,56 @@
         },
         "errors": [
           {
-            "code": 100,
-            "message": "pets busy"
+            "code": -32602,
+            "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
           }
         ],
         "examples": [
           {
-            "name": "listPetExample",
-            "description": "List pet example",
+            "name": "USDC & DAI (ERC-20)",
+            "summary": "Retrieve balances for USDC and DAI",
             "params": [
               {
-                "name": "limit",
-                "value": 1
+                "name": "addressAndContractList",
+                "value": [
+                  {
+                    "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                  },
+                  {
+                    "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f"
+                  }
+                ]
+              },
+              {
+                "name": "blockchain",
+                "value": "Ethereum"
+              },
+              {
+                "name": "network",
+                "value": "Mainnet"
               }
             ],
             "result": {
-              "name": "listPetResultExample",
+              "name": "balances",
               "value": [
                 {
-                  "id": 7,
-                  "name": "fluffy",
-                  "tag": "poodle"
-                }
+                  "blockHeight": 14794598,
+                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                  "tokenBalances": [
+                      {
+                          "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                          "amount": 1871941363914734149,
+                          "decimals": 18
+                      },
+                      {
+                          "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                          "amount": 64014142,
+                          "decimals": 6
+                      }
+                  ]
+                }   
               ]
             }
           }
