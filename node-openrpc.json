@@ -161,7 +161,7 @@
         ],
         "params": [
           {
-            "name": "addressAndContractList",
+            "name": "address",
             "description": "List of account or contact addresses and token identifiers. For Ethereum the token identifier is the token contract address.",
             "required": true,
             "schema": {
@@ -248,59 +248,26 @@
             }
           }
         ]
-      },
-      {
-        "name": "get_pet",
-        "summary": "Info for a specific pet",
-        "tags": [
-          {
-            "name": "pets"
-          }
-        ],
-        "params": [
-          {
-            "$ref": "#/components/contentDescriptors/PetId"
-          }
-        ],
-        "result": {
-          "name": "pet",
-          "description": "Expected response to a valid request",
-          "schema": {
-            "$ref": "#/components/schemas/Pet"
-          }
-        },
-        "examples": [
-          {
-            "name": "getPetExample",
-            "description": "get pet example",
-            "params": [
-              {
-                "name": "petId",
-                "value": 7
-              }
-            ],
-            "result": {
-              "name": "getPetExampleResult",
-              "value": {
-                "name": "fluffy",
-                "tag": "poodle",
-                "id": 7
-              }
-            }
-          }
-        ]
       }
     ],
     "components": {
       "contentDescriptors": {
-        "PetId": {
-          "name": "petId",
-          "required": true,
-          "description": "The id of the pet to retrieve",
-          "schema": {
-            "$ref": "#/components/schemas/PetId"
+        "Blockchain": {
+            "name": "blockchain",
+            "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Blockchain"
+            }
+          },
+          "Network": {
+            "name": "network",
+            "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Network"
+            }
           }
-        }
       },
       "schemas": {
         "Blockchain": {
@@ -309,34 +276,6 @@
         "Network": {
           "type": "string"
         },
-        "PetId": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "Pet": {
-          "type": "object",
-          "required": [
-            "id",
-            "name"
-          ],
-          "properties": {
-            "id": {
-              "$ref": "#/components/schemas/PetId"
-            },
-            "name": {
-              "type": "string"
-            },
-            "tag": {
-              "type": "string"
-            }
-          }
-        },
-        "Pets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/Pet"
-          }
-        },
         "AddressAndContract": {
           "type": "object",
           "required": [
@@ -344,10 +283,10 @@
             "contract"
           ],
           "properties": {
-            "name": {
+            "address": {
               "type": "string"
             },
-            "tag": {
+            "contract": {
               "type": "string"
             }
           }
