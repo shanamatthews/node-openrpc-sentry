@@ -6,7 +6,7 @@
     },
     "servers": [
       {
-        "url": "https://mainnet.ethereum.coinbasecloud.io"
+        "url": "tbd, but something like https://mainnet.ethereum.coinbasecloud.io"
       }
     ],
     "methods": [
@@ -296,8 +296,8 @@
         "params": [
           {
             "name": "allowances",
-            "summary": "allowances",
-            "description": "todo",
+            "summary": "Owner addresses, spender addresses, and token identifiers.",
+            "description": "List of owner addresses, spender addresses, and token identifiers. For Ethereum, the token identifier is the token contract address.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/Allowances"
@@ -323,8 +323,8 @@
           }
         ],
         "result": {
-          "name": "balance",
-          "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network: Amount and Unit (e.g. wei, satoshi). Balance is returned in the smallest possible unit.",
+          "name": "allowances",
+          "description": "Returns a list of owner addresses with their respective token identifiers, spender addresses, and allowances, along with the block range in which the balances were computed (start is genesis).",
           "schema": {
             "$ref": "#/components/schemas/GetSingleBalanceResponse"
           }
@@ -519,14 +519,14 @@
         },
         "Owner": {
           "name": "owner",
-          "description": "Owner TBD",
+          "description": "Owner address",
           "schema": {
             "type": "string"
           }
         },
         "Spender": {
           "name": "spender",
-          "description": "Spender TBD",
+          "description": "Spender address",
           "schema": {
             "type": "string"
           }
@@ -549,8 +549,8 @@
             },
             "contracts": {
               "type": "array",
-              "description": "TBDDDD",
               "items": {
+                "type": "string",
                 "$ref": "#/components/schemas/Contract"
               }
             }
@@ -559,7 +559,6 @@
         "Allowances": {
           "type": "array",
           "items": {
-            "type": "string",
             "$ref": "#/components/schemas/Allowance"
           }
         }
