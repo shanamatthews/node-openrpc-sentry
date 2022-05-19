@@ -203,6 +203,7 @@
         ],
         "result": {
           "name": "balance",
+          "summary": "Returned balance",
           "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network: Amount and Unit (e.g. wei, satoshi). Balance is returned in the smallest possible unit.",
           "schema": {
             "$ref": "#/components/schemas/GetSingleBalanceResponse"
@@ -324,9 +325,10 @@
         ],
         "result": {
           "name": "allowances",
-          "description": "Returns a list of owner addresses with their respective token identifiers, spender addresses, and allowances, along with the block range in which the balances were computed (start is genesis).",
+          "summary": "Returned list of allowances",
+          "description": "List of allowances, including owner address, spender address, the block range in which the balances were computed (start is genesis), and a list of allowance information.",
           "schema": {
-            "$ref": "#/components/schemas/GetSingleBalanceResponse"
+            "$ref": "#/components/schemas/GetTokenAllowancesResponse"
           }
         },
         "errors": [
@@ -337,16 +339,20 @@
         ],
         "examples": [
           {
-            "name": "USDC (ERC-20)",
-            "summary": "Retrieve balances for USDC",
+            "name": "USDT (ERC-20)",
+            "summary": "Retrieve allowances for USDT",
             "params": [
               {
-                "name": "address",
-                "value": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d"
-              },
-              {
-                "name": "contract",
-                "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                "name": "allowances",
+                "value": [
+                  {
+                    "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
+                    "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
+                    "contracts": [
+                      "0xdac17f958d2ee523a2206206994597c13d831ec7"
+                    ]
+                  }
+                ]
               },
               {
                 "name": "blockchain",
@@ -358,48 +364,21 @@
               }
             ],
             "result": {
-              "name": "balance",
-              "value": {
-                "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
-                "tokenBalance": {
-                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                    "amount": 64014142,
-                    "decimals": 6
-                }
-              }   
-            }
-          },
-          {
-            "name": "NFT (ERC-721)",
-            "summary": "Retrieve NFT tokens",
-            "params": [
-              {
-                "name": "address",
-                "value": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2"
-              },
-              {
-                "name": "contract",
-                "value": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
-              },
-              {
-                "name": "blockchain",
-                "value": "Ethereum"
-              },
-              {
-                "name": "network",
-                "value": "Mainnet"
-              }
-            ],
-            "result": {
-              "name": "balance",
-              "value": {
-                "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
-                "tokenBalance": {
-                    "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                    "amount": 3,
-                    "decimals": 1
-                }
-              }   
+              "name": "allowances",
+              "value": [
+                {
+                  "blockHeight": 14794058,
+                  "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
+                  "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
+                  "tokenAllowances": [
+                      {
+                          "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                          "amount": 1443590544794273757,
+                          "decimals": 6
+                      }
+                  ]
+                }   
+              ]
             }
           }
         ]
@@ -457,13 +436,20 @@
               "$ref": "#/components/schemas/Contract"
             },
             "amount": {
-              "description": "Balance Amount (For ERC-721 it is the number of tokens owned).",
+              "description": "Balance Amount (For ERC-721 it is the number of tokens).",
               "type": "integer"
             },
             "decimals": {
               "description": "Unit (decimals for ERC-20).",
               "type": "integer"
             }
+          }
+        },
+        "BlockHeight": {
+          "name": "blockHeight",
+          "description": "Block range in which the balances were computed. Start is genesis.",
+          "schema": {
+            "type": "integer"
           }
         },
         "Balance": {
@@ -475,8 +461,8 @@
           ],
           "properties": {
             "blockHeight": {
-              "description": "Block range in which the balances were computed. Start is genesis.",
-              "type": "integer"
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockHeight"
             },
             "address": {
               "type": "string",
@@ -560,6 +546,41 @@
           "type": "array",
           "items": {
             "$ref": "#/components/schemas/Allowance"
+          }
+        },
+        "AllowancesResponse": {
+          "type": "object",
+          "required": [
+            "blockHeight",
+            "owner",
+            "spender",
+            "tokenAllowances"
+          ],
+          "properties": {
+            "blockHeight": {
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockHeight"
+            },
+            "owner": {
+              "type": "string",
+              "$ref": "#/components/schemas/Owner"
+            },
+            "spender": {
+              "type": "string",
+              "$ref": "#/components/schemas/Spender"
+            },
+            "tokenAllowances": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TokenBalance"
+              }
+            }
+          }
+        },
+        "GetTokenAllowancesResponse": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AllowancesResponse"
           }
         }
       }
