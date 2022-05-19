@@ -387,7 +387,7 @@
         "name": "coinbaseCloud_getTransactionsByAddress",
         "paramStructure": "by-name",
         "summary": "Get transactions for a given address.",
-        "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Returns the transactions in reverse chronological order.",
+        "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Returns the transactions in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Constraints:** \n\n - The API returns upto 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is higher. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |**API Calls**|**Input**|**Output**|\n|-|-|-|\n|1|Input Block range: [0, latest]|Output: Block range scanned: [98, 100]|\n|2|asdfsadsfsfdsafsafsafsadfsaaf|asdfasf|",
         "tags": [
           {
             "name": "transfers"
@@ -453,7 +453,7 @@
           "summary": "Returned transactions",
           "description": "Returns a list of blocks for which transactions were found, each with a list of external transactions found for the address in that block.",
           "schema": {
-            "$ref": "#/components/schemas/GetSingleBalanceResponse"
+            "$ref": "#/components/schemas/GetTransactionsByAddressResponse"
           }
         },
         "errors": [
@@ -731,7 +731,131 @@
             "$ref": "#/components/schemas/AllowancesResponse"
           }
         },
-        "Block": {
+        "InternalTransaction": {
+          "type": "object",
+          "required": [
+            "traceType",
+            "from",
+            "to",
+            "value"
+          ],
+          "properties": {
+            "blockHash": {
+              "type": "string",
+              "$ref": "#/components/schemas/BlockHash"
+            },
+            "blockNumber": {
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockNumber"
+            },
+            "blockTimestamp": {
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockTimestamp"
+            },
+            "transactions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "BlockHash": {
+          "name": "blockHash",
+          "type": "string",
+          "description": "Block's hash identifier"
+        },
+        "BlockNumber": {
+          "name": "blockNumber",
+          "type": "integer",
+          "description": "Block's number"
+        },
+        "BlockTimestamp": {
+          "name": "blockTimestamp",
+            "type": "integer",
+            "description": "Timestamp of when block was mined"
+        },
+        "Transaction": {
+          "type": "object",
+          "required": [
+            "transactionHash",
+            "transactionIndex",
+            "from",
+            "to",
+            "value",
+            "gasLimit",
+            "gasPrice",
+            "gasUsed",
+            "status",
+            "input",
+            "nonce",
+            "blockHash",
+            "blockNumber",
+            "blockTimestamp",
+            "internalTransactions"
+          ],
+          "properties": {
+            "transactionHash": {
+              "type": "string",
+              "description": "Transaction's hash identifier"
+            },
+            "transactionIndex": {
+              "type": "integer",
+              "description": "Transaction index in block"
+            },
+            "from": {
+              "type": "string",
+              "description": "Origin address"
+            },
+            "to": {
+              "type": "string",
+              "description": "Destination address"
+            },
+            "gasLimit": {
+              "type": "integer",
+              "description": "Transaction's set gas limit"
+            },
+            "gasPrice": {
+              "type": "integer",
+              "description": "Transaction's gas price in native blockchain currency"
+            },
+            "gasUsed": {
+              "type": "integer",
+              "description": "Amount of gas used in transaction"
+            },
+            "status": {
+              "type": "string",
+              "description": "“Success”, “Fail”, “Pending”, “Unknown”"
+            },
+            "input": {
+              "type": "string",
+              "description": "Transaction's input data"
+            },
+            "nonce": {
+              "type": "integer",
+              "description": "Transaction's nonce"
+            },
+            "blockHash": {
+              "type": "string",
+              "$ref": "#/components/schemas/BlockHash"
+            },
+            "blockNumber": {
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockNumber"
+            },
+            "blockTimestamp": {
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockTimestamp"
+            },
+            "internalTransactions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/InternalTransaction"
+              }
+            }
+          }
+        },
+        "BlockTransaction": {
           "type": "object",
           "required": [
             "blockHash",
@@ -740,18 +864,22 @@
             "transactions"
           ],
           "properties": {
-            "blockStart": {
-              "type": "integer",
-              "description": "The starting block number"
+            "blockHash": {
+              "type": "string",
+              "$ref": "#/components/schemas/BlockHash"
             },
-            "blockEnd": {
+            "blockNumber": {
               "type": "integer",
-              "description": "The ending block number"
+              "$ref": "#/components/schemas/BlockNumber"
             },
-            "blocks": {
+            "blockTimestamp": {
+              "type": "integer",
+              "$ref": "#/components/schemas/BlockTimestamp"
+            },
+            "transactions": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/TokenBalance"
+                "$ref": "#/components/schemas/Transaction"
               }
             }
           }
@@ -775,7 +903,7 @@
             "blocks": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/Block"
+                "$ref": "#/components/schemas/BlockTransaction"
               }
             }
           }
