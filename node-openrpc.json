@@ -382,6 +382,137 @@
             }
           }
         ]
+      },
+      {
+        "name": "coinbaseCloud_getTransactionsByAddress",
+        "paramStructure": "by-name",
+        "summary": "Get balance for a single token and a single account address",
+        "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Returns the transactions in reverse chronological order.",
+        "tags": [
+          {
+            "name": "balances"
+          }
+        ],
+        "params": [
+          {
+            "name": "address",
+            "summary": "Account address",
+            "description": "Can be an account address or a contract address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contract",
+            "summary": "Token identifier",
+            "description": "Token identifier. For Ethereum the token identifier is the token contract address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blockchain",
+            "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+            "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "network",
+            "summary": "E.g. Mainnet, testnet",
+            "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "result": {
+          "name": "balance",
+          "summary": "Returned balance",
+          "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network: Amount and Unit (e.g. wei, satoshi). Balance is returned in the smallest possible unit.",
+          "schema": {
+            "$ref": "#/components/schemas/GetSingleBalanceResponse"
+          }
+        },
+        "errors": [
+          {
+            "code": -32602,
+            "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          }
+        ],
+        "examples": [
+          {
+            "name": "USDC (ERC-20)",
+            "summary": "Retrieve balances for USDC",
+            "params": [
+              {
+                "name": "address",
+                "value": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d"
+              },
+              {
+                "name": "contract",
+                "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+              },
+              {
+                "name": "blockchain",
+                "value": "Ethereum"
+              },
+              {
+                "name": "network",
+                "value": "Mainnet"
+              }
+            ],
+            "result": {
+              "name": "balance",
+              "value": {
+                "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                "tokenBalance": {
+                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "amount": 64014142,
+                    "decimals": 6
+                }
+              }   
+            }
+          },
+          {
+            "name": "NFT (ERC-721)",
+            "summary": "Retrieve NFT tokens",
+            "params": [
+              {
+                "name": "address",
+                "value": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2"
+              },
+              {
+                "name": "contract",
+                "value": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
+              },
+              {
+                "name": "blockchain",
+                "value": "Ethereum"
+              },
+              {
+                "name": "network",
+                "value": "Mainnet"
+              }
+            ],
+            "result": {
+              "name": "balance",
+              "value": {
+                "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                "tokenBalance": {
+                    "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
+                    "amount": 3,
+                    "decimals": 1
+                }
+              }   
+            }
+          }
+        ]
       }
     ],
     "components": {
