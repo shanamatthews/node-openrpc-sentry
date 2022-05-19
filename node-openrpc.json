@@ -386,28 +386,45 @@
       {
         "name": "coinbaseCloud_getTransactionsByAddress",
         "paramStructure": "by-name",
-        "summary": "Get balance for a single token and a single account address",
+        "summary": "Get transactions for a given address.",
         "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Returns the transactions in reverse chronological order.",
         "tags": [
           {
-            "name": "balances"
+            "name": "transfers"
           }
         ],
         "params": [
           {
             "name": "address",
             "summary": "Account address",
-            "description": "Can be an account address or a contract address.",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "contract",
-            "summary": "Token identifier",
-            "description": "Token identifier. For Ethereum the token identifier is the token contract address.",
+            "name": "blockStart",
+            "summary": "Start of block range to scan for transactions",
+            "description": "",
             "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "blockEnd",
+            "summary": "End of block range to scan for transactions",
+            "description": "Defaults to latest. Used for pagination <TBD SHANA>",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "addressFilter",
+            "summary": "Filter transactions by",
+            "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER.",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -432,9 +449,9 @@
           }
         ],
         "result": {
-          "name": "balance",
-          "summary": "Returned balance",
-          "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network: Amount and Unit (e.g. wei, satoshi). Balance is returned in the smallest possible unit.",
+          "name": "result",
+          "summary": "Returned transactions",
+          "description": "Returns a list of blocks for which transactions were found, each with a list of external transactions found for the address in that block.",
           "schema": {
             "$ref": "#/components/schemas/GetSingleBalanceResponse"
           }
@@ -712,6 +729,55 @@
           "type": "array",
           "items": {
             "$ref": "#/components/schemas/AllowancesResponse"
+          }
+        },
+        "Block": {
+          "type": "object",
+          "required": [
+            "blockHash",
+            "blockNumber",
+            "blockTimestamp",
+            "transactions"
+          ],
+          "properties": {
+            "blockStart": {
+              "type": "integer",
+              "description": "The starting block number"
+            },
+            "blockEnd": {
+              "type": "integer",
+              "description": "The ending block number"
+            },
+            "blocks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TokenBalance"
+              }
+            }
+          }
+        },
+        "GetTransactionsByAddressResponse": {
+          "type": "object",
+          "required": [
+            "blockStart",
+            "blockEnd",
+            "blocks"
+          ],
+          "properties": {
+            "blockStart": {
+              "type": "integer",
+              "description": "The starting block number"
+            },
+            "blockEnd": {
+              "type": "integer",
+              "description": "The ending block number"
+            },
+            "blocks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Block"
+              }
+            }
           }
         }
       }
