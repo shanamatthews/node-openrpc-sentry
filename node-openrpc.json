@@ -1379,13 +1379,13 @@
       ]
     },
     {
-      "name": "coinbaseCloud_getTokenMetadata",
+      "name": "coinbaseCloud_getTokenStandardEvents",
       "paramStructure": "by-name",
       "summary": "Get balance for multiple account addresses across one or more tokens",
       "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
       "tags": [
         {
-          "name": "balances"
+          "name": "contracts"
         }
       ],
       "params": [
