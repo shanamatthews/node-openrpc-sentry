@@ -1377,6 +1377,149 @@
           }
         }
       ]
+    },
+    {
+      "name": "coinbaseCloud_getTokenMetadata",
+      "paramStructure": "by-name",
+      "summary": "Get balance for multiple account addresses across one or more tokens",
+      "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
+      "tags": [
+        {
+          "name": "balances"
+        }
+      ],
+      "params": [
+        {
+          "name": "addressAndContractList",
+          "summary": "List of addresses and token identifiers",
+          "description": "List of account or contact addresses and token identifiers. For Ethereum the token identifier is the token contract address.",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/AddressAndContractList"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, testnet",
+          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "balances",
+        "summary": "Returned list of balance amounts",
+        "description": "A list of balance amounts for the given token identifier and Block range in which the balances were computed. Note that Start is always genesis for this API.",
+        "schema": {
+          "$ref": "#/components/schemas/GetBalancesResponse"
+        }
+      },
+      "errors": [
+        {
+          "code": -32602,
+          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+        }
+      ],
+      "examples": [
+        {
+          "name": "USDC & DAI (ERC-20)",
+          "summary": "Retrieve balances for USDC and DAI",
+          "params": [
+            {
+              "name": "addressAndContractList",
+              "value": [
+                {
+                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                  "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                },
+                {
+                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                  "contract": "0x6b175474e89094c44da98b954eedeac495271d0f"
+                }
+              ]
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "balances",
+            "value": [
+              {
+                "blockHeight": 14794598,
+                "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                "tokenBalances": [
+                  {
+                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                    "amount": 1871941363914734149,
+                    "decimals": 18
+                  },
+                  {
+                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "amount": 64014142,
+                    "decimals": 6
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "NFT (ERC-721)",
+          "summary": "Retrieve NFT tokens",
+          "params": [
+            {
+              "name": "addressAndContractList",
+              "value": [
+                {
+                  "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                  "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
+                }
+              ]
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "balances",
+            "value": [
+              {
+                "blockHeight": 14794052,
+                "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                "tokenBalances": [
+                  {
+                    "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
+                    "amount": 3,
+                    "decimals": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "components": {
