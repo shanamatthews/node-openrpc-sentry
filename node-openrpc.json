@@ -3,7 +3,7 @@
   "info": {
     "title": "Query & Transact Advanced Query APIs (preview)",
     "version": "0.0.1",
-    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs allow greater... TBD SHANA \n\n **API constraints:** \n - Only Ethereum protocol and mainnet (and testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. "
+    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs allow greater... TBD SHANA \n\n **API constraints:** \n - Only Ethereum protocol and mainnet (and testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem."
   },
   "servers": [
     {
@@ -20,7 +20,7 @@
       "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
       "tags": [
         {
-          "name": "balances"
+          "name": "Balances"
         }
       ],
       "params": [
@@ -163,7 +163,7 @@
       "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller should expect low latency from this API compared to a more heavy weight GetBalances. \n\n **Use cases:** \n - Low latency call to get the latest balance for a single token for a single address. \n - Get balances for an account address or a contract",
       "tags": [
         {
-          "name": "balances"
+          "name": "Balances"
         }
       ],
       "params": [
@@ -294,7 +294,7 @@
       "description": "Get allowances for a specified owner and spender across one or more tokens within a single blockchain and network. \n\n **Use cases:** \n - Get Allowance given to another account for one or more tokens \n - Get Allowances for all the tokens an account address may hold",
       "tags": [
         {
-          "name": "balances"
+          "name": "Balances"
         }
       ],
       "params": [
@@ -393,7 +393,7 @@
       "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Returns the transactions in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Use cases:** \n - Get all the transactions (external and internal) for a given address \n - Get all token transfers for a given address \n - Get transactions and/or transfers in specific block ranges \n - Filter transactions by send and/or receive \n\n\n **Constraints:** \n\n - The API returns upto 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is higher. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
-          "name": "transfers"
+          "name": "Transfers"
         }
       ],
       "params": [
@@ -610,7 +610,7 @@
       "description": "Returns token transfers for a given address. Includes activity from and to the input address. Returns the transfers in reverse chronological order. \n\n **Use cases:** \n - Get all token transfers for a given address \n - Get token transfers in specific block ranges \n\n\n **Constraints:** \n\n - The API returns up to 1000 token transfers OR all the token transfers within a single block; whichever is higher. <TBD SHANA THIS IS REALLY CONFUSING. GET CLARITY> \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. <TBD SHANA IS THIS RELEVANT FOR THIS API??> \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
-          "name": "transfers"
+          "name": "Transfers"
         }
       ],
       "params": [
@@ -902,7 +902,7 @@
       "description": "Returns all transfers caused by the transaction identified by the input transaction hash. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
       "tags": [
         {
-          "name": "transfers"
+          "name": "Transfers"
         }
       ],
       "params": [
@@ -1385,7 +1385,7 @@
       "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
       "tags": [
         {
-          "name": "contracts"
+          "name": "Contracts"
         }
       ],
       "params": [
