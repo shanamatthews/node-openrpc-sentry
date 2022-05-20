@@ -7,7 +7,9 @@
   },
   "servers": [
     {
-      "url": "tbd, but something like https://mainnet.ethereum.coinbasecloud.io"
+      "name": "Server URL and API token info",
+      "url": "https://mainnet.ethereum.coinbasecloud.io/rpc TBD SHANA",
+      "description": "**Authentication:** \n\n This endpoint uses HTTP Basic Auth <TBD SHANA VERIFY>. \n\n To authenticate to these APIs: \n\n - Grab your username and API access token from the Cloud Portal <TBD SHANA WHATS THE NAME OF THE PLATFORM PORTAL> \n - Include your username and API access token (as your username and password, respectively) as `auth` in each HTTP request"
     }
   ],
   "methods": [
@@ -98,18 +100,18 @@
                 "blockHeight": 14794598,
                 "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
                 "tokenBalances": [
-                    {
-                        "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
-                        "amount": 1871941363914734149,
-                        "decimals": 18
-                    },
-                    {
-                        "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                        "amount": 64014142,
-                        "decimals": 6
-                    }
+                  {
+                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                    "amount": 1871941363914734149,
+                    "decimals": 18
+                  },
+                  {
+                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "amount": 64014142,
+                    "decimals": 6
+                  }
                 ]
-              }   
+              }
             ]
           }
         },
@@ -142,13 +144,13 @@
                 "blockHeight": 14794052,
                 "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
                 "tokenBalances": [
-                    {
-                        "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                        "amount": 3,
-                        "decimals": 1
-                    }
+                  {
+                    "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
+                    "amount": 3,
+                    "decimals": 1
+                  }
                 ]
-              }   
+              }
             ]
           }
         }
@@ -243,11 +245,11 @@
             "value": {
               "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
               "tokenBalance": {
-                  "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                  "amount": 64014142,
-                  "decimals": 6
+                "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "amount": 64014142,
+                "decimals": 6
               }
-            }   
+            }
           }
         },
         {
@@ -276,11 +278,11 @@
             "value": {
               "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
               "tokenBalance": {
-                  "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                  "amount": 3,
-                  "decimals": 1
+                "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
+                "amount": 3,
+                "decimals": 1
               }
-            }   
+            }
           }
         }
       ]
@@ -372,13 +374,13 @@
                 "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
                 "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
                 "tokenAllowances": [
-                    {
-                        "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-                        "amount": 1443590544794273757,
-                        "decimals": 6
-                    }
+                  {
+                    "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                    "amount": 1443590544794273757,
+                    "decimals": 6
+                  }
                 ]
-              }   
+              }
             ]
           }
         }
@@ -465,16 +467,24 @@
       ],
       "examples": [
         {
-          "name": "USDC (ERC-20)",
-          "summary": "Retrieve balances for USDC",
+          "name": "ERC-20 with pagination",
+          "summary": "Retrieve transactions for ERC-20 tokens. This example shows pagination.",
           "params": [
             {
               "name": "address",
-              "value": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d"
+              "value": "0x3cd751e6b0078be393132286c442345e5dc49699"
             },
             {
-              "name": "contract",
-              "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+              "name": "blockStart",
+              "value": 14431488
+            },
+            {
+              "name": "blockEnd",
+              "value": 14431489
+            },
+            {
+              "name": "addressFilter",
+              "value": "SENDER_OR_RECEIVER"
             },
             {
               "name": "blockchain",
@@ -486,56 +496,113 @@
             }
           ],
           "result": {
-            "name": "balance",
-            "value": {
-              "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
-              "tokenBalance": {
-                  "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                  "amount": 64014142,
-                  "decimals": 6
+            "blockStart": 14431488,
+            "blockEnd": 14431489,
+            "blocks": [
+              {
+                "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                "blockNumber": 14431489,
+                "blockTimestamp": 1647889630,
+                "transactions": [
+                  {
+                    "transactionHash": "0x07160e2164087a3812abbe5e74109be176b0650bbe4be44f4e280fe3ee221a6d",
+                    "transactionIndex": 61,
+                    "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                    "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+                    "value": "157704540000000000",
+                    "gasLimit": 21000,
+                    "gasPrice": 35105275699,
+                    "gasUsed": 21000,
+                    "status": "1",
+                    "input": "0x",
+                    "nonce": 6843177,
+                    "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                    "blockNumber": 14431489,
+                    "blockTimestamp": 1647889630,
+                    "internalTransactions": [
+                      {
+                        "traceType": "CALL",
+                        "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                        "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+                        "value": "157704540000000000"
+                      }
+                    ]
+                  },
+                  {
+                    "transactionHash": "0x8409c799d35dbb1500f7083f99a7373aee8308bf39e543a95a9de16e70315d31",
+                    "transactionIndex": 74,
+                    "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                    "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+                    "value": "24776000000000000",
+                    "gasLimit": 21000,
+                    "gasPrice": 35105275699,
+                    "gasUsed": 21000,
+                    "status": "1",
+                    "input": "0x",
+                    "nonce": 6843178,
+                    "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                    "blockNumber": 14431489,
+                    "blockTimestamp": 1647889630,
+                    "internalTransactions": [
+                      {
+                        "traceType": "CALL",
+                        "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                        "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+                        "value": "24776000000000000"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+                "blockNumber": 14431488,
+                "blockTimestamp": 1647889625,
+                "transactions": [
+                  {
+                    "transactionHash": "0x8e7012bccb57ed34fb576868a5376f4983f243e41664bf20220efc1d19006d52",
+                    "transactionIndex": 55,
+                    "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                    "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                    "value": "0",
+                    "gasLimit": 250000,
+                    "gasPrice": 37505027916,
+                    "gasUsed": 63209,
+                    "status": "1",
+                    "input": "0xa9059cbb000000000000000000000000aaadde03849e05ef4425b750a680168bfc0fa08a00000000000000000000000000000000000000000000000000000000281ba3a0",
+                    "nonce": 6843176,
+                    "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+                    "blockNumber": 14431488,
+                    "blockTimestamp": 1647889625,
+                    "internalTransactions": [
+                      {
+                        "traceType": "CALL",
+                        "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                        "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                        "value": "0",
+                        "gasLimit": 228392
+                      }
+                    ],
+                    "tokenTransfers": [
+                      {
+                        "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                        "tokenType": "erc20",
+                        "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                        "to": "0xaaadde03849e05ef4425b750a680168bfc0fa08a",
+                        "value": "672900000"
+                      }
+                    ]
+                  }
+                ]
               }
-            }   
-          }
-        },
-        {
-          "name": "NFT (ERC-721)",
-          "summary": "Retrieve NFT tokens",
-          "params": [
-            {
-              "name": "address",
-              "value": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2"
-            },
-            {
-              "name": "contract",
-              "value": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
-            },
-            {
-              "name": "blockchain",
-              "value": "Ethereum"
-            },
-            {
-              "name": "network",
-              "value": "Mainnet"
-            }
-          ],
-          "result": {
-            "name": "balance",
-            "value": {
-              "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
-              "tokenBalance": {
-                  "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                  "amount": 3,
-                  "decimals": 1
-              }
-            }   
+            ]
           }
         }
       ]
     }
   ],
   "components": {
-    "contentDescriptors": {
-    },
+    "contentDescriptors": {},
     "schemas": {
       "Address": {
         "name": "address",
