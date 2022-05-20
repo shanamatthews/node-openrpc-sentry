@@ -415,7 +415,7 @@
         {
           "name": "blockEnd",
           "summary": "End of block range to scan for transactions",
-          "description": "Defaults to latest. Used for pagination <TBD SHANA>",
+          "description": "Defaults to latest. See **Pagination support** for more information",
           "required": false,
           "schema": {
             "type": "integer"
@@ -741,23 +741,57 @@
           "value"
         ],
         "properties": {
-          "blockHash": {
+          "traceType": {
             "type": "string",
-            "$ref": "#/components/schemas/BlockHash"
+            "description": "Type of internal transaction, e.g. `CREATE`, `CALL`, `CALLCODE`, `DELEGATECALL`, `SUICIDE`"
           },
-          "blockNumber": {
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "$ref": "#/components/schemas/Value"
+          },
+          "gasLimit": {
             "type": "integer",
-            "$ref": "#/components/schemas/BlockNumber"
+            "$ref": "#/components/schemas/GasLimit"
+          }
+        }
+      },
+      "TokenTransfer": {
+        "type": "object",
+        "required": [
+          "tokenAddress",
+          "tokenType",
+          "from",
+          "to",
+          "value"
+        ],
+        "properties": {
+          "tokenAddress": {
+            "type": "string",
+            "description": "Address location for the token contract"
           },
-          "blockTimestamp": {
-            "type": "integer",
-            "$ref": "#/components/schemas/BlockTimestamp"
+          "tokenType": {
+            "type": "string",
+            "description": "`erc20` or `erc721`"
           },
-          "transactions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Transaction"
-            }
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "description": "For ERC-20, gives quantity of tokens transferred. For ERC-721, gives list of token IDs of the token transferred"
           }
         }
       },
@@ -773,8 +807,28 @@
       },
       "BlockTimestamp": {
         "name": "blockTimestamp",
-          "type": "integer",
-          "description": "Timestamp of when block was mined"
+        "type": "integer",
+        "description": "Timestamp of when block was mined"
+      },
+      "From": {
+        "name": "from",
+        "type": "string",
+        "description": "Origin address"
+      },
+      "To": {
+        "name": "to",
+        "type": "string",
+        "description": "Destination address"
+      },
+      "Value": {
+        "name": "value",
+        "type": "string",
+        "description": "Value in native blockchain currency"
+      },
+      "GasLimit": {
+        "name": "gasLimit",
+        "type": "integer",
+        "description": "Value in native blockchain currency"
       },
       "Transaction": {
         "type": "object",
@@ -792,8 +846,7 @@
           "nonce",
           "blockHash",
           "blockNumber",
-          "blockTimestamp",
-          "internalTransactions"
+          "blockTimestamp"
         ],
         "properties": {
           "transactionHash": {
@@ -806,15 +859,19 @@
           },
           "from": {
             "type": "string",
-            "description": "Origin address"
+            "$ref": "#/components/schemas/From"
           },
           "to": {
             "type": "string",
-            "description": "Destination address"
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "$ref": "#/components/schemas/Value"
           },
           "gasLimit": {
             "type": "integer",
-            "description": "Transaction's set gas limit"
+            "$ref": "#/components/schemas/GasLimit"
           },
           "gasPrice": {
             "type": "integer",
@@ -826,7 +883,7 @@
           },
           "status": {
             "type": "string",
-            "description": "“Success”, “Fail”, “Pending”, “Unknown”"
+            "description": "`Success`, `Fail`, `Pending`, `Unknown`"
           },
           "input": {
             "type": "string",
@@ -852,6 +909,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InternalTransaction"
+            }
+          },
+          "tokenTransfers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenTransfer"
             }
           }
         }
