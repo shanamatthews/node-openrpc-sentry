@@ -894,6 +894,259 @@
           }
         }
       ]
+    },
+    {
+      "name": "coinbaseCloud_getTransactionByHash",
+      "paramStructure": "by-name",
+      "summary": "Get transfers initiated by a transaction",
+      "description": "Returns all transfers caused by the transaction identified by the input transaction hash. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
+      "tags": [
+        {
+          "name": "transfers"
+        }
+      ],
+      "params": [
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, testnet",
+          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "transactionHash",
+          "summary": "Transaction hash",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Returned transactions",
+        "description": "Returns the given transaction with all associated internal transactions and token transfers.",
+        "schema": {
+          "$ref": "#/components/schemas/Transaction"
+        }
+      },
+      "errors": [
+        {
+          "code": -32602,
+          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+        }
+      ],
+      "examples": [
+        {
+          "name": "ETH transfer",
+          "summary": "Return transactions resulting from an ETH transfer",
+          "params": [
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            },
+            {
+              "name": "transactionHash",
+              "value": "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockStart": 14355514,
+              "blockEnd": 14355891,
+              "blocks": [
+                {
+                  "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
+                  "blockNumber": 14355891,
+                  "blockTimestamp": 1646872195,
+                  "tokenTransfers": [
+                    {
+                      "tokenAddress": "0xb5de0c3753b6e1b4dba616db82767f17513e6d4e",
+                      "tokenType": "erc20",
+                      "from": "0xb5de0c3753b6e1b4dba616db82767f17513e6d4e",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "20171572165639639738",
+                      "transactionHash": "0xdb7590bf6069127301ceeebf1b0f33bf483e08a37fc321e48eadbfaf4fb595fb",
+                      "transactionIndex": 72
+                    },
+                    {
+                      "tokenAddress": "0xb8f5eba1a53d27a06c9c993d832d945ce20a31ec",
+                      "tokenType": "erc20",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "30266372230497121",
+                      "transactionHash": "0xa9a74e3442be5815ef7adc4568f8dc3e0b32787aec6d2c891866888d51f223d8",
+                      "transactionIndex": 102
+                    }
+                  ]
+                },
+                {
+                  "blockHash": "0x4e47bb9444336af0587a7e8138556eff722b8df2d3410385e37360cc831a3f1c",
+                  "blockNumber": 14355889,
+                  "blockTimestamp": 1646872172,
+                  "tokenTransfers": [
+                    {
+                      "tokenAddress": "0x030ba81f1c18d280636f32af80b9aad02cf0854e",
+                      "tokenType": "erc20",
+                      "from": "0xcc9a0b7c43dc2a5f023bb9b738e45b0ef6b06e04",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "336269772487705777",
+                      "transactionHash": "0x13b84e1a6f87459ee7dd58b6c0bd5758902c146a5fb343ee68ec8322a1a7ad1a",
+                      "transactionIndex": 181
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "43043",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "12385",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "67627",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "38323",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "65064",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0x8793cd84c22b94b1fdd3800f02c4b1dcca40d50b",
+                      "tokenType": "erc20",
+                      "from": "0x3641ef18240a46337818f98005cbb190c4930202",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "38078396",
+                      "transactionHash": "0xd801007d3194c56061fafe8ae195a82fa7f3a79438719550a60a51eeb41cf383",
+                      "transactionIndex": 227
+                    },
+                    {
+                      "...": "output truncated. Returns up to 1000 token transfers."
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "ERC-721 token transfers",
+          "summary": "Return all ERC-721 token transfers to or from a given address",
+          "params": [
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            },
+            {
+              "name": "address",
+              "value": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e"
+            },
+            {
+              "name": "blockStart",
+              "value": 1
+            },
+            {
+              "name": "blockEnd",
+              "value": 14355891
+            },
+            {
+              "name": "addressFilter",
+              "value": "SENDER_OR_RECEIVER"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockStart": 1,
+              "blockEnd": 14355891,
+              "blocks": [
+                {
+                  "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
+                  "blockNumber": 14355891,
+                  "blockTimestamp": 1646872195,
+                  "tokenTransfers": [
+                    {
+                      "tokenAddress": "0x4bb08998a697d0db666783ba5b56e85b33ba262f",
+                      "tokenType": "erc721",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e",
+                      "tokenID": "4404",
+                      "transactionHash": "0xedb1cd88557ca9f4c5057ad2b237b1427208bc6820005e73535466c1b2bc1884",
+                      "transactionIndex": 90
+                    },
+                    {
+                      "tokenAddress": "0x4bb08998a697d0db666783ba5b56e85b33ba262f",
+                      "tokenType": "erc721",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e",
+                      "tokenID": "4405",
+                      "transactionHash": "0xedb1cd88557ca9f4c5057ad2b237b1427208bc6820005e73535466c1b2bc1884",
+                      "transactionIndex": 90
+                    },
+                    {
+                      "tokenAddress": "0x4bb08998a697d0db666783ba5b56e85b33ba262f",
+                      "tokenType": "erc721",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e",
+                      "tokenID": "4406",
+                      "transactionHash": "0xedb1cd88557ca9f4c5057ad2b237b1427208bc6820005e73535466c1b2bc1884",
+                      "transactionIndex": 90
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   ],
   "components": {
