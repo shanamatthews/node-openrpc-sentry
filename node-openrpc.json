@@ -1769,6 +1769,16 @@
           }
         }
       },
+      "TransactionHash": {
+        "name": "transactionHash",
+        "type": "string",
+        "description": "The transaction's hash identifier"
+      },
+      "TransactionIndex": {
+        "name": "transactionIndex",
+        "type": "integer",
+        "description": "The transaction's index in block"
+      },
       "TokenTransfer": {
         "type": "object",
         "required": [
@@ -1801,11 +1811,13 @@
           },
           "transactionHash": {
             "type": "string",
-            "description": "Hash of the transactions this log was created from <TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>"
+            "description": "The transaction's identifying hash <TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>",
+            "$ref": "#/components/schemas/TransactionHash"
           },
           "transactionIndex": {
             "type": "integer",
-            "description": "Integer of the transactions index position log was created from <TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>"
+            "description": "The transaction's index position<TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>",
+            "$ref": "#/components/schemas/TransactionIndex"
           }
         }
       },
@@ -1823,6 +1835,16 @@
         "name": "blockTimestamp",
         "type": "integer",
         "description": "Timestamp of when block was mined"
+      },
+      "BlockStart": {
+        "name": "blockStart",
+        "type": "integer",
+        "description": "The starting block number"
+      },
+      "BlockEnd": {
+        "name": "blockEnd",
+        "type": "integer",
+        "description": "The ending block number"
       },
       "From": {
         "name": "from",
@@ -1865,11 +1887,11 @@
         "properties": {
           "transactionHash": {
             "type": "string",
-            "description": "Transaction's hash identifier"
+            "$ref": "#/components/schemas/TransactionHash"
           },
           "transactionIndex": {
             "type": "integer",
-            "description": "Transaction index in block"
+            "$ref": "#/components/schemas/TransactionIndex"
           },
           "from": {
             "type": "string",
@@ -1972,11 +1994,11 @@
         "properties": {
           "blockStart": {
             "type": "integer",
-            "description": "The starting block number"
+            "$ref": "#/components/schemas/BlockStart"
           },
           "blockEnd": {
             "type": "integer",
-            "description": "The ending block number"
+            "$ref": "#/components/schemas/BlockEnd"
           },
           "blocks": {
             "type": "array",
@@ -2025,11 +2047,11 @@
         "properties": {
           "blockStart": {
             "type": "integer",
-            "description": "The starting block number"
+            "$ref": "#/components/schemas/BlockStart"
           },
           "blockEnd": {
             "type": "integer",
-            "description": "The ending block number"
+            "$ref": "#/components/schemas/BlockEnd"
           },
           "blocks": {
             "type": "array",
@@ -2039,26 +2061,133 @@
           }
         }
       },
+      "TokenEventData": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "For ERC-20 this represents the value. For ERC-721 this represents the token id."
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the event type, e.g. `Transfer`, `Approval`."
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "owner": {
+            "type": "string",
+            "$ref": "Token owner address"
+          },
+          "spender": {
+            "type": "string",
+            "$ref": "Token spender address"
+          },
+          "operator": {
+            "type": "string",
+            "$ref": "Token operator address"
+          },
+          "approved": {
+            "type": "boolean",
+            "$ref": "`true` when operator receives approval, `false` when approval is revoked."
+          },
+          "topics": {
+            "type": "string",
+            "$ref": "TBD SHANA ???"
+          }
+        }
+      },
+      "TokenEvent": {
+        "type": "object",
+        "required": [
+          "transactionHash",
+          "data",
+          "eventType",          
+          "signatureHash"
+        ],
+        "properties": {
+          "transactionHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/TransactionHash"
+          },
+          "transactionIndex": {
+            "type": "integer",
+            "$ref": "#/components/schemas/TransactionIndex"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data returned for specific transaction. Returns different properties based on event type, see examples.",
+            "$ref": "#/components/schemas/TokenEventData"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "`Transfer` (ERC-20 and ERC-721), `Approval` (ERC-20 and ERC-721), or `ApprovalForAll` (ERC-721 only).  Defaults to hashed signature if not one of the previous."
+          },
+          "signature": {
+            "type": "string",
+            "description": "Method signature for the event type"
+          },
+          "signatureHash": {
+            "type": "string",
+            "description": "Hash of the event signature"
+          }
+        }
+      },
+      "BlockTokenEvent": {
+        "type": "object",
+        "required": [
+          "blockHash",
+          "blockNumber",
+          "blockTimestamp",
+          "events"
+        ],
+        "properties": {
+          "blockHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/BlockHash"
+          },
+          "blockNumber": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockNumber"
+          },
+          "blockTimestamp": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockTimestamp"
+          },
+          "events": {
+            "type": "array",
+            "$ref": "#/components/schemas/TokenEvent"
+          }
+        }
+      },
       "GetTokenStandardEventsResponse": {
         "type": "object",
         "required": [
           "blockStart",
           "blockEnd",
-          "blocks"
+          "events"
         ],
         "properties": {
           "blockStart": {
             "type": "integer",
-            "description": "The starting block number TBD SHANA FIX THIS WHOLE OBJECT"
+            "$ref": "#/components/schemas/BlockStart"
           },
           "blockEnd": {
             "type": "integer",
-            "description": "The ending block number"
+            "$ref": "#/components/schemas/BlockEnd"
           },
-          "blocks": {
+          "events": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BlockTokens"
+              "$ref": "#/components/schemas/BlockTokenEvent"
             }
           }
         }
