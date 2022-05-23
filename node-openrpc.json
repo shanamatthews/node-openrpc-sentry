@@ -1382,7 +1382,7 @@
       "name": "coinbaseCloud_getTokenStandardEvents",
       "paramStructure": "by-name",
       "summary": "Get events triggered by the given token contract",
-      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater. \n\n\n **Table example thing?? <TBD SHANA>**: \n\n TBD SHANA THIS FUCKING TABLE \n\n |Event type|Event Data|Signature|Signature Hash|\n|-|-|-|-|\n|Transfer (ERC20 or ERC721)|`name: Transfer { from: <address>, to: <address>, data: <unit256, ERC-20: value of transfer, ERC-721 token ID transferred> }`|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|",
+      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\n <TBD SHANA note about return values & event types> \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
           "name": "Contracts"
@@ -1428,10 +1428,19 @@
         {
           "name": "blockEnd",
           "summary": "End of block range to scan for transactions",
-          "description": "Defaults to latest. See **Pagination support** for more information",
+          "description": "Defaults to latest. Can be used for pagination. See **Pagination support** for more information",
           "required": false,
           "schema": {
             "type": "integer"
+          }
+        },
+        {
+          "name": "eventSignatureHashes",
+          "summary": "List of event signature hashes to include",
+          "description": "Defaults to all standard events for ERC-20/ERC-721. TBD SHANA FIX THIS: NAME & SCHEMA",
+          "required": false,
+          "schema": {
+            "type": "string"
           }
         }
       ],
@@ -1451,21 +1460,20 @@
       ],
       "examples": [
         {
-          "name": "USDC & DAI (ERC-20)",
-          "summary": "Retrieve balances for USDC and DAI",
+          "name": "ERC 721",
+          "summary": "Retrieve events triggered by the token contract address",
           "params": [
             {
-              "name": "addressAndContractList",
-              "value": [
-                {
-                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
-                  "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-                },
-                {
-                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
-                  "contract": "0x6b175474e89094c44da98b954eedeac495271d0f"
-                }
-              ]
+              "name": "contract",
+              "value": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            },
+            {
+              "name": "blockStart",
+              "value": 1
+            },
+            {
+              "name": "blockEnd",
+              "value": 14699965
             },
             {
               "name": "blockchain",
@@ -1480,57 +1488,130 @@
             "name": "balances",
             "value": [
               {
-                "blockHeight": 14794598,
-                "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
-                "tokenBalances": [
+                "blockStart": 14699923,
+                "blockEnd": 14699965,
+                "events": [
                   {
-                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
-                    "amount": 1871941363914734149,
-                    "decimals": 18
+                    "blockHash": "0x801b8afac89d96d9c6f054275bc9fc0274c831372603dc34aae7401931f58849",
+                    "blockNumber": 14699965,
+                    "blockTimestamp": 1651517188,
+                    "events": [
+                      {
+                        "transactionHash": "0xc272abff0db861a07499accc6f27f2b31fc3a5d823ed74b8921e70808491d9e1",
+                        "transactionIndex": 2,
+                        "data": {
+                          "data": "666767006594236416",
+                          "from": "0x8aa34c7866da901b3b55d162821ef3dae87851f3",
+                          "name": "Transfer",
+                          "to": "0x00000000003b3cc22af3ae1eac0440bcee416b40"
+                        },
+                        "eventType": "Transfer",
+                        "signature": "Transfer(address, address, uint256)",
+                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      },
+                      {
+                        "transactionHash": "0xe11f4b1dd9fbd62b5a4afe11a6f6289e4d90ba5aaf04ce75ff2031b9ebe39fa5",
+                        "data": {
+                          "data": "514711238152814592",
+                          "from": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
+                          "name": "Transfer",
+                          "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
+                        },
+                        "eventType": "Transfer",
+                        "signature": "Transfer(address, address, uint256)",
+                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      },
+                      {
+                        "transactionHash": "0x6c94fa35b724a11ac0fcb97b15a2c9e06523ae87903a6a6c5e512e53d07efa55",
+                        "transactionIndex": 46,
+                        "data": {
+                          "event": "0x000000000000000000000000000000000000000000000000013da25e3a2f072b",
+                          "topics": "[0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c 0x000000000000000000000000e244096a73e20d90f47da14e4c5de7e615ceec97]"
+                        },
+                        "eventType": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
+                        "signatureHash": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c"
+                      },
+                      {
+                        "...": "output truncated."
+                      }
+                    ]
                   },
                   {
-                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                    "amount": 64014142,
-                    "decimals": 6
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "name": "NFT (ERC-721)",
-          "summary": "Retrieve NFT tokens",
-          "params": [
-            {
-              "name": "addressAndContractList",
-              "value": [
-                {
-                  "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
-                  "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
-                }
-              ]
-            },
-            {
-              "name": "blockchain",
-              "value": "Ethereum"
-            },
-            {
-              "name": "network",
-              "value": "Mainnet"
-            }
-          ],
-          "result": {
-            "name": "balances",
-            "value": [
-              {
-                "blockHeight": 14794052,
-                "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
-                "tokenBalances": [
+                    "blockHash": "0xc977a5cc4b0580dcbf2acc5a89404d516cf11d20b4e16a3217c029fc87cbb229",
+                    "blockNumber": 14699963,
+                    "blockTimestamp": 1651517178,
+                    "events": [
+                      {
+                        "transactionHash": "0x818de41b4a83ea0d902f69a51f9eedc541041cb49b5624e024de057401a3baf0",
+                        "data": {
+                          "data": "186174816314904516734",
+                          "from": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+                          "name": "Transfer",
+                          "to": "0x56178a0d5f301baf6cf3e1cd53d9863437345bf9"
+                        },
+                        "eventType": "Transfer",
+                        "signature": "Transfer(address, address, uint256)",
+                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      },
+                      {
+                        "transactionHash": "0x937d08c73a28618410aec6e06f7abe5c76b116adcc2b86adcfddd5aabada69b1",
+                        "transactionIndex": 13,
+                        "data": {
+                          "data": "1224000000000000000",
+                          "from": "0x759ec1b3326de6fd4ba316f65a6f689c4e4c3092",
+                          "name": "Transfer",
+                          "to": "0x6bee0f0dea573ec04a77ff3547691f2edccf2a7c"
+                        },
+                        "eventType": "Transfer",
+                        "signature": "Transfer(address, address, uint256)",
+                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      },
+                      {
+                        "transactionHash": "0x7446a45a7c5f67201c40d5d75e8efc15b9c4e7f8da113a94c70eddf4c0b56250",
+                        "transactionIndex": 14,
+                        "data": {
+                          "data": "2100000000000000000",
+                          "from": "0x16e75b7b8bea3787da601ba8291fc601f31c800c",
+                          "name": "Transfer",
+                          "to": "0xbe71372995e8e920e4e72a29a51463677a302e8d"
+                        },
+                        "eventType": "Transfer",
+                        "signature": "Transfer(address, address, uint256)",
+                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      },
+                      {
+                        "...": "output truncated."
+                      }
+                    ]
+                  },
                   {
-                    "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                    "amount": 3,
-                    "decimals": 1
+                    "blockHash": "0x1c27e7f62d4d066fa48052e47a025a5f3b9fa22e367b5cf6482bf428fad5dabd",
+                    "blockNumber": 14699962,
+                    "blockTimestamp": 1651517143,
+                    "events": [
+                      {
+                        "...": "output omitted."
+                      },
+                      {
+                        "transactionHash": "0x0805cf26fef05d067c3915f691909d1d13421d9b34b79336b3f539f627ba6f60",
+                        "transactionIndex": 217,
+                        "data": {
+                          "data": "4600000000000000000",
+                          "name": "Approval",
+                          "owner": "0x83f85021d1c4b55f8f35ef727dd5848a1a76dbe6",
+                          "spender": "0x13d8faf4a690f5ae52e2d2c52938d1167057b9af"
+                        },
+                        "eventType": "Approval",
+                        "signature": "Approval(address, address, uint256)",
+                        "signatureHash": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+                      },
+                      {
+                        "...": "output truncated."
+                      }
+                    ]
+                  },
+                  {
+                    "...": "output truncated."
                   }
                 ]
               }
@@ -2069,7 +2150,7 @@
         "properties": {
           "data": {
             "type": "string",
-            "description": "For ERC-20: value of transfer. For ERC-721: Token ID transferred."
+            "description": "For ERC-20 this represents the value. For ERC-721 this represents the token id."
           },
           "from": {
             "type": "string",
@@ -2077,15 +2158,31 @@
           },
           "name": {
             "type": "string",
-            "description": "Name of the event type, e.g. `Transfer`, `Approval`, `ApprovalForAll`"
+            "description": "Name of the event type, e.g. `Transfer`, `Approval`."
           },
           "to": {
             "type": "string",
             "$ref": "#/components/schemas/To"
           },
-          "abooboo": {
+          "owner": {
             "type": "string",
-            "$ref": "#/components/schemas/To"
+            "description": "Token owner address"
+          },
+          "spender": {
+            "type": "string",
+            "description": "Token spender address"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Token operator address"
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "`true` when operator receives approval, `false` when approval is revoked."
+          },
+          "topics": {
+            "type": "string",
+            "description": "TBD SHANA ???"
           }
         }
       },
@@ -2093,10 +2190,8 @@
         "type": "object",
         "required": [
           "transactionHash",
-          "transactionIndex",
           "data",
           "eventType",
-          "signature",
           "signatureHash"
         ],
         "properties": {
@@ -2115,7 +2210,7 @@
           },
           "eventType": {
             "type": "string",
-            "description": "`Transfer` (ERC-20 and ERC-721), `Approval` (ERC-20 and ERC-721), or `ApprovalForAll` (ERC-721)."
+            "description": "`Transfer` (ERC-20 and ERC-721), `Approval` (ERC-20 and ERC-721), or `ApprovalForAll` (ERC-721 only).  Defaults to hashed signature if not one of the previous."
           },
           "signature": {
             "type": "string",
