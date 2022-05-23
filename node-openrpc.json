@@ -2069,7 +2069,7 @@
         "properties": {
           "data": {
             "type": "string",
-            "description": "For ERC-20 this represents the value. For ERC-721 this represents the token id."
+            "description": "For ERC-20: value of transfer. For ERC-721: Token ID transferred."
           },
           "from": {
             "type": "string",
@@ -2077,31 +2077,15 @@
           },
           "name": {
             "type": "string",
-            "description": "Name of the event type, e.g. `Transfer`, `Approval`."
+            "description": "Name of the event type, e.g. `Transfer`, `Approval`, `ApprovalForAll`"
           },
           "to": {
             "type": "string",
             "$ref": "#/components/schemas/To"
           },
-          "owner": {
+          "abooboo": {
             "type": "string",
-            "$ref": "Token owner address"
-          },
-          "spender": {
-            "type": "string",
-            "$ref": "Token spender address"
-          },
-          "operator": {
-            "type": "string",
-            "$ref": "Token operator address"
-          },
-          "approved": {
-            "type": "boolean",
-            "$ref": "`true` when operator receives approval, `false` when approval is revoked."
-          },
-          "topics": {
-            "type": "string",
-            "$ref": "TBD SHANA ???"
+            "$ref": "#/components/schemas/To"
           }
         }
       },
@@ -2109,8 +2093,10 @@
         "type": "object",
         "required": [
           "transactionHash",
+          "transactionIndex",
           "data",
-          "eventType",          
+          "eventType",
+          "signature",
           "signatureHash"
         ],
         "properties": {
@@ -2129,7 +2115,7 @@
           },
           "eventType": {
             "type": "string",
-            "description": "`Transfer` (ERC-20 and ERC-721), `Approval` (ERC-20 and ERC-721), or `ApprovalForAll` (ERC-721 only).  Defaults to hashed signature if not one of the previous."
+            "description": "`Transfer` (ERC-20 and ERC-721), `Approval` (ERC-20 and ERC-721), or `ApprovalForAll` (ERC-721)."
           },
           "signature": {
             "type": "string",
