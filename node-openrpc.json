@@ -1801,11 +1801,11 @@
           },
           "transactionHash": {
             "type": "string",
-            "description": "Hash of the transactions this log was created from"
+            "description": "Hash of the transactions this log was created from <TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>"
           },
           "transactionIndex": {
             "type": "integer",
-            "description": "Integer of the transactions index position log was created from"
+            "description": "Integer of the transactions index position log was created from <TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>"
           }
         }
       },
@@ -2049,7 +2049,7 @@
         "properties": {
           "blockStart": {
             "type": "integer",
-            "description": "The starting block number"
+            "description": "The starting block number TBD SHANA FIX THIS WHOLE OBJECT"
           },
           "blockEnd": {
             "type": "integer",
