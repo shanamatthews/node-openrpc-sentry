@@ -1436,11 +1436,11 @@
         }
       ],
       "result": {
-        "name": "balances",
-        "summary": "Returned list of balance amounts",
-        "description": "A list of balance amounts for the given token identifier and Block range in which the balances were computed. Note that Start is always genesis for this API.",
+        "name": "result",
+        "summary": "Returned events triggered by the input token contract",
+        "description": "A list of parent transactions in the given block range, each with a sub-list of events that occurred as part of the parent transaction. Note: The output does not specify the token type (ERC20 vs ERC721).",
         "schema": {
-          "$ref": "#/components/schemas/GetBalancesResponse"
+          "$ref": "#/components/schemas/GetTokenStandardEventsResponse"
         }
       },
       "errors": [
@@ -2016,6 +2016,30 @@
         }
       },
       "GetTransfersByAddressResponse": {
+        "type": "object",
+        "required": [
+          "blockStart",
+          "blockEnd",
+          "blocks"
+        ],
+        "properties": {
+          "blockStart": {
+            "type": "integer",
+            "description": "The starting block number"
+          },
+          "blockEnd": {
+            "type": "integer",
+            "description": "The ending block number"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlockTokens"
+            }
+          }
+        }
+      },
+      "GetTokenStandardEventsResponse": {
         "type": "object",
         "required": [
           "blockStart",
