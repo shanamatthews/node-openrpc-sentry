@@ -1486,136 +1486,249 @@
           ],
           "result": {
             "name": "balances",
-            "value": [
-              {
-                "blockStart": 14699923,
-                "blockEnd": 14699965,
-                "events": [
-                  {
-                    "blockHash": "0x801b8afac89d96d9c6f054275bc9fc0274c831372603dc34aae7401931f58849",
-                    "blockNumber": 14699965,
-                    "blockTimestamp": 1651517188,
-                    "events": [
-                      {
-                        "transactionHash": "0xc272abff0db861a07499accc6f27f2b31fc3a5d823ed74b8921e70808491d9e1",
-                        "transactionIndex": 2,
-                        "data": {
-                          "data": "666767006594236416",
-                          "from": "0x8aa34c7866da901b3b55d162821ef3dae87851f3",
-                          "name": "Transfer",
-                          "to": "0x00000000003b3cc22af3ae1eac0440bcee416b40"
-                        },
-                        "eventType": "Transfer",
-                        "signature": "Transfer(address, address, uint256)",
-                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+            "value": {
+              "blockStart": 14699923,
+              "blockEnd": 14699965,
+              "events": [
+                {
+                  "blockHash": "0x801b8afac89d96d9c6f054275bc9fc0274c831372603dc34aae7401931f58849",
+                  "blockNumber": 14699965,
+                  "blockTimestamp": 1651517188,
+                  "events": [
+                    {
+                      "transactionHash": "0xc272abff0db861a07499accc6f27f2b31fc3a5d823ed74b8921e70808491d9e1",
+                      "transactionIndex": 2,
+                      "data": {
+                        "data": "666767006594236416",
+                        "from": "0x8aa34c7866da901b3b55d162821ef3dae87851f3",
+                        "name": "Transfer",
+                        "to": "0x00000000003b3cc22af3ae1eac0440bcee416b40"
                       },
-                      {
-                        "transactionHash": "0xe11f4b1dd9fbd62b5a4afe11a6f6289e4d90ba5aaf04ce75ff2031b9ebe39fa5",
-                        "data": {
-                          "data": "514711238152814592",
-                          "from": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
-                          "name": "Transfer",
-                          "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
-                        },
-                        "eventType": "Transfer",
-                        "signature": "Transfer(address, address, uint256)",
-                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0xe11f4b1dd9fbd62b5a4afe11a6f6289e4d90ba5aaf04ce75ff2031b9ebe39fa5",
+                      "data": {
+                        "data": "514711238152814592",
+                        "from": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
+                        "name": "Transfer",
+                        "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
                       },
-                      {
-                        "transactionHash": "0x6c94fa35b724a11ac0fcb97b15a2c9e06523ae87903a6a6c5e512e53d07efa55",
-                        "transactionIndex": 46,
-                        "data": {
-                          "event": "0x000000000000000000000000000000000000000000000000013da25e3a2f072b",
-                          "topics": "[0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c 0x000000000000000000000000e244096a73e20d90f47da14e4c5de7e615ceec97]"
-                        },
-                        "eventType": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
-                        "signatureHash": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c"
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0x6c94fa35b724a11ac0fcb97b15a2c9e06523ae87903a6a6c5e512e53d07efa55",
+                      "transactionIndex": 46,
+                      "data": {
+                        "event": "0x000000000000000000000000000000000000000000000000013da25e3a2f072b",
+                        "topics": "[0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c 0x000000000000000000000000e244096a73e20d90f47da14e4c5de7e615ceec97]"
                       },
-                      {
-                        "...": "output truncated."
-                      }
-                    ]
-                  },
-                  {
-                    "blockHash": "0xc977a5cc4b0580dcbf2acc5a89404d516cf11d20b4e16a3217c029fc87cbb229",
-                    "blockNumber": 14699963,
-                    "blockTimestamp": 1651517178,
-                    "events": [
-                      {
-                        "transactionHash": "0x818de41b4a83ea0d902f69a51f9eedc541041cb49b5624e024de057401a3baf0",
-                        "data": {
-                          "data": "186174816314904516734",
-                          "from": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
-                          "name": "Transfer",
-                          "to": "0x56178a0d5f301baf6cf3e1cd53d9863437345bf9"
-                        },
-                        "eventType": "Transfer",
-                        "signature": "Transfer(address, address, uint256)",
-                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      "eventType": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
+                      "signatureHash": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c"
+                    },
+                    {
+                      "...": "output truncated."
+                    }
+                  ]
+                },
+                {
+                  "blockHash": "0xc977a5cc4b0580dcbf2acc5a89404d516cf11d20b4e16a3217c029fc87cbb229",
+                  "blockNumber": 14699963,
+                  "blockTimestamp": 1651517178,
+                  "events": [
+                    {
+                      "transactionHash": "0x818de41b4a83ea0d902f69a51f9eedc541041cb49b5624e024de057401a3baf0",
+                      "data": {
+                        "data": "186174816314904516734",
+                        "from": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+                        "name": "Transfer",
+                        "to": "0x56178a0d5f301baf6cf3e1cd53d9863437345bf9"
                       },
-                      {
-                        "transactionHash": "0x937d08c73a28618410aec6e06f7abe5c76b116adcc2b86adcfddd5aabada69b1",
-                        "transactionIndex": 13,
-                        "data": {
-                          "data": "1224000000000000000",
-                          "from": "0x759ec1b3326de6fd4ba316f65a6f689c4e4c3092",
-                          "name": "Transfer",
-                          "to": "0x6bee0f0dea573ec04a77ff3547691f2edccf2a7c"
-                        },
-                        "eventType": "Transfer",
-                        "signature": "Transfer(address, address, uint256)",
-                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0x937d08c73a28618410aec6e06f7abe5c76b116adcc2b86adcfddd5aabada69b1",
+                      "transactionIndex": 13,
+                      "data": {
+                        "data": "1224000000000000000",
+                        "from": "0x759ec1b3326de6fd4ba316f65a6f689c4e4c3092",
+                        "name": "Transfer",
+                        "to": "0x6bee0f0dea573ec04a77ff3547691f2edccf2a7c"
                       },
-                      {
-                        "transactionHash": "0x7446a45a7c5f67201c40d5d75e8efc15b9c4e7f8da113a94c70eddf4c0b56250",
-                        "transactionIndex": 14,
-                        "data": {
-                          "data": "2100000000000000000",
-                          "from": "0x16e75b7b8bea3787da601ba8291fc601f31c800c",
-                          "name": "Transfer",
-                          "to": "0xbe71372995e8e920e4e72a29a51463677a302e8d"
-                        },
-                        "eventType": "Transfer",
-                        "signature": "Transfer(address, address, uint256)",
-                        "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0x7446a45a7c5f67201c40d5d75e8efc15b9c4e7f8da113a94c70eddf4c0b56250",
+                      "transactionIndex": 14,
+                      "data": {
+                        "data": "2100000000000000000",
+                        "from": "0x16e75b7b8bea3787da601ba8291fc601f31c800c",
+                        "name": "Transfer",
+                        "to": "0xbe71372995e8e920e4e72a29a51463677a302e8d"
                       },
-                      {
-                        "...": "output truncated."
-                      }
-                    ]
-                  },
-                  {
-                    "blockHash": "0x1c27e7f62d4d066fa48052e47a025a5f3b9fa22e367b5cf6482bf428fad5dabd",
-                    "blockNumber": 14699962,
-                    "blockTimestamp": 1651517143,
-                    "events": [
-                      {
-                        "...": "output omitted."
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "...": "output truncated."
+                    }
+                  ]
+                },
+                {
+                  "blockHash": "0x1c27e7f62d4d066fa48052e47a025a5f3b9fa22e367b5cf6482bf428fad5dabd",
+                  "blockNumber": 14699962,
+                  "blockTimestamp": 1651517143,
+                  "events": [
+                    {
+                      "...": "output omitted."
+                    },
+                    {
+                      "transactionHash": "0x0805cf26fef05d067c3915f691909d1d13421d9b34b79336b3f539f627ba6f60",
+                      "transactionIndex": 217,
+                      "data": {
+                        "data": "4600000000000000000",
+                        "name": "Approval",
+                        "owner": "0x83f85021d1c4b55f8f35ef727dd5848a1a76dbe6",
+                        "spender": "0x13d8faf4a690f5ae52e2d2c52938d1167057b9af"
                       },
-                      {
-                        "transactionHash": "0x0805cf26fef05d067c3915f691909d1d13421d9b34b79336b3f539f627ba6f60",
-                        "transactionIndex": 217,
-                        "data": {
-                          "data": "4600000000000000000",
-                          "name": "Approval",
-                          "owner": "0x83f85021d1c4b55f8f35ef727dd5848a1a76dbe6",
-                          "spender": "0x13d8faf4a690f5ae52e2d2c52938d1167057b9af"
-                        },
-                        "eventType": "Approval",
-                        "signature": "Approval(address, address, uint256)",
-                        "signatureHash": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
-                      },
-                      {
-                        "...": "output truncated."
-                      }
-                    ]
-                  },
-                  {
-                    "...": "output truncated."
-                  }
-                ]
+                      "eventType": "Approval",
+                      "signature": "Approval(address, address, uint256)",
+                      "signatureHash": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+                    },
+                    {
+                      "...": "output truncated."
+                    }
+                  ]
+                },
+                {
+                  "...": "output truncated."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTokenMetadata",
+      "paramStructure": "by-name",
+      "summary": "Get metadata for the given token contract address",
+      "description": "Returns metadata for the input token contract address. \n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally.",
+      "tags": [
+        {
+          "name": "Contracts"
+        }
+      ],
+      "params": [
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, testnet",
+          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "contract",
+          "summary": "Token contract",
+          "description": "The token contract to get metadata for",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Metadata for the input token contract",
+        "description": "Returns either ERC-20 token metadata or ERC-721 token metadata based on the input. \n\n ERC-20 returns: \n\n - Name \n - Symbol \n - Decimals \n - Total supply \n\n\n ERC-721 returns: \n\n - Name \n - Symbol \n - Total supply \n - Tokens \n   - Token ID \n   - Index \n   - Token URI",
+        "schema": {
+          "$ref": "#/components/schemas/GetTokenMetadataResponse"
+        }
+      },
+      "errors": [
+        {
+          "code": -32602,
+          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+        }
+      ],
+      "examples": [
+        {
+          "name": "USD (ERC-20)",
+          "summary": "Retrieve token metadata for USDC",
+          "params": [
+            {
+              "name": "contract",
+              "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockHeight": 14832446,
+              "tokenMetadata": {
+                "name": "USD Coin",
+                "symbol": "USDC",
+                "totalSupply": "45182454435259550",
+                "decimals": 6
               }
-            ]
+            }
+          }
+        },
+        {
+          "name": "Crypto Coven (ERC-721)",
+          "summary": "Retrieve token metadata for Crypto Coven",
+          "params": [
+            {
+              "name": "contract",
+              "value": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockHeight": 14832405,
+              "tokenMetadata": {
+                "name": "Crypto Coven",
+                "symbol": "WITCH",
+                "totalSupply": "0"
+              }
+            }
           }
         }
       ]
@@ -2270,6 +2383,76 @@
             "items": {
               "$ref": "#/components/schemas/BlockTokenEvent"
             }
+          }
+        }
+      },
+      "TokenInfo": {
+        "type": "object",
+        "required": [
+          "tokenID",
+          "tokenURI"
+        ],
+        "properties": {
+          "tokenID": {
+            "type": "string",
+            "description": "Token ID"
+          },
+          "tokenURI": {
+            "type": "string",
+            "description": "URI for token"
+          },
+          "index": {
+            "type": "string",
+            "description": "Index for specific token"
+          }
+        }
+      },
+      "TokenMetadata": {
+        "type": "object",
+        "required": [
+          "name",
+          "symbol",
+          "totalSupply"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of token"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Symbol for token"
+          },
+          "totalSupply": {
+            "type": "integer",
+            "description": "Total amount of token"
+          },
+          "decimals": {
+            "type": "string",
+            "description": "Number of decimals"
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenInfo"
+            }
+          }
+        }
+      },
+      "GetTokenMetadataResponse": {
+        "type": "object",
+        "required": [
+          "blockHeight",
+          "tokenMetadata"
+        ],
+        "properties": {
+          "blockHeight": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockHeight"
+          },
+          "tokenMetadata": {
+            "type": "object",
+            "$ref": "#/components/schemas/TokenMetadata"
           }
         }
       }
