@@ -1,0 +1,10 @@
+{
+    "openrpcDocument": "node-openrpc.json",
+    "outDir": "./",
+    "components": [
+        {
+            "type": "docs",
+            "language": "gatsby"
+        }
+    ]
+}
