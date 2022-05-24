@@ -1786,7 +1786,7 @@
           },
           "amount": {
             "description": "Balance Amount (For ERC-721 it is the number of tokens).",
-            "type": "integer"
+            "type": "string"
           },
           "decimals": {
             "description": "Unit (decimals for ERC-20).",
@@ -1801,7 +1801,14 @@
           "type": "integer"
         }
       },
-      "Balance": {
+      "NativeAmount": {
+        "name": "nativeAmount",
+        "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network. Balance is returned in the smallest possible unit.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "MultiTokenBalance": {
         "type": "object",
         "required": [
           "blockHeight",
@@ -1817,9 +1824,12 @@
             "type": "string",
             "$ref": "#/components/schemas/Address"
           },
+          "nativeAmount": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeAmount"
+          },
           "tokenBalances": {
             "type": "array",
-            "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network. Balance is returned in the smallest possible unit.",
             "items": {
               "$ref": "#/components/schemas/TokenBalance"
             }
@@ -1829,26 +1839,32 @@
       "GetBalancesResponse": {
         "type": "array",
         "items": {
-          "$ref": "#/components/schemas/Balance"
+          "$ref": "#/components/schemas/MultiTokenBalance"
         }
       },
       "GetSingleBalanceResponse": {
         "type": "object",
         "required": [
+          "blockHeight",
           "address",
-          "tokenBalance"
+          "tokenBalances"
         ],
         "properties": {
+          "blockHeight": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockHeight"
+          },
           "address": {
             "type": "string",
             "$ref": "#/components/schemas/Address"
           },
+          "nativeAmount": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeAmount"
+          },
           "tokenBalance": {
             "type": "object",
-            "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network. Balance is returned in the smallest possible unit.",
-            "items": {
-              "$ref": "#/components/schemas/TokenBalance"
-            }
+            "$ref": "#/components/schemas/TokenBalance"
           }
         }
       },
