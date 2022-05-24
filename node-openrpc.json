@@ -1813,6 +1813,7 @@
         "required": [
           "blockHeight",
           "address",
+          "nativeAmount",
           "tokenBalances"
         ],
         "properties": {
@@ -1847,6 +1848,7 @@
         "required": [
           "blockHeight",
           "address",
+          "nativeAmount",
           "tokenBalances"
         ],
         "properties": {
@@ -2442,7 +2444,7 @@
             "description": "Symbol for token"
           },
           "totalSupply": {
-            "type": "integer",
+            "type": "string",
             "description": "Total amount of token"
           },
           "decimals": {
