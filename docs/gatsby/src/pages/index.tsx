@@ -12,7 +12,16 @@ const MyApp: React.FC = () => {
         <br/>
         <Typography variant="h1">Query & Transact Advanced Query APIs (preview)</Typography>
         <Typography gutterBottom style={{ paddingTop: "100px", paddingBottom: "20px" }} variant="inherit">
-        "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs allow greater... TBD SHANA \n\n **API constraints:** \n - Only Ethereum protocol and mainnet (and testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem."
+          This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. 
+
+ These APIs allow greater... TBD SHANA 
+
+ **API constraints:** 
+ - Only Ethereum protocol and mainnet (and testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. 
+ - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. 
+   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. 
+   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. 
+   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem.
         </Typography>
         <br/>
         <Button variant="contained" color="primary" href="/api-documentation">
