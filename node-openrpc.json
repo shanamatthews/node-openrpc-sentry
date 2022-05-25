@@ -62,8 +62,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -214,8 +231,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -336,8 +370,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -461,8 +512,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -678,8 +746,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -943,8 +1028,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -1454,8 +1556,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -1667,8 +1786,25 @@
       },
       "errors": [
         {
-          "code": -32602,
-          "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
         }
       ],
       "examples": [
@@ -1736,6 +1872,36 @@
   ],
   "components": {
     "contentDescriptors": {},
+    "errors": {
+      "SetInvalidParamError": {
+        "code": -32602,
+        "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+      },
+      "SetInvalidRequestError": {
+        "code": -32600,
+        "message": "The JSON sent is not a valid Request object."
+      },
+      "SetServerError": {
+        "code": -32000,
+        "message": "A Server Error has occurred. Retrying may resolve the issue."
+      },
+      "SetMethodNotFoundError": {
+        "code": -32601,
+        "message": "Method not found."
+      },
+      "AuthorizationError": {
+        "code": 401,
+        "message": "Not authorized TBD SHANA"
+      },
+      "RateLimitError": {
+        "code": 429,
+        "message": "Rate limit TBD SHANA"
+      },
+      "MethodNotAllowedError": {
+        "code": 405,
+        "message": "Method not allowed TBD SHANA"
+      }
+    },
     "schemas": {
       "Address": {
         "name": "address",
