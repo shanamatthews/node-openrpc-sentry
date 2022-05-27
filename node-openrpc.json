@@ -1809,7 +1809,7 @@
       ],
       "examples": [
         {
-          "name": "USD (ERC-20)",
+          "name": "USDC (ERC-20)",
           "summary": "Retrieve token metadata for USDC",
           "params": [
             {
@@ -1839,7 +1839,7 @@
           }
         },
         {
-          "name": "Crypto Coven (ERC-721)",
+          "name": "NFT (ERC-721)",
           "summary": "Retrieve token metadata for Crypto Coven",
           "params": [
             {
