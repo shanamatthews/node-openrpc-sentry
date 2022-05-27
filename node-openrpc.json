@@ -8,7 +8,7 @@
   "servers": [
     {
       "name": "Server URL and API token info",
-      "url": "https://mainnet.ethereum.coinbasecloud.io/rpc",
+      "url": "https://mainnet.ethereum.coinbasecloud.net",
       "description": "**Authentication:** \n\n This endpoint uses HTTP Basic Auth <TBD SHANA VERIFY>. \n\n To authenticate to these APIs: \n\n - Grab your username and API access token from the Cloud Portal <TBD SHANA WHATS THE NAME OF THE PLATFORM PORTAL> \n - Include your username and API access token (as your username and password, respectively) as `auth` in each HTTP request"
     }
   ],
