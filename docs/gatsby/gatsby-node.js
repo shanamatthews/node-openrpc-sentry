@@ -8,13 +8,14 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 // get OpenRPC Document at build time
 const resultData = fs.readFileSync(__dirname + "/src/openrpc.json").toString();
+const ethereumResultData = fs.readFileSync(__dirname + "/src/ethereum-openrpc.json").toString();
 
 exports.sourceNodes = async ({
   actions: { createNode },
   createContentDigest,
 }) => {
   // deref doc
-  const openrpcDocument = JSON.parse(resultData);
+  // const openrpcDocument = JSON.parse(resultData);
   // create node for build time openrpc document on the site
   createNode({
     openrpcDocument: resultData,
@@ -25,6 +26,18 @@ exports.sourceNodes = async ({
     internal: {
       type: `OpenrpcDocument`,
       contentDigest: createContentDigest(resultData),
+    },
+  })
+
+  createNode({
+    openrpcDocument: ethereumResultData,
+    // required fields
+    id: `ethereumopenrpcDocument`,
+    parent: null,
+    children: [],
+    internal: {
+      type: `OpenrpcDocument`,
+      contentDigest: createContentDigest(ethereumResultData),
     },
   })
 }

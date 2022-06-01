@@ -54,9 +54,13 @@ const ApiDocumentation: React.FC = () => {
 
   const openrpcQueryData = useStaticQuery(graphql`
     query {
-      openrpcDocument {
-        id
-        openrpcDocument
+      allOpenrpcDocument {
+        edges {
+          node {
+            id
+            openrpcDocument
+          }
+        }
       }
     }
   `);
@@ -65,8 +69,8 @@ const ApiDocumentation: React.FC = () => {
   const [inspectorTransport, setInspectorTransport] = useState<string>();
 
   useEffect(() => {
-    if (openrpcQueryData.openrpcDocument) {
-      $RefParser.dereference(JSON.parse(openrpcQueryData.openrpcDocument.openrpcDocument)).then(setOpenrpcDocument);
+    if (openrpcQueryData.allOpenrpcDocument.edges[1].node.openrpcDocument) {
+      $RefParser.dereference(JSON.parse(openrpcQueryData.allOpenrpcDocument.edges[1].node.openrpcDocument)).then(setOpenrpcDocument);
     }
   }, [openrpcQueryData]);
 
