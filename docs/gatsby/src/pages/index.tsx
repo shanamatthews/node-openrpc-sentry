@@ -12,7 +12,7 @@ const MyApp: React.FC = () => {
         <br/>
         <Typography variant="h1">Query & Transact Advanced Query APIs (preview)</Typography>
         <Typography gutterBottom style={{ paddingTop: "100px", paddingBottom: "20px" }} variant="inherit">
-          This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. 
+          This document describes the preview APIs for Query and Transact's new Advanced Query APIs. 
         </Typography>
         <br/>
         <Button variant="contained" color="primary" href="/api-documentation">
