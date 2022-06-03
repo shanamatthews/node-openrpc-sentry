@@ -724,24 +724,6 @@
       ],
       "params": [
         {
-          "name": "blockchain",
-          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
-          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": false,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "network",
-          "summary": "E.g. Mainnet, Testnet",
-          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
-          "required": false,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
           "name": "address",
           "summary": "Account address",
           "required": true,
@@ -771,6 +753,24 @@
           "name": "addressFilter",
           "summary": "Filter transactions by",
           "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
           "required": false,
           "schema": {
             "type": "string"
