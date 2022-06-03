@@ -3,7 +3,7 @@
   "info": {
     "title": "Query & Transact Advanced Query APIs (preview)",
     "version": "0.0.1",
-    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs allow greater... TBD SHANA \n\n **API constraints:** \n - Only Ethereum protocol and mainnet (and testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem."
+    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs are mean to supplement the native operations provided by Ethereum APIs. Advanced APIs simplify access to blockchain data by offering data cuts which are relatively difficult to get via native Ethereum APIs, and aim to offer aggregated and filtered data in one API call. The Advanced APIs provide access to token balances for accounts, transactions and transfers for accounts, smart contract event logs, and more. \n\n **API constraints**: \n - Only Ethereum protocol and Mainnet (and Testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem. \n\n\n **Definitions** \n - **balance**: Amount of a token, for Ethereum this is the amount of ETH in wei. For NFTs this is the number of NFTs. \n - **contract**: Also known as a \"smart contract\". A program that runs on a blockchain. Contracts are a type of account that have a balance and can send transactions. \n - **transaction:** A cryptographically signed instruction that updates the state of the network. The action must be initiated by an externally-owned address, e.g. an account managed by a human. \n - **internal transaction:** An unsigned message carried out by a smart contract. A series of internal transactions originate from a transaction. \n - **transfer**: Refers to \"token transfer\", a transaction that transfers ERC-20 (Etheerum) or ERC-721 (NFT) tokens. \n - **allowance**: Also known as \"access permissions to tokens\". Allows a third party to carry out transactions of a given amount with a user's tokens."
   },
   "servers": [
     {
@@ -14,10 +14,10 @@
   ],
   "methods": [
     {
-      "name": "coinbaseCloud_getBalances",
-      "paramStructure": "by-name",
+      "name": "getBalances",
+      "paramStructure": "either",
       "summary": "Get balance for multiple account addresses across one or more tokens",
-      "description": "Get accurate balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
+      "description": "Get balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
       "tags": [
         {
           "name": "Balances"
@@ -37,16 +37,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -92,7 +92,7 @@
               "name": "addressAndContractList",
               "value": [
                 {
-                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                  "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D",
                   "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
                 },
                 {
@@ -114,18 +114,20 @@
             "name": "balances",
             "value": [
               {
-                "blockHeight": 14794598,
+                "blockHeight": 14893778,
                 "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                "nativeAmount": "93166839672705001",
+                "nativeUnit": "Wei",
                 "tokenBalances": [
                   {
-                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
-                    "amount": 1871941363914734000,
-                    "decimals": 18
+                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "amount": "60914134",
+                    "decimals": 6
                   },
                   {
-                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                    "amount": 64014142,
-                    "decimals": 6
+                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                    "amount": "1871941363914734149",
+                    "decimals": 18
                   }
                 ]
               }
@@ -144,26 +146,20 @@
                   "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
                 }
               ]
-            },
-            {
-              "name": "blockchain",
-              "value": "Ethereum"
-            },
-            {
-              "name": "network",
-              "value": "Mainnet"
             }
           ],
           "result": {
             "name": "balances",
             "value": [
               {
-                "blockHeight": 14794052,
+                "blockHeight": 14893778,
                 "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                "nativeAmount": "61889627444351055967",
+                "nativeUnit": "Wei",
                 "tokenBalances": [
                   {
-                    "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                    "amount": 3,
+                    "contract": "0x5180db8f5c931aae63c74266b211f580155ecac8",
+                    "amount": "3",
                     "decimals": 1
                   }
                 ]
@@ -174,8 +170,8 @@
       ]
     },
     {
-      "name": "coinbaseCloud_getSingleBalance",
-      "paramStructure": "by-name",
+      "name": "getSingleBalance",
+      "paramStructure": "either",
       "summary": "Get balance for a single token and a single account address",
       "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller should expect low latency from this API compared to a more heavy weight GetBalances. \n\n **Use cases:** \n - Low latency call to get the latest balance for a single token for a single address. \n - Get balances for an account address or a contract",
       "tags": [
@@ -206,16 +202,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -259,7 +255,7 @@
           "params": [
             {
               "name": "address",
-              "value": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d"
+              "value": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D"
             },
             {
               "name": "contract",
@@ -277,10 +273,13 @@
           "result": {
             "name": "balance",
             "value": {
+              "blockHeight": 14893778,
               "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+              "nativeAmount": "93166839672705001",
+              "nativeUnit": "Wei",
               "tokenBalance": {
                 "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                "amount": 64014142,
+                "amount": "60914134",
                 "decimals": 6
               }
             }
@@ -310,10 +309,13 @@
           "result": {
             "name": "balance",
             "value": {
+              "blockHeight": 14893779,
               "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+              "nativeAmount": "61889627444351055967",
+              "nativeUnit": "Wei",
               "tokenBalance": {
-                "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-                "amount": 3,
+                "contract": "0x5180db8f5c931aae63c74266b211f580155ecac8",
+                "amount": "3",
                 "decimals": 1
               }
             }
@@ -322,8 +324,8 @@
       ]
     },
     {
-      "name": "coinbaseCloud_getTokenAllowances",
-      "paramStructure": "by-name",
+      "name": "getTokenAllowances",
+      "paramStructure": "either",
       "summary": "Get allowances for a specified owner and spender",
       "description": "Get allowances for a specified owner and spender across one or more tokens within a single blockchain and network. \n\n **Use cases:** \n - Get Allowance given to another account for one or more tokens \n - Get Allowances for all the tokens an account address may hold",
       "tags": [
@@ -345,16 +347,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -407,27 +409,19 @@
                   ]
                 }
               ]
-            },
-            {
-              "name": "blockchain",
-              "value": "Ethereum"
-            },
-            {
-              "name": "network",
-              "value": "Mainnet"
             }
           ],
           "result": {
             "name": "allowances",
             "value": [
               {
-                "blockHeight": 14794058,
+                "blockHeight": 14893780,
                 "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
                 "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
                 "tokenAllowances": [
                   {
                     "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-                    "amount": 1443590544794273800,
+                    "amount": "411256436224324320870982430867023952481793415358246197461731293",
                     "decimals": 6
                   }
                 ]
@@ -438,13 +432,13 @@
       ]
     },
     {
-      "name": "coinbaseCloud_getTransactionsByAddress",
-      "paramStructure": "by-name",
+      "name": "getTransactionsByAddress",
+      "paramStructure": "either",
       "summary": "Get transactions for a given address.",
       "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Returns the transactions in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Use cases:** \n - Get all the transactions (external and internal) for a given address \n - Get all token transfers for a given address \n - Get transactions and/or transfers in specific block ranges \n - Filter transactions by send and/or receive \n\n\n **Constraints:** \n\n - The API returns upto 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
-          "name": "Transfers"
+          "name": "Transactions"
         }
       ],
       "params": [
@@ -487,16 +481,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -672,13 +666,13 @@
       ]
     },
     {
-      "name": "coinbaseCloud_getTransfersByAddress",
+      "name": "getTokenTransfersByAddress",
       "paramStructure": "by-name",
       "summary": "Get transactions for a given address.",
       "description": "Returns token transfers for a given address. Includes activity from and to the input address. Returns the transfers in reverse chronological order. \n\n **Use cases:** \n - Get all token transfers for a given address \n - Get token transfers in specific block ranges \n\n\n **Constraints:** \n\n - The API returns up to 1000 token transfers OR all the token transfers within a single block; whichever is greater. <TBD SHANA THIS IS REALLY CONFUSING. GET CLARITY> \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. <TBD SHANA IS THIS RELEVANT FOR THIS API??> \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
-          "name": "Transfers"
+          "name": "Transactions"
         }
       ],
       "params": [
@@ -686,16 +680,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -741,7 +735,7 @@
         "summary": "Returned transactions",
         "description": "Returns a list of blocks for which transactions were found, each with a list of token transfers found for the address in that block.",
         "schema": {
-          "$ref": "#/components/schemas/GetTransfersByAddressResponse"
+          "$ref": "#/components/schemas/GetTokenTransfersByAddressResponse"
         }
       },
       "errors": [
@@ -987,7 +981,7 @@
       "description": "Returns all transfers caused by the transaction identified by the input transaction hash. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
       "tags": [
         {
-          "name": "Transfers"
+          "name": "Transactions"
         }
       ],
       "params": [
@@ -995,16 +989,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -1495,16 +1489,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -1752,16 +1746,16 @@
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
-          "required": true,
+          "required": false,
           "schema": {
             "type": "string"
           }
         },
         {
           "name": "network",
-          "summary": "E.g. Mainnet, testnet",
-          "description": "E.g. Mainnet, testnet. Currently only supports Ethereum.",
-          "required": true,
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -1974,12 +1968,20 @@
           "type": "string"
         }
       },
+      "NativeUnit": {
+        "name": "nativeUnit",
+        "description": "Unit the balance is returned in. Currently only Wei. 1 ETH = 10^18 Wei.",
+        "schema": {
+          "type": "string"
+        }
+      },
       "MultiTokenBalance": {
         "type": "object",
         "required": [
           "blockHeight",
           "address",
           "nativeAmount",
+          "nativeUnit",
           "tokenBalances"
         ],
         "properties": {
@@ -1994,6 +1996,10 @@
           "nativeAmount": {
             "type": "string",
             "$ref": "#/components/schemas/NativeAmount"
+          },
+          "nativeUnit": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeUnit"
           },
           "tokenBalances": {
             "type": "array",
@@ -2015,6 +2021,7 @@
           "blockHeight",
           "address",
           "nativeAmount",
+          "nativeUnit",
           "tokenBalances"
         ],
         "properties": {
@@ -2029,6 +2036,10 @@
           "nativeAmount": {
             "type": "string",
             "$ref": "#/components/schemas/NativeAmount"
+          },
+          "nativeUnit": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeUnit"
           },
           "tokenBalance": {
             "type": "object",
@@ -2157,6 +2168,38 @@
         "type": "integer",
         "description": "The transaction's index in block"
       },
+      "TransactionsTokenTransfer": {
+        "type": "object",
+        "required": [
+          "tokenAddress",
+          "tokenType",
+          "from",
+          "to",
+          "value"
+        ],
+        "properties": {
+          "tokenAddress": {
+            "type": "string",
+            "description": "Address location for the token contract"
+          },
+          "tokenType": {
+            "type": "string",
+            "description": "\"erc20\" or \"erc721\""
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "description": "For ERC-20, gives quantity of tokens transferred. For ERC-721, gives list of token IDs of the token transferred"
+          }
+        }
+      },
       "TokenTransfer": {
         "type": "object",
         "required": [
@@ -2173,7 +2216,7 @@
           },
           "tokenType": {
             "type": "string",
-            "description": "`erc20` or `erc721`"
+            "description": "\"erc20\" or \"erc721\""
           },
           "from": {
             "type": "string",
@@ -2189,12 +2232,12 @@
           },
           "transactionHash": {
             "type": "string",
-            "description": "The transaction's identifying hash <TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>",
+            "description": "The transaction's identifying hash",
             "$ref": "#/components/schemas/TransactionHash"
           },
           "transactionIndex": {
             "type": "integer",
-            "description": "The transaction's index position<TBD SHANA THIS IS ONLY INCLUDED IN GETTRANSFERSBYADDRESS>",
+            "description": "The transaction's index position",
             "$ref": "#/components/schemas/TransactionIndex"
           }
         }
@@ -2357,7 +2400,7 @@
           "transactions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Transaction"
+              "$ref": "#/components/schemas/TransactionsTokenTransfer"
             }
           }
         }
@@ -2415,7 +2458,7 @@
           }
         }
       },
-      "GetTransfersByAddressResponse": {
+      "GetTokenTransfersByAddressResponse": {
         "type": "object",
         "required": [
           "blockStart",
