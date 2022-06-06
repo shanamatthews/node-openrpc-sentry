@@ -86,7 +86,7 @@
       "examples": [
         {
           "name": "USDC & DAI (ERC-20)",
-          "summary": "Retrieve balances for USDC and DAI. [Sample CURL call](/sample-calls/#getBalances)",
+          "description": "Retrieve balances for USDC and DAI. [Sample CURL call](/sample-calls#getBalances)",
           "params": [
             {
               "name": "addressAndContractList",
@@ -136,7 +136,7 @@
         },
         {
           "name": "NFT (ERC-721)",
-          "summary": "Retrieve NFT tokens",
+          "description": "Retrieve NFT tokens. [Sample CURL call](/sample-calls#getBalances)",
           "params": [
             {
               "name": "addressAndContractList",
@@ -251,7 +251,7 @@
       "examples": [
         {
           "name": "USDC (ERC-20)",
-          "summary": "Retrieve balances for USDC",
+          "description": "Retrieve balances for USDC. [Sample CURL call](/sample-calls#getSingleBalance)",
           "params": [
             {
               "name": "address",
@@ -287,7 +287,7 @@
         },
         {
           "name": "NFT (ERC-721)",
-          "summary": "Retrieve NFT tokens",
+          "description": "Retrieve NFT tokens. [Sample CURL call](/sample-calls#getSingleBalance)",
           "params": [
             {
               "name": "address",
@@ -395,8 +395,8 @@
       ],
       "examples": [
         {
-          "name": "USDT (ERC-20)",
-          "summary": "Retrieve allowances for USDT",
+          "name": "USDT (ERC-20).",
+          "description": "Retrieve allowances for USDT. [Sample CURL call](/sample-calls#getTokenAllowances)",
           "params": [
             {
               "name": "allowances",
@@ -530,7 +530,7 @@
       "examples": [
         {
           "name": "ERC-20",
-          "summary": "Retrieve transactions for ERC-20 tokens.",
+          "description": "Retrieve transactions for ERC-20 tokens. [Sample CURL call](/sample-calls#getTransactionsByAddress)",
           "params": [
             {
               "name": "address",
@@ -811,7 +811,7 @@
       "examples": [
         {
           "name": "ERC-20 and ERC-721 token transfers",
-          "summary": "Return all ERC-20 and ERC-721 token transfers to the burn wallet",
+          "description": "Return all ERC-20 and ERC-721 token transfers to the burn wallet. [Sample CURL call](/sample-calls#getTokenTransfersByAddress)",
           "params": [
             {
               "name": "address",
@@ -948,7 +948,7 @@
         },
         {
           "name": "ERC-721 token transfers",
-          "summary": "Return all ERC-721 token transfers to or from a given address",
+          "description": "Return all ERC-721 token transfers to or from a given address. [Sample CURL call](/sample-calls#getTokenTransfersByAddress)",
           "params": [
             {
               "name": "address",
@@ -1093,7 +1093,7 @@
       "examples": [
         {
           "name": "ETH transfer",
-          "summary": "Return transactions resulting from an ETH transfer.",
+          "description": "Return transactions resulting from an ETH transfer. [Sample CURL call](/sample-calls#getTransactionByHash)",
           "params": [
             {
               "name": "transactionHash",
@@ -1131,8 +1131,8 @@
           }
         },
         {
-          "name": "ERC-721 transfer",
-          "summary": "Return transactions resulting from an ERC-721 transfer.",
+          "name": "ERC-721 transfer.",
+          "description": "Return transactions resulting from an ERC-721 transfer. [Sample CURL call](/sample-calls#getTransactionByHash)",
           "params": [
             {
               "name": "transactionHash",
@@ -1273,7 +1273,7 @@
         },
         {
           "name": "ERC-20 swap",
-          "summary": "Return transactions resulting from an ERC-20 swap.",
+          "description": "Return transactions resulting from an ERC-20 swap. [Sample CURL call](/sample-calls#getTransactionByHash)",
           "params": [
             {
               "name": "transactionHash",
@@ -1371,7 +1371,7 @@
         },
         {
           "name": "ERC-721 sale",
-          "summary": "Return transactions resulting from an ERC-721 sale.",
+          "description": "Return transactions resulting from an ERC-721 sale. [Sample CURL call](/sample-calls#getTransactionByHash)",
           "params": [
             {
               "name": "transactionHash",
@@ -1605,7 +1605,7 @@
       "examples": [
         {
           "name": "ERC 721",
-          "summary": "Retrieve events triggered by the token contract address",
+          "description": "Retrieve events triggered by the token contract address. [Sample CURL call](/sample-calls#getTokenStandardEvents)",
           "params": [
             {
               "name": "contract",
@@ -1818,7 +1818,7 @@
       "examples": [
         {
           "name": "USDC (ERC-20)",
-          "summary": "Retrieve token metadata for USDC",
+          "description": "Retrieve token metadata for USDC. [Sample CURL call](/sample-calls#getTokenMetadata)",
           "params": [
             {
               "name": "contract",
@@ -1848,7 +1848,7 @@
         },
         {
           "name": "NFT (ERC-721)",
-          "summary": "Retrieve token metadata for Cool Cats NFT",
+          "description": "Retrieve token metadata for Cool Cats NFT. [Sample CURL call](/sample-calls#getTokenMetadata)",
           "params": [
             {
               "name": "contract",

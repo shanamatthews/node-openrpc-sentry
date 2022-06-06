@@ -298,7 +298,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTransfersByAddress">getTransfersByAddress</a>
+## <a name="getTokenTransfersByAddress">getTransfersByAddress</a>
 
 ### ERC-20 and ERC-721 token transfers
 
