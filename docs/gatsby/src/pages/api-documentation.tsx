@@ -54,19 +54,29 @@ const ApiDocumentation: React.FC = () => {
 
   const openrpcQueryData = useStaticQuery(graphql`
     query {
-      openrpcDocument {
-        id
-        openrpcDocument
+      allOpenrpcDocument {
+        edges {
+          node {
+            id
+            openrpcDocument
+          }
+        }
       }
-    }
+  } 
   `);
   const [openrpcDocument, setOpenrpcDocument] = useState<OpenrpcDocument>();
   const [inspectorUrl, setInspectorUrl] = useState<string>();
   const [inspectorTransport, setInspectorTransport] = useState<string>();
 
   useEffect(() => {
-    if (openrpcQueryData.openrpcDocument) {
-      $RefParser.dereference(JSON.parse(openrpcQueryData.openrpcDocument.openrpcDocument)).then(setOpenrpcDocument);
+    const openRpcDoc1 = openrpcQueryData.allOpenrpcDocument.edges[0].node;
+    const openRpcDoc2 = openrpcQueryData.allOpenrpcDocument.edges[1].node;
+
+    if (openRpcDoc1.openrpcDocument && openRpcDoc1.id === "openrpcDocument") {
+      $RefParser.dereference(JSON.parse(openRpcDoc1.openrpcDocument)).then(setOpenrpcDocument);
+    }
+    else if (openRpcDoc2.openrpcDocument && openRpcDoc2.id === "openrpcDocument") {
+      $RefParser.dereference(JSON.parse(openRpcDoc2.openrpcDocument)).then(setOpenrpcDocument);
     }
   }, [openrpcQueryData]);
 
