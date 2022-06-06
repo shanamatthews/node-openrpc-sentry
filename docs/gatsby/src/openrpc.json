@@ -1509,7 +1509,7 @@
       "name": "getTokenStandardEvents",
       "paramStructure": "either",
       "summary": "Get events triggered by the given token contract",
-      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\n <TBD SHANA note about return values & event types> \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
+      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\nDifferent event types will return different event data:\n\n |Event type|Event data|Signature|Signature hash|\n|-|-|-|-|\n|Transfer (ERC-20 or ERC-721)|Returns `from` address, `to` address, and `data`: value of transfer for ERC-20, Token ID transferred for ERC-721|Transfer(address,address,unit256)|0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|ApprovalForAll (ERC-721)|Returns `owner` address, `operator` address, and `approved`: <bool>|ApprovalForAll(address,address,bool)|0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|Other|Returns `event`: input data to the transaction and `topics`: where `topics[0]` is the hashed event signature and other entries are relevant addresses.|Not included|Varies based on event type| \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
       "tags": [
         {
           "name": "Contracts"
@@ -1550,6 +1550,18 @@
           "required": false,
           "schema": {
             "$ref": "#/components/schemas/EventSignatureHashes"
+          }
+        },
+        {
+          "name": "filters",
+          "summary": "List of addresses to include in the response",
+          "description": "List of addresses. Filters to only events that include these addresses.",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Address"
+            }
           }
         },
         {
@@ -2549,7 +2561,7 @@
           },
           "topics": {
             "type": "string",
-            "description": "TBD SHANA ???"
+            "description": "Stringified array. `topics[0]` is the hashed event signature. Other entries in the array may include to and from addresses."
           }
         }
       },
