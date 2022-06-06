@@ -1,8 +1,8 @@
 # Query & Transact Advanced Query sample API calls (preview)
 
-## <a name="getBalances">getBalances</a>
+## getBalances
 
-### USDC & DAI (ERC-20)
+### <a name="getBalancesERC20">USDC & DAI (ERC-20)</a>
 
 **Request:**
 
@@ -42,7 +42,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### NFT (ERC-721)
+### <a name="getBalancesERC721">NFT (ERC-721)</a>
 
 **Request:**
 
@@ -76,9 +76,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getSingleBalance">getSingleBalance</a>
+## getSingleBalance
 
-### USDC (ERC-20)
+### <a name="getSingleBalanceERC20">USDC (ERC-20)</a>
 
 **Request:**
 
@@ -107,7 +107,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### NFT (ERC-721)
+### <a name="getSingleBalanceERC721">NFT (ERC-721)</a>
 
 **Request:**
 
@@ -136,9 +136,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTokenAllowances">getTokenAllowances</a>
+## getTokenAllowances
 
-### USDT (ERC-20)
+### <a name="getTokenAllowancesERC20">USDT (ERC-20)</a>
 
 **Request:**
 
@@ -173,9 +173,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTransactionsByAddress">getTransactionsByAddress</a>
+## getTransactionsByAddress
 
-### ERC-20 with pagination
+### <a name="getTransactionsByAddressERC20">ERC-20</a>
 
 **Request:**
 
@@ -298,9 +298,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTokenTransfersByAddress">getTransfersByAddress</a>
+## getTokenTransfersByAddress
 
-### ERC-20 and ERC-721 token transfers
+### <a name="getTokenTransfersByAddressERC20andERC721">ERC-20 and ERC-721 token transfers</a>
 
 **Request:**
 
@@ -425,7 +425,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### ERC-721 token transfers
+### <a name="getTokenTransfersByAddressERC721">ERC-721 token transfers</a>
 
 **Request:**
 
@@ -486,9 +486,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTransactionByHash">getTransactionByHash</a>
+## getTransactionByHash
 
-### ETH Transfer
+### <a name="getTransactionByHashETHtransfer">ETH Transfer</a>
 
 **Request:**
 
@@ -535,7 +535,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### ERC-721 transfer
+### <a name="getTransactionByHashERC721transfer">ERC-721 transfer</a>
 
 **Request:**
 
@@ -676,7 +676,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### ERC-20 swap
+### <a name="getTransactionByHashERC20swap">ERC-20 swap</a>
 
 **Request:**
 
@@ -782,7 +782,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### ERC-721 sale
+### <a name="getTransactionByHashERC721sale">ERC-721 sale</a>
 
 **Request:**
 
@@ -916,9 +916,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTokenStandardEvents">getTokenStandardEvents</a>
+## getTokenStandardEvents
 
-### ERC-721
+### <a name="getTokenStandardEventsERC721">ERC-721</a>
 
 **Request:**
 
@@ -1067,9 +1067,9 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="getTokenMetadata">getTokenMetadata</a>
+## getTokenMetadata
 
-### USDC (ERC-20)
+### <a name="getTokenMetadataERC20">USDC (ERC-20)</a>
 
 **Request:**
 
@@ -1099,7 +1099,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### NFT (ERC-721)
+### <a name="getTokenMetadataERC721">NFT (ERC-721)</a>
 
 **Request:**
 
