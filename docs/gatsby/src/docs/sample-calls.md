@@ -1,6 +1,6 @@
 # Query & Transact Advanced Query sample API calls (preview)
 
-## <a name="coinbaseCloud_getBalances">coinbaseCloud_getBalances</a>
+## <a name="getBalances">getBalances</a>
 
 ### USDC & DAI (ERC-20)
 
@@ -76,7 +76,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getSingleBalance">coinbaseCloud_getSingleBalance</a>
+## <a name="getSingleBalance">getSingleBalance</a>
 
 ### USDC (ERC-20)
 
@@ -136,7 +136,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getTokenAllowances">coinbaseCloud_getTokenAllowances</a>
+## <a name="getTokenAllowances">getTokenAllowances</a>
 
 ### USDT (ERC-20)
 
@@ -173,7 +173,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getTransactionsByAddress">coinbaseCloud_getTransactionsByAddress</a>
+## <a name="getTransactionsByAddress">getTransactionsByAddress</a>
 
 ### ERC-20 with pagination
 
@@ -298,7 +298,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getTransfersByAddress">coinbaseCloud_getTransfersByAddress</a>
+## <a name="getTransfersByAddress">getTransfersByAddress</a>
 
 ### ERC-20 and ERC-721 token transfers
 
@@ -486,7 +486,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getTransactionByHash">coinbaseCloud_getTransactionByHash</a>
+## <a name="getTransactionByHash">getTransactionByHash</a>
 
 ### ETH Transfer
 
@@ -916,7 +916,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getTokenStandardEvents">coinbaseCloud_getTokenStandardEvents</a>
+## <a name="getTokenStandardEvents">getTokenStandardEvents</a>
 
 ### ERC-721
 
@@ -1067,7 +1067,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## <a name="coinbaseCloud_getTokenMetadata">coinbaseCloud_getTokenMetadata</a>
+## <a name="getTokenMetadata">getTokenMetadata</a>
 
 ### USDC (ERC-20)
 
