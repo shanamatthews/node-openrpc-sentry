@@ -1976,7 +1976,7 @@
       },
       "NativeUnit": {
         "name": "nativeUnit",
-        "description": "Unit the balance is returned in. Currently only Wei.",
+        "description": "Unit the balance is returned in. Currently Wei-only.",
         "schema": {
           "type": "string"
         }
