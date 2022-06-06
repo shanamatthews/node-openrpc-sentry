@@ -1758,8 +1758,8 @@
       ]
     },
     {
-      "name": "coinbaseCloud_getTokenMetadata",
-      "paramStructure": "by-name",
+      "name": "getTokenMetadata",
+      "paramStructure": "either",
       "summary": "Get metadata for the given token contract address",
       "description": "Returns metadata for the input token contract address. \n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally.",
       "tags": [
@@ -1768,6 +1768,15 @@
         }
       ],
       "params": [
+        {
+          "name": "contract",
+          "summary": "Token contract",
+          "description": "The token contract to get metadata for",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
         {
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
@@ -1782,15 +1791,6 @@
           "summary": "E.g. Mainnet, Testnet",
           "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
           "required": false,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "contract",
-          "summary": "Token contract",
-          "description": "The token contract to get metadata for",
-          "required": true,
           "schema": {
             "type": "string"
           }
@@ -1860,29 +1860,21 @@
         },
         {
           "name": "NFT (ERC-721)",
-          "summary": "Retrieve token metadata for Crypto Coven",
+          "summary": "Retrieve token metadata for Cool Cats NFT",
           "params": [
             {
               "name": "contract",
-              "value": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
-            },
-            {
-              "name": "blockchain",
-              "value": "Ethereum"
-            },
-            {
-              "name": "network",
-              "value": "Mainnet"
+              "value": "0x1A92f7381B9F03921564a437210bB9396471050C"
             }
           ],
           "result": {
             "name": "result",
             "value": {
-              "blockHeight": 14832405,
+              "blockHeight": 14893782,
               "tokenMetadata": {
-                "name": "Crypto Coven",
-                "symbol": "WITCH",
-                "totalSupply": "0"
+                "name": "Cool Cats",
+                "symbol": "COOL",
+                "totalSupply": "9941"
               }
             }
           }
@@ -2699,12 +2691,6 @@
           "decimals": {
             "type": "string",
             "description": "Number of decimals"
-          },
-          "tokens": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TokenInfo"
-            }
           }
         }
       },
