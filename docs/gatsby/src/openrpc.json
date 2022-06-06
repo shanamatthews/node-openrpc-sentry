@@ -1553,18 +1553,6 @@
           }
         },
         {
-          "name": "filters",
-          "summary": "List of addresses to include in the response",
-          "description": "List of addresses. Filters to only events that include these addresses.",
-          "required": false,
-          "schema": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Address"
-            }
-          }
-        },
-        {
           "name": "blockchain",
           "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
           "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum",
