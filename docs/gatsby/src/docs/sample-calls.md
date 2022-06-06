@@ -11,8 +11,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getBalances", "params": {"addressAndContractList": [{ "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
- "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }, { "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d", "contract": "0x6b175474e89094c44da98b954eedeac495271d0f" } ], "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getBalances", "params": {"addressAndContractList": [{ "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D", "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }, { "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d", "contract": "0x6b175474e89094c44da98b954eedeac495271d0f" } ], "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -23,18 +22,20 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "jsonrpc": "2.0",
   "result": [
     {
-      "blockHeight": 14794598,
+      "blockHeight": 14893778,
       "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+      "nativeAmount": "93166839672705001",
+      "nativeUnit": "Wei",
       "tokenBalances": [
         {
-          "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
-          "amount": 1871941363914734000,
-          "decimals": 18
+          "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "amount": "60914134",
+          "decimals": 6
         },
         {
-          "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-          "amount": 64014142,
-          "decimals": 6
+          "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+          "amount": "1871941363914734149",
+          "decimals": 18
         }
       ]
     }
@@ -51,7 +52,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getBalances", "params": { "addressAndContractList": [ { "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2", "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8" } ], "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getBalances", "params": { "addressAndContractList": [ { "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2", "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8" } ] } }'
 ```
 
 **Response:**
@@ -62,12 +63,14 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "jsonrpc": "2.0",
   "result": [
     {
-      "blockHeight": 14794052,
+      "blockHeight": 14893778,
       "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+      "nativeAmount": "61889627444351055967",
+      "nativeUnit": "Wei",
       "tokenBalances": [
         {
-          "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-          "amount": 3,
+          "contract": "0x5180db8f5c931aae63c74266b211f580155ecac8",
+          "amount": "3",
           "decimals": 1
         }
       ]
@@ -87,7 +90,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getSingleBalance", "params": { "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d", "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getSingleBalance", "params": { "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D", "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -97,10 +100,13 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
+    "blockHeight": 14893778,
     "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+    "nativeAmount": "93166839672705001",
+    "nativeUnit": "Wei",
     "tokenBalance": {
       "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-      "amount": 64014142,
+      "amount": "60914134",
       "decimals": 6
     }
   }
@@ -126,10 +132,13 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
+    "blockHeight": 14893779,
     "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+    "nativeAmount": "61889627444351055967",
+    "nativeUnit": "Wei",
     "tokenBalance": {
-      "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-      "amount": 3,
+      "contract": "0x5180db8f5c931aae63c74266b211f580155ecac8",
+      "amount": "3",
       "decimals": 1
     }
   }
@@ -147,7 +156,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenAllowances", "params": { "allowances": [ { "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e", "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82", "contracts": [ "0xdac17f958d2ee523a2206206994597c13d831ec7" ] } ], "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenAllowances", "params": { "allowances": [ { "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e", "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82", "contracts": [ "0xdac17f958d2ee523a2206206994597c13d831ec7" ] } ] } }'
 ```
 
 **Response:**
@@ -158,13 +167,13 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "jsonrpc": "2.0",
   "result": [
     {
-      "blockHeight": 14794058,
+      "blockHeight": 14893780,
       "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
       "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
       "tokenAllowances": [
         {
           "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-          "amount": 1443590544794273800,
+          "amount": "411256436224324320870982430867023952481793415358246197461731293",
           "decimals": 6
         }
       ]
@@ -249,6 +258,25 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
                 "value": "24776000000000000"
               }
             ]
+          },
+          {
+            "transactionHash": "0x07160e2164087a3812abbe5e74109be176b0650bbe4be44f4e280fe3ee221a6d",
+            "transactionIndex": 61,
+            "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+            "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+            "value": "157704540000000000",
+            "gasLimit": 21000,
+            "gasPrice": 35105275699,
+            "gasUsed": 21000,
+            "status": "Success",
+            "input": "0x",
+            "nonce": 6843177,
+            "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+            "blockNumber": 14431489,
+            "blockTimestamp": 1647889630
+          },
+          {
+            "...": "output omitted"
           }
         ]
       },
@@ -290,6 +318,34 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
                 "value": "672900000"
               }
             ]
+          },
+          {
+            "transactionHash": "0x8e7012bccb57ed34fb576868a5376f4983f243e41664bf20220efc1d19006d52",
+            "transactionIndex": 55,
+            "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+            "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "value": "0",
+            "gasLimit": 250000,
+            "gasPrice": 37505027916,
+            "gasUsed": 63209,
+            "status": "Success",
+            "input": "0xa9059cbb000000000000000000000000aaadde03849e05ef4425b750a680168bfc0fa08a00000000000000000000000000000000000000000000000000000000281ba3a0",
+            "nonce": 6843176,
+            "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+            "blockNumber": 14431488,
+            "blockTimestamp": 1647889625,
+            "tokenTransfers": [
+              {
+                "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                "tokenType": "erc20",
+                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                "to": "0xaaadde03849e05ef4425b750a680168bfc0fa08a",
+                "value": "672900000"
+              }
+            ]
+          },
+          {
+            "...": "output omitted"
           }
         ]
       }
@@ -309,7 +365,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransfersByAddress", "params": { "blockchain": "Ethereum", "network": "Mainnet", "address": "0x0000000000000000000000000000000000000000", "blockStart": 1, "blockEnd": 14355891, "addressFilter": "RECEIVER_ONLY" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransfersByAddress", "params": { "address": "0x0000000000000000000000000000000000000000", "blockStart": 1, "blockEnd": 14355891, "addressFilter": "RECEIVER_ONLY", "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -434,7 +490,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransfersByAddress", "params": { "blockchain": "Ethereum", "network": "Mainnet", "address": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e", "blockStart": 1, "blockEnd": 14355891, "addressFilter": "SENDER_OR_RECEIVER" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransfersByAddress", "params": { "address": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e", "blockStart": 1, "blockEnd": 14355891, "addressFilter": "SENDER_OR_RECEIVER", "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -497,7 +553,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "blockchain": "Ethereum", "network": "Mainnet", "transactionHash": "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3" } }'
 ```
 
 **Response:**
@@ -544,7 +600,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "blockchain": "Ethereum", "network": "Mainnet", "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6", "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -554,124 +610,122 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "transaction": {
-      "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6",
-      "transactionIndex": 96,
-      "from": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
-      "to": "0x00000000a50bb64b4bbeceb18715748dface08af",
-      "value": "10000000000000000",
-      "gasLimit": 239976,
-      "gasPrice": 23192015945,
-      "gasUsed": 215360,
-      "status": "1",
-      "input": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab03b6622941eeaf5760607ead7e0a152f8b9987e95174fc32af701beb95fc2c3158ae81f246fb6f7cabbcbb0ced7b2f4272d9d02bd1da8a91f77658516e7bc301c009ff4bd73f5a65c0fe4ac0ede825c96467d54573f3df0e8b974f000000000000000000000000000000000000000000000000000000000000043962326ebd31040358f1366dbadb386e898cfea9c9d2e741697be05272dc33b5b543f3fb46000000002386f26fc10000",
-      "nonce": 130,
-      "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
-      "blockNumber": 14355891,
-      "blockTimestamp": 1646872195,
-      "internalTransactions": [
-        {
-          "traceType": "CALL",
-          "from": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
-          "to": "0x00000000a50bb64b4bbeceb18715748dface08af",
-          "value": "10000000000000000",
-          "gasLimit": 216368
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x00000000a50bb64b4bbeceb18715748dface08af",
-          "to": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "value": "10000000000000000",
-          "gasLimit": 203117
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0x0000000000000000000000000000000000000001",
-          "value": "0",
-          "gasLimit": 165004
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
-          "value": "0",
-          "gasLimit": 148219
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
-          "value": "950000000000000",
-          "gasLimit": 2300
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0xaf5760607ead7e0a152f8b9987e95174fc32af70",
-          "value": "9050000000000000",
-          "gasLimit": 2300
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
-          "value": "0",
-          "gasLimit": 103863
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
-          "value": "0",
-          "gasLimit": 98366
-        },
-        {
-          "traceType": "CALL",
-          "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
-          "to": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
-          "value": "0",
-          "gasLimit": 94230
-        },
-        {
-          "traceType": "CALL",
-          "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
-          "to": "0xf9e266af4bca5890e2781812cc6a6e89495a79f2",
-          "value": "0",
-          "gasLimit": 89570
-        },
-        {
-          "traceType": "CALL",
-          "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
-          "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
-          "value": "0",
-          "gasLimit": 82851
-        },
-        {
-          "traceType": "CALL",
-          "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
-          "to": "0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7",
-          "value": "0",
-          "gasLimit": 79157
-        },
-        {
-          "traceType": "CALL",
-          "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
-          "to": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab",
-          "value": "0",
-          "gasLimit": 74247
-        }
-      ],
-      "tokenTransfers": [
-        {
-          "tokenAddress": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab",
-          "tokenType": "erc721",
-          "from": "0xaf5760607ead7e0a152f8b9987e95174fc32af70",
-          "to": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
-          "tokenID": "1081"
-        }
-      ]
-    }
+    "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6",
+    "transactionIndex": 96,
+    "from": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
+    "to": "0x00000000a50bb64b4bbeceb18715748dface08af",
+    "value": "10000000000000000",
+    "gasLimit": 239976,
+    "gasPrice": 23192015945,
+    "gasUsed": 215360,
+    "status": "1",
+    "input": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab03b6622941eeaf5760607ead7e0a152f8b9987e95174fc32af701beb95fc2c3158ae81f246fb6f7cabbcbb0ced7b2f4272d9d02bd1da8a91f77658516e7bc301c009ff4bd73f5a65c0fe4ac0ede825c96467d54573f3df0e8b974f000000000000000000000000000000000000000000000000000000000000043962326ebd31040358f1366dbadb386e898cfea9c9d2e741697be05272dc33b5b543f3fb46000000002386f26fc10000",
+    "nonce": 130,
+    "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
+    "blockNumber": 14355891,
+    "blockTimestamp": 1646872195,
+    "internalTransactions": [
+      {
+        "traceType": "CALL",
+        "from": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
+        "to": "0x00000000a50bb64b4bbeceb18715748dface08af",
+        "value": "10000000000000000",
+        "gasLimit": 216368
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x00000000a50bb64b4bbeceb18715748dface08af",
+        "to": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "value": "10000000000000000",
+        "gasLimit": 203117
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0x0000000000000000000000000000000000000001",
+        "value": "0",
+        "gasLimit": 165004
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+        "value": "0",
+        "gasLimit": 148219
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+        "value": "950000000000000",
+        "gasLimit": 2300
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0xaf5760607ead7e0a152f8b9987e95174fc32af70",
+        "value": "9050000000000000",
+        "gasLimit": 2300
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+        "value": "0",
+        "gasLimit": 103863
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+        "value": "0",
+        "gasLimit": 98366
+      },
+      {
+        "traceType": "CALL",
+        "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+        "to": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+        "value": "0",
+        "gasLimit": 94230
+      },
+      {
+        "traceType": "CALL",
+        "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+        "to": "0xf9e266af4bca5890e2781812cc6a6e89495a79f2",
+        "value": "0",
+        "gasLimit": 89570
+      },
+      {
+        "traceType": "CALL",
+        "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+        "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+        "value": "0",
+        "gasLimit": 82851
+      },
+      {
+        "traceType": "CALL",
+        "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+        "to": "0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7",
+        "value": "0",
+        "gasLimit": 79157
+      },
+      {
+        "traceType": "CALL",
+        "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+        "to": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab",
+        "value": "0",
+        "gasLimit": 74247
+      }
+    ],
+    "tokenTransfers": [
+      {
+        "tokenAddress": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab",
+        "tokenType": "erc721",
+        "from": "0xaf5760607ead7e0a152f8b9987e95174fc32af70",
+        "to": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
+        "tokenID": "1081"
+      }
+    ]
   }
 }
 ```
@@ -685,7 +739,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "blockchain": "Ethereum", "network": "Mainnet", "transactionHash": "0xb7ff063e414059e41ab3acc69e4a08b18438df49c847977ca5bdcd012121c1b9" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xb7ff063e414059e41ab3acc69e4a08b18438df49c847977ca5bdcd012121c1b9" } }'
 ```
 
 **Response:**
@@ -791,7 +845,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "blockchain": "Ethereum", "network": "Mainnet", "transactionHash": "0xb67be27ff44ba97f39fa68953350adade5fdbd983571a3b2b81080565d7744a3" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xb67be27ff44ba97f39fa68953350adade5fdbd983571a3b2b81080565d7744a3", "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -927,7 +981,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenStandardEvents", "params": { "contract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", "blockStart": 1, "blockEnd": 14699965, "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenStandardEvents", "params": { "contract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", "blockStart": 1, "blockEnd": 14699965, "eventSignatureHashes": ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"], "blockchain": "Ethereum", "network": "Mainnet" } }'
 ```
 
 **Response:**
@@ -937,7 +991,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "blockStart": 14699923,
+    "blockStart": 14699876,
     "blockEnd": 14699965,
     "events": [
       {
@@ -945,6 +999,31 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
         "blockNumber": 14699965,
         "blockTimestamp": 1651517188,
         "events": [
+          {
+            "transactionHash": "0xe11f4b1dd9fbd62b5a4afe11a6f6289e4d90ba5aaf04ce75ff2031b9ebe39fa5",
+            "data": {
+              "data": "514711238152814592",
+              "from": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
+              "name": "Transfer",
+              "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
+            },
+            "eventType": "Transfer",
+            "signature": "Transfer(address, address, uint256)",
+            "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+          },
+          {
+            "transactionHash": "0x1db9620f152626ed8f964971e8f86f8a861ba0a0712f9c105404c7f41bb1cd94",
+            "transactionIndex": 1,
+            "data": {
+              "data": "1195169635397992762",
+              "from": "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc",
+              "name": "Transfer",
+              "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
+            },
+            "eventType": "Transfer",
+            "signature": "Transfer(address, address, uint256)",
+            "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+          },
           {
             "transactionHash": "0xc272abff0db861a07499accc6f27f2b31fc3a5d823ed74b8921e70808491d9e1",
             "transactionIndex": 2,
@@ -959,28 +1038,6 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
             "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
           },
           {
-            "transactionHash": "0xe11f4b1dd9fbd62b5a4afe11a6f6289e4d90ba5aaf04ce75ff2031b9ebe39fa5",
-            "data": {
-              "data": "514711238152814592",
-              "from": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
-              "name": "Transfer",
-              "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
-            },
-            "eventType": "Transfer",
-            "signature": "Transfer(address, address, uint256)",
-            "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
-          },
-          {
-            "transactionHash": "0x6c94fa35b724a11ac0fcb97b15a2c9e06523ae87903a6a6c5e512e53d07efa55",
-            "transactionIndex": 46,
-            "data": {
-              "event": "0x000000000000000000000000000000000000000000000000013da25e3a2f072b",
-              "topics": "[0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c 0x000000000000000000000000e244096a73e20d90f47da14e4c5de7e615ceec97]"
-            },
-            "eventType": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
-            "signatureHash": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c"
-          },
-          {
             "...": "output truncated."
           }
         ]
@@ -990,6 +1047,19 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
         "blockNumber": 14699963,
         "blockTimestamp": 1651517178,
         "events": [
+          {
+            "transactionHash": "0x7446a45a7c5f67201c40d5d75e8efc15b9c4e7f8da113a94c70eddf4c0b56250",
+            "transactionIndex": 14,
+            "data": {
+              "data": "2100000000000000000",
+              "from": "0x16e75b7b8bea3787da601ba8291fc601f31c800c",
+              "name": "Transfer",
+              "to": "0xbe71372995e8e920e4e72a29a51463677a302e8d"
+            },
+            "eventType": "Transfer",
+            "signature": "Transfer(address, address, uint256)",
+            "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+          },
           {
             "transactionHash": "0x818de41b4a83ea0d902f69a51f9eedc541041cb49b5624e024de057401a3baf0",
             "data": {
@@ -1014,45 +1084,6 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
             "eventType": "Transfer",
             "signature": "Transfer(address, address, uint256)",
             "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
-          },
-          {
-            "transactionHash": "0x7446a45a7c5f67201c40d5d75e8efc15b9c4e7f8da113a94c70eddf4c0b56250",
-            "transactionIndex": 14,
-            "data": {
-              "data": "2100000000000000000",
-              "from": "0x16e75b7b8bea3787da601ba8291fc601f31c800c",
-              "name": "Transfer",
-              "to": "0xbe71372995e8e920e4e72a29a51463677a302e8d"
-            },
-            "eventType": "Transfer",
-            "signature": "Transfer(address, address, uint256)",
-            "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
-          },
-          {
-            "...": "output truncated."
-          }
-        ]
-      },
-      {
-        "blockHash": "0x1c27e7f62d4d066fa48052e47a025a5f3b9fa22e367b5cf6482bf428fad5dabd",
-        "blockNumber": 14699962,
-        "blockTimestamp": 1651517143,
-        "events": [
-          {
-            "...": "output omitted."
-          },
-          {
-            "transactionHash": "0x0805cf26fef05d067c3915f691909d1d13421d9b34b79336b3f539f627ba6f60",
-            "transactionIndex": 217,
-            "data": {
-              "data": "4600000000000000000",
-              "name": "Approval",
-              "owner": "0x83f85021d1c4b55f8f35ef727dd5848a1a76dbe6",
-              "spender": "0x13d8faf4a690f5ae52e2d2c52938d1167057b9af"
-            },
-            "eventType": "Approval",
-            "signature": "Approval(address, address, uint256)",
-            "signatureHash": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
           },
           {
             "...": "output truncated."
@@ -1108,7 +1139,7 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u username:password \
   -X POST \
   -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenMetadata", "params": { "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenMetadata", "params": { "contract": "0x1A92f7381B9F03921564a437210bB9396471050C" } }'
 ```
 
 **Response:**
@@ -1118,11 +1149,11 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "blockHeight": 14832405,
+    "blockHeight": 14893782,
     "tokenMetadata": {
-      "name": "Crypto Coven",
-      "symbol": "WITCH",
-      "totalSupply": "0"
+      "name": "Cool Cats",
+      "symbol": "COOL",
+      "totalSupply": "9941"
     }
   }
 }
