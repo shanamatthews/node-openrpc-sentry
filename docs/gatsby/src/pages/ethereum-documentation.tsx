@@ -62,7 +62,7 @@ const ApiDocumentation: React.FC = () => {
           }
         }
       }
-    }
+  } 
   `);
   const [openrpcDocument, setOpenrpcDocument] = useState<OpenrpcDocument>();
   const [inspectorUrl, setInspectorUrl] = useState<string>();
@@ -71,6 +71,7 @@ const ApiDocumentation: React.FC = () => {
   useEffect(() => {
     const openRpcDoc1 = openrpcQueryData.allOpenrpcDocument.edges[0].node;
     const openRpcDoc2 = openrpcQueryData.allOpenrpcDocument.edges[1].node;
+    
     if (openRpcDoc1.openrpcDocument && openRpcDoc1.id === "ethereumopenrpcDocument") {
       $RefParser.dereference(JSON.parse(openRpcDoc1.openrpcDocument)).then(setOpenrpcDocument);
     }
@@ -106,27 +107,27 @@ const ApiDocumentation: React.FC = () => {
         width: "100%",
         height: "100%",
       }}
-      right={
-        <Inspector
-          url={inspectorUrl}
-          transport={inspectorTransport}
-          hideToggleTheme={true}
-          openrpcDocument={openrpcDocument}
-          darkMode={darkmode.value}
-          request={inspectorContents && inspectorContents.request}
-        />
-      }
+      // right={
+      //   <Inspector
+      //     url={inspectorUrl}
+      //     transport={inspectorTransport}
+      //     hideToggleTheme={true}
+      //     openrpcDocument={openrpcDocument}
+      //     darkMode={darkmode.value}
+      //     request={inspectorContents && inspectorContents.request}
+      //   />
+      // }
       left={
         <>
           <Container>
             <Documentation
-              methodPlugins={[InspectorPlugin]}
+              // methodPlugins={[InspectorPlugin]}
               reactJsonOptions={reactJsonOptions}
               schema={openrpcDocument || {} as any}
             />
             <div style={{ marginBottom: "20px" }} />
           </Container>
-          <Tabs
+          {/* <Tabs
             variant="scrollable"
             indicatorColor="primary"
             value={0}
@@ -140,22 +141,23 @@ const ApiDocumentation: React.FC = () => {
                 paddingRight: "30px",
                 border: `1px solid ${currentTheme.palette.text.hint}`,
               }}
-              label={
-                <div>
-                  <Typography
-                    variant="body1"><span role="img" aria-label="inspector">🕵️‍♂️</span>️ Inspector</Typography>
-                  <Tooltip title="Toggle Inspector">
-                    <IconButton style={{ position: "absolute", right: "5px", top: "20%" }} size="small">
-                      {horizontalSplit
-                        ? <ExpandMore />
-                        : <ExpandLess />
-                      }
-                    </IconButton>
-                  </Tooltip>
-                </div>
-              }>
+              // label={
+              //   <div>
+              //     <Typography
+              //       variant="body1"><span role="img" aria-label="inspector">🕵️‍♂️</span>️ Inspector</Typography>
+              //     <Tooltip title="Toggle Inspector">
+              //       <IconButton style={{ position: "absolute", right: "5px", top: "20%" }} size="small">
+              //         {horizontalSplit
+              //           ? <ExpandMore />
+              //           : <ExpandLess />
+              //         }
+              //       </IconButton>
+              //     </Tooltip>
+              //   </div>
+              // }
+              >
             </Tab>
-          </Tabs>
+          </Tabs> */}
         </>
       }>
     </PlaygroundSplitPane>
@@ -164,3 +166,4 @@ const ApiDocumentation: React.FC = () => {
 };
 
 export default ApiDocumentation;
+  
