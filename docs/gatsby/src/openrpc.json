@@ -77,10 +77,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -242,10 +242,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -387,10 +387,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -521,10 +521,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -802,10 +802,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -1084,10 +1084,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -1596,10 +1596,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -1809,10 +1809,10 @@
           "$ref": "#/components/errors/AuthorizationError"
         },
         {
-          "$ref": "#/components/errors/RateLimitError"
+          "$ref": "#/components/errors/MethodNotAllowedError"
         },
         {
-          "$ref": "#/components/errors/MethodNotAllowedError"
+          "$ref": "#/components/errors/RateLimitError"
         }
       ],
       "examples": [
@@ -1891,15 +1891,19 @@
       },
       "AuthorizationError": {
         "code": 401,
-        "message": "Not authorized TBD SHANA"
-      },
-      "RateLimitError": {
-        "code": 429,
-        "message": "Rate limit TBD SHANA"
+        "message": "unauthorized"
       },
       "MethodNotAllowedError": {
         "code": 405,
-        "message": "Method not allowed TBD SHANA"
+        "message": "method not allowed"
+      },
+      "RateLimitError": {
+        "code": 429,
+        "message": "too many requests"
+      },
+      "Other errors":{
+        "code": 429,
+        "message": "too many requests"
       }
     },
     "schemas": {
