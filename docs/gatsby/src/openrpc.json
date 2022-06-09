@@ -7,9 +7,9 @@
   },
   "servers": [
     {
-      "name": "Server URL and API token info",
-      "url": "https://mainnet.ethereum.coinbasecloud.net",
-      "description": "**Authentication:** \n\n This endpoint uses HTTP Basic Auth. \n\n To authenticate to these APIs: \n\n - Grab your username and API access token from the Coinbase Cloud Console \n - Include your username and API access token (as your username and password, respectively) as `auth` in each HTTP request"
+      "name": "Endpoint URL and API token info",
+      "url": "https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run",
+      "description": "This is the server endpoint URL for preview. During the preview, this endpoint will work across all projects. \n\n **Authentication:** \n\n This endpoint uses HTTP Basic Auth. \n\n To authenticate to these APIs: \n\n - Create a project in the Coinbase Cloud Console \n - Grab your projet-specific API Access Token username and password from the project overview page \n - Include your username and password as `auth` in each HTTP request"
     }
   ],
   "methods": [
