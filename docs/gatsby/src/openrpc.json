@@ -3,7 +3,7 @@
   "info": {
     "title": "Query & Transact Advanced Query APIs (preview)",
     "version": "0.0.1",
-    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs are mean to supplement the native operations provided by Ethereum APIs. Advanced APIs simplify access to blockchain data by offering data cuts which are relatively difficult to get via native Ethereum APIs, and aim to offer aggregated and filtered data in one API call. The Advanced APIs provide access to token balances for accounts, transactions and transfers for accounts, smart contract event logs, and more. \n\n **API constraints**: \n - Only Ethereum protocol and Mainnet (and Testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem. \n\n\n **Definitions** \n - **balance**: Amount of a token, for Ethereum this is the amount of ETH in wei. For NFTs this is the number of NFTs. \n - **contract**: Also known as a \"smart contract\". A program that runs on a blockchain. Contracts are a type of account that have a balance and can send transactions. \n - **transaction:** A cryptographically signed instruction that updates the state of the network. The action must be initiated by an externally-owned address, e.g. an account managed by a human. \n - **internal transaction:** An unsigned message carried out by a smart contract. A series of internal transactions originate from a transaction. \n - **transfer**: Refers to \"token transfer\", a transaction that transfers ERC-20 (Ethereum) or ERC-721 (NFT) tokens. \n - **allowance**: Also known as \"access permissions to tokens\". Allows a third party to carry out transactions of a given amount with a user's tokens."
+    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs supplement native Ethereum APIs. Advanced Query APIs simplify access to blockchain data by offering data cuts which are hard to get via native Ethereum APIs, and offer aggregated and filtered data in one API call. The Advanced APIs provide access to token balances for accounts, transactions and transfers for accounts, smart contract event logs, and more. \n\n **API constraints**: \n - Only Ethereum protocol and Mainnet (and Testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem. \n\n\n **Definitions** \n - **balance**: Amount of a token, for Ethereum this is the amount of ETH in wei. For NFTs this is the number of NFTs. \n - **contract**: Also known as a \"smart contract\". A program that runs on a blockchain. Contracts are a type of account that have a balance and can send transactions. \n - **transaction:** A cryptographically signed instruction that updates the state of the network. The action must be initiated by an externally-owned address, e.g. an account managed by a human. \n - **internal transaction:** An unsigned message carried out by a smart contract. A series of internal transactions originate from a transaction. \n - **transfer**: Refers to \"token transfer\", a transaction that transfers ERC-20 (Ethereum) or ERC-721 (NFT) tokens. \n - **allowance**: Also known as \"access permissions to tokens\". Allows a third party to carry out transactions of a given amount with a user's tokens."
   },
   "servers": [
     {
@@ -499,7 +499,7 @@
       "result": {
         "name": "result",
         "summary": "Returned transactions",
-        "description": "Returns a list of blocks for which transactions were found, each with a list of external transactions found for the address in that block.",
+        "description": "Returns a list of blocks for which transactions were found, each with a list of transactions found for the address in that block.",
         "schema": {
           "$ref": "#/components/schemas/GetTransactionsByAddressResponse"
         }
@@ -2383,7 +2383,7 @@
           "tokenTransfers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TokenTransfer"
+              "$ref": "#/components/schemas/TransactionsTokenTransfer"
             }
           }
         }
@@ -2412,7 +2412,7 @@
           "transactions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TransactionsTokenTransfer"
+              "$ref": "#/components/schemas/Transaction"
             }
           }
         }
@@ -2462,7 +2462,7 @@
             "type": "integer",
             "$ref": "#/components/schemas/BlockTimestamp"
           },
-          "transactions": {
+          "tokenTransfers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TokenTransfer"
