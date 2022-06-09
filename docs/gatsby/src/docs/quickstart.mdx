@@ -6,7 +6,7 @@ import "../styles/markdown.css"
 
 # Advanced Query quickstart: Get transaction history for an Ethereum address
 
-QT's Advanced Query APIs (beta) allow you to simplify and optimize common request types to make developing on the blockchain easier.
+QT's Advanced Query preview APIs allow you to simplify and optimize common request types to make developing on the blockchain easier.
 
 In this quickstart you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
 
@@ -19,18 +19,17 @@ Why get address transaction history by an address?
 
 - A Coinbase Cloud account
 
-
 ## Create a project and get API keys
 
-To get started using the new Query & Transact Advanced Query beta APIs, sign in to your Coinbase Cloud account:
+To get started using the new Query & Transact Advanced Query preview APIs, sign in to your Coinbase Cloud account:
 
 <img src="/sign-in.png" alt="Sign in to Coinbase Cloud Console screen" width="60%" class="ImageBorder" />
 
 ### Create project
 
-After you sign in you'll be prompted to set up your first project. A project provides access to a shared node (Ethereum Mainnet only for beta) where you can make Ethereum calls and calls to the Advanced Query APIs. 
+After you sign in you'll be prompted to set up your first project. A project provides access to a shared node (Ethereum Mainnet only for preview) where you can make Ethereum calls and calls to the Advanced Query APIs. 
 
-Select the Free tier plan (Free-tier only for beta) and enter a name for your project.
+Select the Free tier plan (Free-tier only for preview) and enter a name for your project.
 
 <img src="/create-project.png" alt="Create a project screen" width="60%" class="ImageBorder" />
 
@@ -50,5 +49,44 @@ Copy your endpoint, username, and password to your machine.
 > ⚠️ You can return to this page to retrieve your endpoint and username, but your password is **not saved**. 
 >
 > **If you lose your project password, you will need to create a new project.**
+
+## Make a request and understand the response
+
+Now, you will use the information you copied to make a request to the Advanced Query APIs.
+
+### Make request
+
+Open your terminal and run the following command, replacing `<endpoint>`, `<username>`, and `<password>` with the values you copied from the Console. 
+
+```shell
+curl <endpoint> \
+  -u <username>:<password> \
+  -X POST \
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTransactionsByAddress",
+    "params": {
+        "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+        "blockStart": 14431488,
+        "blockEnd": 14431489,
+        "addressFilter": "SENDER_OR_RECEIVER",
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
+```
+
+This call to `getTransactionsByAddress` specifies:
+
+|param|value|explanation|
+|-|-|-|
+|`address`|`"0x3cd751e6b0078be393132286c442345e5dc49699"`|the Ethereum address you're retrieving transactions for|
+|`blockStart`|`14431488`|the block number to start scanning for transactions|
+|`blockEnd`|`14431489`|the block number to stop scanning for transactions. Optional, defaults the the latest block|
+|`addressFilter`|`"SENDER_OR_RECEIVER"`|filters returned transactions to sender or reciever if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
+|`blockchain`|`"Ethereum"`|Ethereum-only in preview. Optional, defaults to `"Ethereum"`|
+|`network`|`"Mainnet"`|Mainnet-only in preview. Optional, defaults to `"Mainnet"`|
 
 
