@@ -2,24 +2,53 @@
 title: quickstart
 ---
 
-# Quickstart: Get transaction history for an Ethereum address
+import "../styles/markdown.css"
 
-QT's Advanced Query APIs (beta) allow you to simplify and optimize common request patterns to make developing on the blockchain easier.
+# Advanced Query quickstart: Get transaction history for an Ethereum address
 
-Learn how to get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
+QT's Advanced Query APIs (beta) allow you to simplify and optimize common request types to make developing on the blockchain easier.
 
-## Overview
+In this quickstart you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
 
-1. Sign in
-1. Create project in Coinbase Cloud Console
-1. Get API keys
-1. Craft your CURL call in the terminal
-1. Get results
+Why get address transaction history by an address?
+- Display a user's full transaction history
+- Query an address's transactions filtered by smart contract interactions 
+- Analyze a user's historical profit and loss
 
-## Sign in
+## Prerequisites
+
+- A Coinbase Cloud account
+
+
+## Create a project and get API keys
 
 To get started using the new Query & Transact Advanced Query beta APIs, sign in to your Coinbase Cloud account:
 
-<img src="/signin-2.png" alt="Sign in to Coinbase Cloud Console" width="800" />
+<img src="/sign-in.png" alt="Sign in to Coinbase Cloud Console screen" width="60%" class="ImageBorder" />
+
+### Create project
+
+After you sign in you'll be prompted to set up your first project. A project provides access to a shared node (Ethereum Mainnet only for beta) where you can make Ethereum calls and calls to the Advanced Query APIs. 
+
+Select the Free tier plan (Free-tier only for beta) and enter a name for your project.
+
+<img src="/create-project.png" alt="Create a project screen" width="60%" class="ImageBorder" />
+
+### Get API keys
+
+After creating a project, you'll be taken to the project overview page. 
+
+  <img src="/project-overview.png" alt="Create a project screen" width="60%" class="ImageBorder" />
+
+This page gives key information about your project, including:
+- Endpoint
+- API Access Token Username (e.g. username)
+- API Access Token Password (e.g. password)
+
+Copy your endpoint, username, and password to your machine. 
+
+> ⚠️ You can return to this page to retrieve your endpoint and username, but your password is **not saved**. 
+>
+> **If you lose your project password, you will need to create a new project.**
 
 
