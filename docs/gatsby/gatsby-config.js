@@ -30,8 +30,8 @@ module.exports = {
         ignoreNextPrev: true
       },
       {
-        name: 'Quickstart',
-        link: '/quickstart',
+        name: 'Advanced Query tutorial',
+        link: '/tutorial',
         ignoreNextPrev: true
       }
     ],

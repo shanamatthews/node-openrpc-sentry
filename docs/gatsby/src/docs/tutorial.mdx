@@ -1,14 +1,14 @@
 ---
-title: quickstart
+title: tutorial
 ---
 
 import "../styles/markdown.css"
 
-# Advanced Query quickstart: Get transaction history for an Ethereum address
+# Advanced Query tutorial: Get transaction history for an Ethereum address
 
 QT's Advanced Query APIs (preview) allow you to simplify and optimize common request types to make developing on the blockchain easier.
 
-In this quickstart you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
+In this tutorial you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
 
 Why get address transaction history by an address?
 - Display a user's full transaction history
@@ -46,7 +46,7 @@ Copy your endpoint, username, and password to your machine.
 >
 > **If you lose your project password, you will need to create a new project.**
 
-## Make a request and understand the response
+## Make a request and process the response
 
 Now, you will use the information you copied to make a request to the Advanced Query APIs.
 
@@ -62,17 +62,17 @@ curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -X POST \
   -H 'Content-Type: text/plain' \
   -d '{
-    "method": "coinbaseCloud_getTransactionsByAddress",
-    "params": {
-        "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
-        "blockStart": 14431488,
-        "blockEnd": 14431489,
-        "addressFilter": "SENDER_OR_RECEIVER",
-        "blockchain": "Ethereum",
-        "network":"Mainnet"
-    },
-    "id": 1,
-    "jsonrpc": "2.0"
+  "method": "coinbaseCloud_getTransactionsByAddress",
+  "params": {
+    "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+    "blockStart": 14431488,
+    "blockEnd": 14431489,
+    "addressFilter": "SENDER",
+    "blockchain": "Ethereum",
+    "network":"Mainnet"
+  },
+  "id": 1,
+  "jsonrpc": "2.0"
 }'
 ```
 
@@ -135,7 +135,48 @@ You should get a JSON response back that looks similar to this:
         ]
       },
       {
-        "...": "output omitted"
+        "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+        "blockNumber": 14431488,
+        "blockTimestamp": 1647889625,
+        "transactions": [
+          {
+            "transactionHash": "0x8e7012bccb57ed34fb576868a5376f4983f243e41664bf20220efc1d19006d52",
+            "transactionIndex": 55,
+            "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+            "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "value": "0",
+            "gasLimit": 250000,
+            "gasPrice": 37505027916,
+            "gasUsed": 63209,
+            "status": "1",
+            "input": "0xa9059cbb000000000000000000000000aaadde03849e05ef4425b750a680168bfc0fa08a00000000000000000000000000000000000000000000000000000000281ba3a0",
+            "nonce": 6843176,
+            "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+            "blockNumber": 14431488,
+            "blockTimestamp": 1647889625,
+            "internalTransactions": [
+              {
+                "traceType": "CALL",
+                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                "value": "0",
+                "gasLimit": 228392
+              }
+            ],
+            "tokenTransfers": [
+              {
+                "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                "tokenType": "erc20",
+                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                "to": "0xaaadde03849e05ef4425b750a680168bfc0fa08a",
+                "value": "672900000"
+              }
+            ]
+          },
+          {
+            "...": "output omitted"
+          }
+        ]
       }
     ]
   }
@@ -146,19 +187,72 @@ You should get a JSON response back that looks similar to this:
 
 This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block. Since we specified `"SENDER_OR_RECEIVER"`, the returned transactions will include those which the specified address was the sender or the recipient.
 
+Here is all the information returned from the call.
+
 - `blockStart`: the block number this response starts at
 - `blockEnd`: the block number this response ends at
   - If >1000 transactions would be returned for the requested block range, this API will return 
-    - up to 1000 transactions in a smaller block range, specified in the result
-    - OR all the transactions in a single block if the number in that block > 1000
+  - up to 1000 transactions in a smaller block range, specified in the result
+  - OR all the transactions in a single block if the number in that block > 1000
   - [See API docs](https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/) for more details on pagination
 - `blocks`: the list of blocks containing transactions:
   - `blockHash`: the block's hashed identifier
   - `blockNumber`: this specific block's number
   - `blockTimestamp`: the date and time this block was mined
   - `transactions`: a list of relevant transactions in this block
-    - `tokenAddress`: the address location for the token contract
-    - `tokenType`: "erc20" or "erc721" (the only supported types for preview)
+  - `transactionHash`: the transaction's identifying hash
+  - `transactionIndex`: the transaction's index in the block
+  - `from`: origin address
+  - `to`: destination address
+  - `value`: value in native blockchain currency
+  - `gasLimit`: the transaction's gas set limit
+  - `gasPrice`: the transaction's price per unit of gas
+  - `gasUsed`: the amount of gas actually used for the transaction
+  - `status`: "1" for success, "0" for failure
+  - `input`: input data to the transaction
+  - `nonce`: the transaction's nonce
+  - `blockHash`: the block's hashed identifier (same data as in `block` object)
+  - `blockNumber`: this specific block's number (same data as in `block` object)
+  - `blockTimestamp`: the date and time this block was mined (same data as in `block` object)
+  - `internalTransactions`: associated messages carried out by a smart contract, if any
+    - `traceType`: type of internal transaction, e.g. `CREATE`, `CALL`, `CALLCODE`, `DELEGATECALL`, `SUICIDE`
     - `from`: origin address
     - `to`: destination address
-    - `value`: for ERC-20 tokens, gives the quantity of tokens transferred, for ERC-721 tokens, gives the list of token IDs transferred
+    - `value`: value in native blockchain currency
+  - `tokenTransfers`: associated token transfers, if any
+    - `tokenAddress`: address location for the token contract
+    - `tokenType`: "erc20" or "erc721" (ERC-20 and ERC-721 are the only types support for preview)
+    - `from`: origin address
+    - `to`: destination address
+    - `value`: for ERC-20, gives quantity of tokens transferred, for ERC-721 gives list of token IDs transferred
+
+
+### Process the response
+
+For a given purpose, we may only be interested in a small subset of this information. Let's use the command line utility, `jq` to get the recipient of each transaction from this response.
+
+To save us from making more API calls, save the response to a file by copying and pasting from your terminal, or running the command again and saving the output to a file:
+
+```shell
+curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
+  -u <username>:<password> \
+  -X POST \
+  -H 'Content-Type: text/plain' \
+  -d '{
+  "method": "coinbaseCloud_getTransactionsByAddress",
+  "params": {
+    "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+    "blockStart": 14431488,
+    "blockEnd": 14431489,
+    "addressFilter": "SENDER",
+    "blockchain": "Ethereum",
+    "network":"Mainnet"
+  },
+  "id": 1,
+  "jsonrpc": "2.0"
+}' | jq '.' > response.json
+```
+
+Note that command piped the response to `jq '.'` 
+
+
