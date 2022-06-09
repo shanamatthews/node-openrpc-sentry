@@ -1,17 +1,39 @@
-# Query & Transact Advanced Query sample API calls (preview)
+---
+title: curl samples
+---
 
-## getBalances
+# Query & Transact Advanced Query preview sample API calls (CURL)
 
-### <a name="getBalancesERC20">USDC & DAI (ERC-20)</a>
+## getbalances <a name="getBalancesERC20">USDC & DAI (ERC-20)</a>
+
+Retrieve balances for USDC and DAI.
 
 **Request:**
 
-```shell
+```
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getBalances", "params": {"addressAndContractList": [{ "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D", "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }, { "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d", "contract": "0x6b175474e89094c44da98b954eedeac495271d0f" } ], "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getBalances",
+    "params": {
+        "addressAndContractList": [
+            {
+                "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D",
+                "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+            },
+            {
+                "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                "contract": "0x6b175474e89094c44da98b954eedeac495271d0f"
+            }
+        ],
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
