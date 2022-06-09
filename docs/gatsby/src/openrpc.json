@@ -14,7 +14,7 @@
   ],
   "methods": [
     {
-      "name": "getBalances",
+      "name": "coinbaseCloud_getBalances",
       "paramStructure": "either",
       "summary": "Get balance for multiple account addresses across one or more tokens",
       "description": "Get balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
@@ -170,7 +170,7 @@
       ]
     },
     {
-      "name": "getSingleBalance",
+      "name": "coinbaseCloud_getSingleBalance",
       "paramStructure": "either",
       "summary": "Get balance for a single token and a single account address",
       "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller should expect low latency from this API compared to a more heavy weight GetBalances. \n\n **Use cases:** \n - Low latency call to get the latest balance for a single token for a single address. \n - Get balances for an account address or a contract",
@@ -324,7 +324,7 @@
       ]
     },
     {
-      "name": "getTokenAllowances",
+      "name": "coinbaseCloud_getTokenAllowances",
       "paramStructure": "either",
       "summary": "Get allowances for a specified owner and spender",
       "description": "Get allowances for a specified owner and spender across one or more tokens within a single blockchain and network. \n\n **Use cases:** \n - Get Allowance given to another account for one or more tokens \n - Get Allowances for all the tokens an account address may hold",
@@ -432,7 +432,7 @@
       ]
     },
     {
-      "name": "getTransactionsByAddress",
+      "name": "coinbaseCloud_getTransactionsByAddress",
       "paramStructure": "either",
       "summary": "Get transactions for a given address.",
       "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Transactions are returned in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Use cases:** \n - Get all the transactions (external and internal) for a given address \n - Get all token transfers for a given address \n - Get transactions and transfers in specific block ranges \n - Filter transactions by send and/or receive \n\n\n **Constraints:** \n\n - The API returns up to 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n - Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n - If there are more than 1000 relevant transactions, the API will return at least 1000 transactions. In order to deliver a full block, it may return > 1000 transactions. \n - Transactions are returned in reverse chronological order. \n\n\nExample: A client wants to get all the transactions from genesis to the latest block. Assume 100 is the latest block: \n\n|API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100. \n\n Note that in this example, the first API call only returns 2 blocks because those blocks contained 1000+ transactions. In the second API call we return 63 blocks to get 1000+ transactions.",
@@ -713,7 +713,7 @@
       ]
     },
     {
-      "name": "getTokenTransfersByAddress",
+      "name": "coinbaseCloud_getTokenTransfersByAddress",
       "paramStructure": "either",
       "summary": "Get token transfers for a given address.",
       "description": "Returns token transfers for a given address. Includes activity from and to the input address. Returns the transfers in reverse chronological order. \n\n **Use cases:** \n - Get all token transfers for a given address \n - Get token transfers in specific block ranges \n\n\n **Constraints:** \n\n - The API returns up to 1000 token transfers OR all the token transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n - Clients can use block ranges to iterate through transfers if there are more than 1000. \n - If there are more than 1000 relevant transfers, the API will return at least 1000 transfers. In order to deliver a full block, it may return > 1000 transfers. \n Transfers are returned in reverse chronological order. \n\n\n E.g., a client wants to get all the token transfers from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100. \n\n Note that in this example, the first API call only returns 2 blocks because those blocks contained 1000+ transactions. In the second API call we return 63 blocks to get 1000+ transactions.",
@@ -1022,7 +1022,7 @@
       ]
     },
     {
-      "name": "getTransactionByHash",
+      "name": "coinbaseCloud_getTransactionByHash",
       "paramStructure": "either",
       "summary": "Get transfers initiated by a transaction",
       "description": "Returns all transfers caused by the transaction identified by the input transaction hash. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
@@ -1506,7 +1506,7 @@
       ]
     },
     {
-      "name": "getTokenStandardEvents",
+      "name": "coinbaseCloud_getTokenStandardEvents",
       "paramStructure": "either",
       "summary": "Get events triggered by the given token contract",
       "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\nDifferent event types will return different event data:\n\n |Event type|Event data|Signature|Signature hash|\n|-|-|-|-|\n|Transfer (ERC-20 or ERC-721)|Returns `from` address, `to` address, and `data`: value of transfer for ERC-20, Token ID transferred for ERC-721|Transfer(address,address,unit256)|0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|ApprovalForAll (ERC-721)|Returns `owner` address, `operator` address, and `approved`: <bool>|ApprovalForAll(address,address,bool)|0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|Other|Returns `event`: input data to the transaction and `topics`: where `topics[0]` is the hashed event signature and other entries are relevant addresses.|Not included|Varies based on event type| \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
@@ -1746,7 +1746,7 @@
       ]
     },
     {
-      "name": "getTokenMetadata",
+      "name": "coinbaseCloud_getTokenMetadata",
       "paramStructure": "either",
       "summary": "Get metadata for the given token contract address",
       "description": "Returns metadata for the input token contract address. \n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally.",
