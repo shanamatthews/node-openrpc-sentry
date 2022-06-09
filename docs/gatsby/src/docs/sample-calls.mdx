@@ -4,13 +4,13 @@ title: curl samples
 
 # Query & Transact Advanced Query preview sample API calls (CURL)
 
-## getbalances <a name="getBalancesERC20">USDC & DAI (ERC-20)</a>
+### getbalances <a name="getBalancesERC20">USDC & DAI (ERC-20)</a>
 
 Retrieve balances for USDC and DAI.
 
 **Request:**
 
-```
+```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
   -u <username:<password> \
   -X POST \
@@ -65,16 +65,30 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getBalancesERC721">NFT (ERC-721)</a>
+### getbalances <a name="getBalancesERC721">NFT (ERC-721)</a>
+
+Retrieve NFT tokens.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getBalances", "params": { "addressAndContractList": [ { "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2", "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8" } ] } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getBalances",
+    "params": {
+        "addressAndContractList": [
+            {
+                "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
+            }
+        ]
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -101,18 +115,28 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getSingleBalance
+### getSingleBalance <a name="getSingleBalanceERC20">USDC (ERC-20)</a>
 
-### <a name="getSingleBalanceERC20">USDC (ERC-20)</a>
+Retrieve balances for USDC.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getSingleBalance", "params": { "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D", "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+  "method": "coinbaseCloud_getSingleBalance",
+  "params": [
+    "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D",
+    "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "Ethereum",
+    "Mainnet"
+  ],
+  "id": 1,
+  "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -135,16 +159,28 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getSingleBalanceERC721">NFT (ERC-721)</a>
+### getSingleBalance <a name="getSingleBalanceERC721">NFT (ERC-721)</a>
+
+Retrieve NFT tokens.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getSingleBalance", "params": { "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2", "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getSingleBalance",
+    "params": {
+        "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+        "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8",
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -167,18 +203,35 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getTokenAllowances
+### getTokenAllowances <a name="getTokenAllowancesERC20">USDT (ERC-20)</a>
 
-### <a name="getTokenAllowancesERC20">USDT (ERC-20)</a>
+Retrieve token allowances for USDT.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenAllowances", "params": { "allowances": [ { "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e", "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82", "contracts": [ "0xdac17f958d2ee523a2206206994597c13d831ec7" ] } ] } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTokenAllowances",
+    "params": {
+        "allowances": [
+            {
+                "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
+                "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
+                "contracts": [
+                    "0xdac17f958d2ee523a2206206994597c13d831ec7"
+                ]
+            }
+        ],
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -204,18 +257,30 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getTransactionsByAddress
+### getTransactionsByAddress <a name="getTransactionsByAddressERC20">ERC-20</a>
 
-### <a name="getTransactionsByAddressERC20">ERC-20</a>
+Retrieve transactions for ERC-20 tokens.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionsByAddress", "params": { "address": "0x3cd751e6b0078be393132286c442345e5dc49699", "blockStart": 14431488, "blockEnd": 14431489, "addressFilter": "SENDER_OR_RECEIVER", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTransactionsByAddress",
+    "params": {
+        "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+        "blockStart": 14431488,
+        "blockEnd": 14431489,
+        "addressFilter": "SENDER_OR_RECEIVER",
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -376,18 +441,30 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getTokenTransfersByAddress
+### getTokenTransfersByAddress <a name="getTokenTransfersByAddressERC20andERC721">ERC-20 and ERC-721 token transfers</a>
 
-### <a name="getTokenTransfersByAddressERC20andERC721">ERC-20 and ERC-721 token transfers</a>
+Return all ERC-20 and ERC-721 token transfers to the burn wallet.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransfersByAddress", "params": { "address": "0x0000000000000000000000000000000000000000", "blockStart": 1, "blockEnd": 14355891, "addressFilter": "RECEIVER_ONLY", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+  "method": "coinbaseCloud_getTokenTransfersByAddress",
+  "params": [
+    "0x0000000000000000000000000000000000000000",
+    1,
+    14355891,
+    "RECEIVER_ONLY",
+    "Ethereum",
+    "Mainnet"
+  ],
+  "id": 1,
+  "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -503,16 +580,30 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getTokenTransfersByAddressERC721">ERC-721 token transfers</a>
+### getTokenTransfersByAddress <a name="getTokenTransfersByAddressERC721">ERC-721 token transfers</a>
+
+Return all ERC-721 token transfers to or from a given address.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransfersByAddress", "params": { "address": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e", "blockStart": 1, "blockEnd": 14355891, "addressFilter": "SENDER_OR_RECEIVER", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTokenTransfersByAddress",
+    "params": {
+        "address": "0x0000000003d31C409C48fee50c2e5b9a85820291b1e859a9E",
+        "blockStart": 1,
+        "blockEnd": 14355891,
+        "addressFilter": "SENDER_OR_RECEIVER",
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -564,18 +655,25 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getTransactionByHash
+### getTransactionByHash <a name="getTransactionByHashETHtransfer">ETH Transfer</a>
 
-### <a name="getTransactionByHashETHtransfer">ETH Transfer</a>
+Return transactions resulting from an ETH transfer.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+  "method": "coinbaseCloud_getTransactionByHash",
+  "params": [
+    "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3"
+  ],
+  "id": 1,
+  "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -613,16 +711,27 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getTransactionByHashERC721transfer">ERC-721 transfer</a>
+### getTransactionByHash <a name="getTransactionByHashERC721transfer">ERC-721 transfer</a>
+
+Return transactions resulting from an ERC-721 transfer.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTransactionByHash",
+    "params": {
+        "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6",
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -752,16 +861,25 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getTransactionByHashERC20swap">ERC-20 swap</a>
+### getTransactionByHash <a name="getTransactionByHashERC20swap">ERC-20 swap</a>
+
+Return transactions resulting from an ERC-20 swap.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xb7ff063e414059e41ab3acc69e4a08b18438df49c847977ca5bdcd012121c1b9" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTransactionByHash",
+    "params": {
+        "transactionHash": "0xb7ff063e414059e41ab3acc69e4a08b18438df49c847977ca5bdcd012121c1b9"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -858,16 +976,27 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getTransactionByHashERC721sale">ERC-721 sale</a>
+### getTransactionByHash <a name="getTransactionByHashERC721sale">ERC-721 sale</a>
+
+Return transactions resulting from an ERC-721 sale.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTransactionByHash", "params": { "transactionHash": "0xb67be27ff44ba97f39fa68953350adade5fdbd983571a3b2b81080565d7744a3", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTransactionByHash",
+    "params": {
+        "transactionHash": "0xb67be27ff44ba97f39fa68953350adade5fdbd983571a3b2b81080565d7744a3",
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -992,18 +1121,30 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getTokenStandardEvents
+### getTokenStandardEvents <a name="getTokenStandardEventsERC721">ERC-721</a>
 
-### <a name="getTokenStandardEventsERC721">ERC-721</a>
+Retrieve events triggered by the token contract address.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenStandardEvents", "params": { "contract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", "blockStart": 1, "blockEnd": 14699965, "eventSignatureHashes": ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"], "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTokenStandardEvents",
+    "params": {
+        "contract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "blockStart": 1,
+        "blockEnd": 14699965,
+        "eventSignatureHashes" : ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"],
+        "blockchain": "Ethereum",
+        "network":"Mainnet"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -1120,18 +1261,27 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-## getTokenMetadata
+### getTokenMetadata <a name="getTokenMetadataERC20">USDC (ERC-20)</a>
 
-### <a name="getTokenMetadataERC20">USDC (ERC-20)</a>
+Retrieve token metadata for USDC.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenMetadata", "params": { "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "blockchain": "Ethereum", "network": "Mainnet" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+  "method": "coinbaseCloud_getTokenMetadata",
+  "params": [
+    "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "Ethereum",
+    "Mainnet"
+  ],
+  "id": 1,
+  "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**
@@ -1152,16 +1302,25 @@ curl https://mainnet.ethereum.coinbasecloud.io/rpc \
 }
 ```
 
-### <a name="getTokenMetadataERC721">NFT (ERC-721)</a>
+### getTokenMetadata <a name="getTokenMetadataERC721">NFT (ERC-721)</a>
+
+Retrieve token metadata for an NFT.
 
 **Request:**
 
 ```shell
 curl https://mainnet.ethereum.coinbasecloud.io/rpc \
-  -u username:password \
+  -u <username:<password> \
   -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{ "id": 1, "jsonrpc": "2.0", "method": "coinbaseCloud_getTokenMetadata", "params": { "contract": "0x1A92f7381B9F03921564a437210bB9396471050C" } }'
+  -H 'Content-Type: text/plain' \
+  -d '{
+    "method": "coinbaseCloud_getTokenMetadata",
+    "params": {
+        "contract": "0x1A92f7381B9F03921564a437210bB9396471050C"
+    },
+    "id": 1,
+    "jsonrpc": "2.0"
+}'
 ```
 
 **Response:**

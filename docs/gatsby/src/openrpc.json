@@ -396,7 +396,7 @@
       "examples": [
         {
           "name": "USDT (ERC-20).",
-          "description": "Retrieve allowances for USDT. [Sample CURL call](/sample-calls#getTokenAllowancesERC20)",
+          "description": "Retrieve token allowances for USDT. [Sample CURL call](/sample-calls#getTokenAllowancesERC20)",
           "params": [
             {
               "name": "allowances",
@@ -1848,7 +1848,7 @@
         },
         {
           "name": "NFT (ERC-721)",
-          "description": "Retrieve token metadata for Cool Cats NFT. [Sample CURL call](/sample-calls#getTokenMetadataERC721)",
+          "description": "Retrieve token metadata for an NFT. [Sample CURL call](/sample-calls#getTokenMetadataERC721)",
           "params": [
             {
               "name": "contract",
