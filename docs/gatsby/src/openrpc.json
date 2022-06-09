@@ -2297,7 +2297,7 @@
       "GasLimit": {
         "name": "gasLimit",
         "type": "integer",
-        "description": "Value in native blockchain currency"
+        "description": "Transaction's maximum gas limit"
       },
       "Transaction": {
         "type": "object",
@@ -2344,11 +2344,11 @@
           },
           "gasPrice": {
             "type": "integer",
-            "description": "Transaction's gas price in native blockchain currency"
+            "description": "Transaction's cost per unit of gas in native blockchain currency"
           },
           "gasUsed": {
             "type": "integer",
-            "description": "Amount of gas used in transaction"
+            "description": "Amount of gas actually used in transaction"
           },
           "status": {
             "type": "string",
