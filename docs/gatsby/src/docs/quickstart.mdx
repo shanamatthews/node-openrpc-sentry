@@ -6,7 +6,7 @@ import "../styles/markdown.css"
 
 # Advanced Query quickstart: Get transaction history for an Ethereum address
 
-QT's Advanced Query preview APIs allow you to simplify and optimize common request types to make developing on the blockchain easier.
+QT's Advanced Query APIs (preview) allow you to simplify and optimize common request types to make developing on the blockchain easier.
 
 In this quickstart you will get the full transaction history for a smart contract or a user address including external, internal, token, ERC-20 and ERC-721 token transfers in a single request.
 
@@ -14,10 +14,6 @@ Why get address transaction history by an address?
 - Display a user's full transaction history
 - Query an address's transactions filtered by smart contract interactions 
 - Analyze a user's historical profit and loss
-
-## Prerequisites
-
-- A Coinbase Cloud account
 
 ## Create a project and get API keys
 
@@ -56,10 +52,12 @@ Now, you will use the information you copied to make a request to the Advanced Q
 
 ### Make request
 
-Open your terminal and run the following command, replacing `<endpoint>`, `<username>`, and `<password>` with the values you copied from the Console. 
+Open your terminal and run the following command, replacing `username`, and `password` with the values you copied from the Console. 
+
+For preview, the API endpoint is the same across all projects.
 
 ```shell
-curl <endpoint> \
+curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u <username>:<password> \
   -X POST \
   -H 'Content-Type: text/plain' \
@@ -90,3 +88,77 @@ This call to `getTransactionsByAddress` specifies:
 |`network`|`"Mainnet"`|Mainnet-only in preview. Optional, defaults to `"Mainnet"`|
 
 
+### Get the response
+
+You should get a JSON response back that looks similar to this:
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "blockStart": 14431488,
+    "blockEnd": 14431489,
+    "blocks": [
+      {
+        "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+        "blockNumber": 14431489,
+        "blockTimestamp": 1647889630,
+        "transactions": [
+          {
+            "transactionHash": "0x07160e2164087a3812abbe5e74109be176b0650bbe4be44f4e280fe3ee221a6d",
+            "transactionIndex": 61,
+            "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+            "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+            "value": "157704540000000000",
+            "gasLimit": 21000,
+            "gasPrice": 35105275699,
+            "gasUsed": 21000,
+            "status": "1",
+            "input": "0x",
+            "nonce": 6843177,
+            "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+            "blockNumber": 14431489,
+            "blockTimestamp": 1647889630,
+            "internalTransactions": [
+              {
+                "traceType": "CALL",
+                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+                "value": "157704540000000000"
+              }
+            ]
+          },
+          {
+            "...": "output omitted"
+          }
+        ]
+      },
+      {
+        "...": "output omitted"
+      }
+    ]
+  }
+}
+```
+
+### Understand the response
+
+This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block. Since we specified `"SENDER_OR_RECEIVER"`, the returned transactions will include those which the specified address was the sender or the recipient.
+
+- `blockStart`: the block number this response starts at
+- `blockEnd`: the block number this response ends at
+  - If >1000 transactions would be returned for the requested block range, this API will return 
+    - up to 1000 transactions in a smaller block range, specified in the result
+    - OR all the transactions in a single block if the number in that block > 1000
+  - [See API docs](https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/) for more details on pagination
+- `blocks`: the list of blocks containing transactions:
+  - `blockHash`: the block's hashed identifier
+  - `blockNumber`: this specific block's number
+  - `blockTimestamp`: the date and time this block was mined
+  - `transactions`: a list of relevant transactions in this block
+    - `tokenAddress`: the address location for the token contract
+    - `tokenType`: "erc20" or "erc721" (the only supported types for preview)
+    - `from`: origin address
+    - `to`: destination address
+    - `value`: for ERC-20 tokens, gives the quantity of tokens transferred, for ERC-721 tokens, gives the list of token IDs transferred
