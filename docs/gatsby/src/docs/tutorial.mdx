@@ -56,7 +56,7 @@ Open your terminal and run the following command, replacing `username`, and `pas
 
 For preview, the API endpoint is the same across all projects.
 
-```shell
+```json
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u <username>:<password> \
   -X POST \
@@ -83,7 +83,7 @@ This call to `getTransactionsByAddress` specifies:
 |`address`|`"0x3cd751e6b0078be393132286c442345e5dc49699"`|the Ethereum address you're retrieving transactions for|
 |`blockStart`|`14431488`|the block number to start scanning for transactions|
 |`blockEnd`|`14431489`|the block number to stop scanning for transactions. Optional, defaults the the latest block|
-|`addressFilter`|`"SENDER_OR_RECEIVER"`|filters returned transactions to sender or reciever if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
+|`addressFilter`|`"SENDER"`|filters returned transactions to sender or reciever if specified. Optional, defaults to `"SENDER_OR_RECEIVER"`|
 |`blockchain`|`"Ethereum"`|Ethereum-only in preview. Optional, defaults to `"Ethereum"`|
 |`network`|`"Mainnet"`|Mainnet-only in preview. Optional, defaults to `"Mainnet"`|
 
@@ -135,48 +135,7 @@ You should get a JSON response back that looks similar to this:
         ]
       },
       {
-        "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
-        "blockNumber": 14431488,
-        "blockTimestamp": 1647889625,
-        "transactions": [
-          {
-            "transactionHash": "0x8e7012bccb57ed34fb576868a5376f4983f243e41664bf20220efc1d19006d52",
-            "transactionIndex": 55,
-            "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
-            "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-            "value": "0",
-            "gasLimit": 250000,
-            "gasPrice": 37505027916,
-            "gasUsed": 63209,
-            "status": "1",
-            "input": "0xa9059cbb000000000000000000000000aaadde03849e05ef4425b750a680168bfc0fa08a00000000000000000000000000000000000000000000000000000000281ba3a0",
-            "nonce": 6843176,
-            "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
-            "blockNumber": 14431488,
-            "blockTimestamp": 1647889625,
-            "internalTransactions": [
-              {
-                "traceType": "CALL",
-                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
-                "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-                "value": "0",
-                "gasLimit": 228392
-              }
-            ],
-            "tokenTransfers": [
-              {
-                "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-                "tokenType": "erc20",
-                "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
-                "to": "0xaaadde03849e05ef4425b750a680168bfc0fa08a",
-                "value": "672900000"
-              }
-            ]
-          },
-          {
-            "...": "output omitted"
-          }
-        ]
+        "...": "output omitted"
       }
     ]
   }
@@ -185,7 +144,7 @@ You should get a JSON response back that looks similar to this:
 
 ### Understand the response
 
-This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block. Since we specified `"SENDER_OR_RECEIVER"`, the returned transactions will include those which the specified address was the sender or the recipient.
+This response gives a list of blocks in which transactions were found. Each block includes the list of external transactions found for that address in that block. Since we specified `"SENDER"`, the returned transactions will include only those which the specified address was the sender.
 
 Here is all the information returned from the call.
 
@@ -229,11 +188,11 @@ Here is all the information returned from the call.
 
 ### Process the response
 
-For a given purpose, we may only be interested in a small subset of this information. Let's use the command line utility, `jq` to get the recipient of each transaction from this response.
+For a given purpose, we may only be interested in a small subset of this information. Let's use the command line utility, `jq` to get the recipient of each top level transaction.
 
-To save us from making more API calls, save the response to a file by copying and pasting from your terminal, or running the command again and saving the output to a file:
+To save us from making more API calls, save the response to a file called **response.json** by copying and pasting from your terminal, or running the following command:
 
-```shell
+```json
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u <username>:<password> \
   -X POST \
@@ -253,6 +212,67 @@ curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
 }' | jq '.' > response.json
 ```
 
-Note that command piped the response to `jq '.'` 
+Note that command piped the response to `jq '.'`. This will ensure the json response is nicely formatted in your file.
 
+Next, run this command to get the recipient (`to`) and amount (`value`) of each top-level transaction: 
 
+```shell
+cat response.json | jq '.result.blocks[].transactions[] | {to: .to, value: .value }'
+```
+
+**Output:**
+
+```json
+{
+  "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+  "value": "157704540000000000"
+}
+{
+  "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+  "value": "24776000000000000"
+}
+{
+  "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+  "value": "157704540000000000"
+}
+{
+  "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+  "value": "24776000000000000"
+}
+{
+  "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+  "value": "157704540000000000"
+}
+{
+  "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+  "value": "24776000000000000"
+}
+{
+  "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+  "value": "157704540000000000"
+}
+{
+  "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+  "value": "24776000000000000"
+}
+{
+  "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  "value": "0"
+}
+{
+  "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  "value": "0"
+}
+{
+  "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  "value": "0"
+}
+{
+  "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  "value": "0"
+}
+```
+
+Now we can see what addresses our input address has been sending transactions to and the value of those transactions. 
+
+You now know how to get transaction history for a given Ethereum address! From here, you can process more information from your response or check out other [Advanced Query APIs]((https://main.d11a9x012jyl0p.amplifyapp.com/api-documentation/)).
