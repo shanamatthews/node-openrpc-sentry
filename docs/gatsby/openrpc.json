@@ -1,0 +1,2708 @@
+{
+  "openrpc": "1.2.4",
+  "info": {
+    "title": "Query & Transact Advanced Query APIs (preview)",
+    "version": "0.0.1",
+    "description": "This document describes the preview APIs for Query and Transact's new Advanced Query APIs. See the [main Query and Transact documentation](https://docs.cloud.coinbase.com/blockchain-infrastructure/docs) for more information about Query and Transact. \n\n These APIs supplement native Ethereum APIs. Advanced Query APIs simplify access to blockchain data by offering data cuts which are hard to get via native Ethereum APIs, and offer aggregated and filtered data in one API call. The Advanced APIs provide access to token balances for accounts, transactions and transfers for accounts, smart contract event logs, and more. \n\n **API constraints**: \n - Only Ethereum protocol and Mainnet (and Testnet) networks are supported in this preview version of the APIs. Ethereum L2 chains and other protocols will be supported incrementally. \n - This preview version of the APIs only supports ETH, ERC-20 and ERC-721 tokens. \n   - The Balances and Contracts APIs only return results for ERC-20 and ERC-721 tokens. \n   - In the Transfers APIs, some metadata in the results might be available for ERC-20 and ERC-721 only. \n   - Note that the Contracts APIs are only relevant for the Ethereum ecosystem. \n\n\n **Definitions** \n - **balance**: Amount of a token, for Ethereum this is the amount of ETH in wei. For NFTs this is the number of NFTs. \n - **contract**: Also known as a \"smart contract\". A program that runs on a blockchain. Contracts are a type of account that have a balance and can send transactions. \n - **transaction:** A cryptographically signed instruction that updates the state of the network. The action must be initiated by an externally-owned address, e.g. an account managed by a human. \n - **internal transaction:** An unsigned message carried out by a smart contract. A series of internal transactions originate from a transaction. \n - **transfer**: Refers to \"token transfer\", a transaction that transfers ERC-20 (Ethereum) or ERC-721 (NFT) tokens. \n - **allowance**: Also known as \"access permissions to tokens\". Allows a third party to carry out transactions of a given amount with a user's tokens."
+  },
+  "servers": [
+    {
+      "name": "Endpoint URL and API token info",
+      "url": "https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run",
+      "description": "This is the server endpoint URL for preview. During the preview, this endpoint will work across all projects. \n\n **Authentication:** \n\n This endpoint uses HTTP Basic Auth. \n\n To authenticate to these APIs: \n\n - Create a project in the Coinbase Cloud Console \n - Grab your projet-specific API Access Token username and password from the project overview page \n - Include your username and password as `auth` in each HTTP request"
+    }
+  ],
+  "methods": [
+    {
+      "name": "coinbaseCloud_getBalances",
+      "paramStructure": "either",
+      "summary": "Get balance for multiple account addresses across one or more tokens",
+      "description": "Get balance for multiple account addresses across one or more tokens within a single blockchain and network. The balance incorporates transactions, internal transfers and all supported token transfers. Supports ERC-20 and ERC-721. This API is meant to be our primary API to get balances. A more simple and lower latency API that just fetches balance for a single address and token is `getSingleBalance`. \n\n **Use cases:**\n - Get balances for one or many addresses in a single call \n - Get balances for all the tokens an account address may hold \n - Get balances for all the tokens a contract may hold  \n\n\n **Constraints:** \n - Only up to 10 addresses are supported per API call. Only up to 10 tokens are supported per address per API call. These limits will be increased with pagination support incrementally. \n - Balances can be fetched for a single protocol and network using this API. Future variants may support fetching balance across networks for a protocol, or even across all supported protocols.",
+      "tags": [
+        {
+          "name": "Balances"
+        }
+      ],
+      "params": [
+        {
+          "name": "addressAndContractList",
+          "summary": "List of addresses and token identifiers",
+          "description": "List of account or contact addresses and token identifiers. For Ethereum the token identifier is the token contract address.",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/AddressAndContractList"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Mainnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "balances",
+        "summary": "Returned list of balance amounts",
+        "description": "A list of balance amounts for the given token identifier and Block range in which the balances were computed. Note that Start is always genesis for this API.",
+        "schema": {
+          "$ref": "#/components/schemas/GetBalancesResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "USDC & DAI (ERC-20)",
+          "description": "Retrieve balances for USDC and DAI. [Sample CURL call](/sample-calls#getBalancesERC20)",
+          "params": [
+            {
+              "name": "addressAndContractList",
+              "value": [
+                {
+                  "address": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D",
+                  "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                },
+                {
+                  "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                  "contract": "0x6b175474e89094c44da98b954eedeac495271d0f"
+                }
+              ]
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "balances",
+            "value": [
+              {
+                "blockHeight": 14893778,
+                "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+                "nativeAmount": "93166839672705001",
+                "nativeUnit": "Wei",
+                "tokenBalances": [
+                  {
+                    "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "amount": "60914134",
+                    "decimals": 6
+                  },
+                  {
+                    "contract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                    "amount": "1871941363914734149",
+                    "decimals": 18
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "NFT (ERC-721)",
+          "description": "Retrieve NFT tokens. [Sample CURL call](/sample-calls#getBalancesERC721)",
+          "params": [
+            {
+              "name": "addressAndContractList",
+              "value": [
+                {
+                  "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                  "contract": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
+                }
+              ]
+            }
+          ],
+          "result": {
+            "name": "balances",
+            "value": [
+              {
+                "blockHeight": 14893778,
+                "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+                "nativeAmount": "61889627444351055967",
+                "nativeUnit": "Wei",
+                "tokenBalances": [
+                  {
+                    "contract": "0x5180db8f5c931aae63c74266b211f580155ecac8",
+                    "amount": "3",
+                    "decimals": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getSingleBalance",
+      "paramStructure": "either",
+      "summary": "Get balance for a single token and a single account address",
+      "description": "Get an accurate balance for a single token and a single account address. The balance takes into account transactions, internal transfers and any supported token transfers. The caller should expect low latency from this API compared to a more heavy weight GetBalances. \n\n **Use cases:** \n - Low latency call to get the latest balance for a single token for a single address. \n - Get balances for an account address or a contract",
+      "tags": [
+        {
+          "name": "Balances"
+        }
+      ],
+      "params": [
+        {
+          "name": "address",
+          "summary": "Account address",
+          "description": "Can be an account address or a contract address.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "contract",
+          "summary": "Token identifier",
+          "description": "Token identifier. For Ethereum the token identifier is the token contract address.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "balance",
+        "summary": "Returned balance",
+        "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network: Amount and Unit (e.g. Wei, satoshi). Balance is returned in the smallest possible unit. Currently only Wei. 1 ETH = 10^18 Wei.",
+        "schema": {
+          "$ref": "#/components/schemas/GetSingleBalanceResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "USDC (ERC-20)",
+          "description": "Retrieve balances for USDC. [Sample CURL call](/sample-calls#getSingleBalanceERC20)",
+          "params": [
+            {
+              "name": "address",
+              "value": "0x00000000DF0635793e91d4f8e7426dbd9ed08471186f428D"
+            },
+            {
+              "name": "contract",
+              "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "balance",
+            "value": {
+              "blockHeight": 14893778,
+              "address": "0xdf0635793e91d4f8e7426dbd9ed08471186f428d",
+              "nativeAmount": "93166839672705001",
+              "nativeUnit": "Wei",
+              "tokenBalance": {
+                "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "amount": "60914134",
+                "decimals": 6
+              }
+            }
+          }
+        },
+        {
+          "name": "NFT (ERC-721)",
+          "description": "Retrieve NFT tokens. [Sample CURL call](/sample-calls#getSingleBalanceERC721)",
+          "params": [
+            {
+              "name": "address",
+              "value": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2"
+            },
+            {
+              "name": "contract",
+              "value": "0x5180db8F5c931aaE63c74266b211F580155ecac8"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "balance",
+            "value": {
+              "blockHeight": 14893779,
+              "address": "0xa3e90da6c1d5ea0b1b4e881d1eaaaaaaf3c25cc2",
+              "nativeAmount": "61889627444351055967",
+              "nativeUnit": "Wei",
+              "tokenBalance": {
+                "contract": "0x5180db8f5c931aae63c74266b211f580155ecac8",
+                "amount": "3",
+                "decimals": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTokenAllowances",
+      "paramStructure": "either",
+      "summary": "Get allowances for a specified owner and spender",
+      "description": "Get allowances for a specified owner and spender across one or more tokens within a single blockchain and network. \n\n **Use cases:** \n - Get Allowance given to another account for one or more tokens \n - Get Allowances for all the tokens an account address may hold",
+      "tags": [
+        {
+          "name": "Balances"
+        }
+      ],
+      "params": [
+        {
+          "name": "allowances",
+          "summary": "Owner addresses, spender addresses, and token identifiers.",
+          "description": "List of owner addresses, spender addresses, and token identifiers. For Ethereum, the token identifier is the token contract address.",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Allowances"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "allowances",
+        "summary": "Returned list of allowances",
+        "description": "List of allowances, including owner address, spender address, the block range in which the balances were computed (start is genesis), and a list of allowance information.",
+        "schema": {
+          "$ref": "#/components/schemas/GetTokenAllowancesResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "USDT (ERC-20).",
+          "description": "Retrieve token allowances for USDT. [Sample CURL call](/sample-calls#getTokenAllowancesERC20)",
+          "params": [
+            {
+              "name": "allowances",
+              "value": [
+                {
+                  "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
+                  "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
+                  "contracts": [
+                    "0xdac17f958d2ee523a2206206994597c13d831ec7"
+                  ]
+                }
+              ]
+            }
+          ],
+          "result": {
+            "name": "allowances",
+            "value": [
+              {
+                "blockHeight": 14893780,
+                "owner": "0xa646147bda82a866eba03568f363fc9c90185c6e",
+                "spender": "0xadd0e097b961572b2a1f5de572c622eef97e3d82",
+                "tokenAllowances": [
+                  {
+                    "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                    "amount": "411256436224324320870982430867023952481793415358246197461731293",
+                    "decimals": 6
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTransactionsByAddress",
+      "paramStructure": "either",
+      "summary": "Get transactions for a given address.",
+      "description": "Returns external transactions, internal transactions (triggered by smart contracts) and token transfers for a given address. Includes activity from and to the input address. Transactions are returned in reverse chronological order. \n\n This API guarantees that all relevant transactions and transfers for a single block are returned in a single call. \n\n **Use cases:** \n - Get all the transactions (external and internal) for a given address \n - Get all token transfers for a given address \n - Get transactions and transfers in specific block ranges \n - Filter transactions by send and/or receive \n\n\n **Constraints:** \n\n - The API returns up to 1000 transactions and transfers combined OR all the relevant transactions and transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n - Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n - If there are more than 1000 relevant transactions, the API will return at least 1000 transactions. In order to deliver a full block, it may return > 1000 transactions. \n - Transactions are returned in reverse chronological order. \n\n\nExample: A client wants to get all the transactions from genesis to the latest block. Assume 100 is the latest block: \n\n|API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100. \n\n Note that in this example, the first API call only returns 2 blocks because those blocks contained 1000+ transactions. In the second API call we return 63 blocks to get 1000+ transactions.",
+      "tags": [
+        {
+          "name": "Transactions"
+        }
+      ],
+      "params": [
+        {
+          "name": "address",
+          "summary": "Account address",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockStart",
+          "summary": "Start of block range to scan for transactions",
+          "description": "",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "blockEnd",
+          "summary": "End of block range to scan for transactions",
+          "description": "Defaults to latest. See **Pagination support** for more information",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "addressFilter",
+          "summary": "Filter transactions by",
+          "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Returned transactions",
+        "description": "Returns a list of blocks for which transactions were found, each with a list of external transactions found for the address in that block.",
+        "schema": {
+          "$ref": "#/components/schemas/GetTransactionsByAddressResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "ERC-20",
+          "description": "Retrieve transactions for ERC-20 tokens. [Sample CURL call](/sample-calls#getTransactionsByAddressERC20)",
+          "params": [
+            {
+              "name": "address",
+              "value": "0x3cd751e6b0078be393132286c442345e5dc49699"
+            },
+            {
+              "name": "blockStart",
+              "value": 14431488
+            },
+            {
+              "name": "blockEnd",
+              "value": 14431489
+            },
+            {
+              "name": "addressFilter",
+              "value": "SENDER_OR_RECEIVER"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockStart": 14431488,
+              "blockEnd": 14431489,
+              "blocks": [
+                {
+                  "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                  "blockNumber": 14431489,
+                  "blockTimestamp": 1647889630,
+                  "transactions": [
+                    {
+                      "transactionHash": "0x07160e2164087a3812abbe5e74109be176b0650bbe4be44f4e280fe3ee221a6d",
+                      "transactionIndex": 61,
+                      "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                      "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+                      "value": "157704540000000000",
+                      "gasLimit": 21000,
+                      "gasPrice": 35105275699,
+                      "gasUsed": 21000,
+                      "status": "1",
+                      "input": "0x",
+                      "nonce": 6843177,
+                      "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                      "blockNumber": 14431489,
+                      "blockTimestamp": 1647889630,
+                      "internalTransactions": [
+                        {
+                          "traceType": "CALL",
+                          "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                          "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+                          "value": "157704540000000000"
+                        }
+                      ]
+                    },
+                    {
+                      "transactionHash": "0x8409c799d35dbb1500f7083f99a7373aee8308bf39e543a95a9de16e70315d31",
+                      "transactionIndex": 74,
+                      "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                      "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+                      "value": "24776000000000000",
+                      "gasLimit": 21000,
+                      "gasPrice": 35105275699,
+                      "gasUsed": 21000,
+                      "status": "1",
+                      "input": "0x",
+                      "nonce": 6843178,
+                      "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                      "blockNumber": 14431489,
+                      "blockTimestamp": 1647889630,
+                      "internalTransactions": [
+                        {
+                          "traceType": "CALL",
+                          "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                          "to": "0x3f54e2d84e42b113af00ab489c01adb0c5cf62d2",
+                          "value": "24776000000000000"
+                        }
+                      ]
+                    },
+                    {
+                      "transactionHash": "0x07160e2164087a3812abbe5e74109be176b0650bbe4be44f4e280fe3ee221a6d",
+                      "transactionIndex": 61,
+                      "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                      "to": "0x912a523a10e052900b571889b07ff4f2fd86e029",
+                      "value": "157704540000000000",
+                      "gasLimit": 21000,
+                      "gasPrice": 35105275699,
+                      "gasUsed": 21000,
+                      "status": "Success",
+                      "input": "0x",
+                      "nonce": 6843177,
+                      "blockHash": "0x2c52d4bb68c6e56272974d21bd5afc7a01ec33093249d9d5ec0b74048a8389d5",
+                      "blockNumber": 14431489,
+                      "blockTimestamp": 1647889630
+                    },
+                    {
+                      "...": "output omitted"
+                    }
+                  ]
+                },
+                {
+                  "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+                  "blockNumber": 14431488,
+                  "blockTimestamp": 1647889625,
+                  "transactions": [
+                    {
+                      "transactionHash": "0x8e7012bccb57ed34fb576868a5376f4983f243e41664bf20220efc1d19006d52",
+                      "transactionIndex": 55,
+                      "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                      "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                      "value": "0",
+                      "gasLimit": 250000,
+                      "gasPrice": 37505027916,
+                      "gasUsed": 63209,
+                      "status": "1",
+                      "input": "0xa9059cbb000000000000000000000000aaadde03849e05ef4425b750a680168bfc0fa08a00000000000000000000000000000000000000000000000000000000281ba3a0",
+                      "nonce": 6843176,
+                      "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+                      "blockNumber": 14431488,
+                      "blockTimestamp": 1647889625,
+                      "internalTransactions": [
+                        {
+                          "traceType": "CALL",
+                          "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                          "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                          "value": "0",
+                          "gasLimit": 228392
+                        }
+                      ],
+                      "tokenTransfers": [
+                        {
+                          "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                          "tokenType": "erc20",
+                          "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                          "to": "0xaaadde03849e05ef4425b750a680168bfc0fa08a",
+                          "value": "672900000"
+                        }
+                      ]
+                    },
+                    {
+                      "transactionHash": "0x8e7012bccb57ed34fb576868a5376f4983f243e41664bf20220efc1d19006d52",
+                      "transactionIndex": 55,
+                      "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                      "to": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                      "value": "0",
+                      "gasLimit": 250000,
+                      "gasPrice": 37505027916,
+                      "gasUsed": 63209,
+                      "status": "Success",
+                      "input": "0xa9059cbb000000000000000000000000aaadde03849e05ef4425b750a680168bfc0fa08a00000000000000000000000000000000000000000000000000000000281ba3a0",
+                      "nonce": 6843176,
+                      "blockHash": "0x1939a88b2da89f1512e134e6d17a08e71c7fcd352cff2ddee942c4d79140055f",
+                      "blockNumber": 14431488,
+                      "blockTimestamp": 1647889625,
+                      "tokenTransfers": [
+                        {
+                          "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                          "tokenType": "erc20",
+                          "from": "0x3cd751e6b0078be393132286c442345e5dc49699",
+                          "to": "0xaaadde03849e05ef4425b750a680168bfc0fa08a",
+                          "value": "672900000"
+                        }
+                      ]
+                    },
+                    {
+                      "...": "output omitted"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTokenTransfersByAddress",
+      "paramStructure": "either",
+      "summary": "Get token transfers for a given address.",
+      "description": "Returns token transfers for a given address. Includes activity from and to the input address. Returns the transfers in reverse chronological order. \n\n **Use cases:** \n - Get all token transfers for a given address \n - Get token transfers in specific block ranges \n\n\n **Constraints:** \n\n - The API returns up to 1000 token transfers OR all the token transfers within a single block; whichever is greater. \n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n\n\n **Pagination support:** \n\n - Clients can use block ranges to iterate through transfers if there are more than 1000. \n - If there are more than 1000 relevant transfers, the API will return at least 1000 transfers. In order to deliver a full block, it may return > 1000 transfers. \n Transfers are returned in reverse chronological order. \n\n\n E.g., a client wants to get all the token transfers from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100. \n\n Note that in this example, the first API call only returns 2 blocks because those blocks contained 1000+ transactions. In the second API call we return 63 blocks to get 1000+ transactions.",
+      "tags": [
+        {
+          "name": "Transactions"
+        }
+      ],
+      "params": [
+        {
+          "name": "address",
+          "summary": "Account address",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockStart",
+          "summary": "Start of block range to scan for transactions",
+          "description": "",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "blockEnd",
+          "summary": "End of block range to scan for transactions",
+          "description": "Defaults to latest. See **Pagination support** for more information",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "addressFilter",
+          "summary": "Filter transactions by",
+          "description": "Filter transactions such that the address is SENDER_ONLY, RECEIVER_ONLY or SENDER_OR_RECEIVER. Defaults to SENDER_OR_RECEIVER.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Returned transactions",
+        "description": "Returns a list of blocks for which transactions were found, each with a list of token transfers found for the address in that block.",
+        "schema": {
+          "$ref": "#/components/schemas/GetTokenTransfersByAddressResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "ERC-20 and ERC-721 token transfers",
+          "description": "Return all ERC-20 and ERC-721 token transfers to the burn wallet. [Sample CURL call](/sample-calls#getTokenTransfersByAddressERC20andERC721)",
+          "params": [
+            {
+              "name": "address",
+              "value": "0x0000000000000000000000000000000000000000"
+            },
+            {
+              "name": "blockStart",
+              "value": 1
+            },
+            {
+              "name": "blockEnd",
+              "value": 14355891
+            },
+            {
+              "name": "addressFilter",
+              "value": "RECEIVER_ONLY"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockStart": 14355514,
+              "blockEnd": 14355891,
+              "blocks": [
+                {
+                  "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
+                  "blockNumber": 14355891,
+                  "blockTimestamp": 1646872195,
+                  "tokenTransfers": [
+                    {
+                      "tokenAddress": "0xb5de0c3753b6e1b4dba616db82767f17513e6d4e",
+                      "tokenType": "erc20",
+                      "from": "0xb5de0c3753b6e1b4dba616db82767f17513e6d4e",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "20171572165639639738",
+                      "transactionHash": "0xdb7590bf6069127301ceeebf1b0f33bf483e08a37fc321e48eadbfaf4fb595fb",
+                      "transactionIndex": 72
+                    },
+                    {
+                      "tokenAddress": "0xb8f5eba1a53d27a06c9c993d832d945ce20a31ec",
+                      "tokenType": "erc20",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "30266372230497121",
+                      "transactionHash": "0xa9a74e3442be5815ef7adc4568f8dc3e0b32787aec6d2c891866888d51f223d8",
+                      "transactionIndex": 102
+                    }
+                  ]
+                },
+                {
+                  "blockHash": "0x4e47bb9444336af0587a7e8138556eff722b8df2d3410385e37360cc831a3f1c",
+                  "blockNumber": 14355889,
+                  "blockTimestamp": 1646872172,
+                  "tokenTransfers": [
+                    {
+                      "tokenAddress": "0x030ba81f1c18d280636f32af80b9aad02cf0854e",
+                      "tokenType": "erc20",
+                      "from": "0xcc9a0b7c43dc2a5f023bb9b738e45b0ef6b06e04",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "336269772487705777",
+                      "transactionHash": "0x13b84e1a6f87459ee7dd58b6c0bd5758902c146a5fb343ee68ec8322a1a7ad1a",
+                      "transactionIndex": 181
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "43043",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "12385",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "67627",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "38323",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0xc71a726d390bf02b4af8920c0820970310d0f367",
+                      "tokenType": "erc721",
+                      "from": "0xe6cd4727a1058e6973e973986d0493f1e7975ef8",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "tokenID": "65064",
+                      "transactionHash": "0xce24394b751343a7cccd6dce38761a36653d29c054f5bb2937dc4c11b895d6ee",
+                      "transactionIndex": 180
+                    },
+                    {
+                      "tokenAddress": "0x8793cd84c22b94b1fdd3800f02c4b1dcca40d50b",
+                      "tokenType": "erc20",
+                      "from": "0x3641ef18240a46337818f98005cbb190c4930202",
+                      "to": "0x0000000000000000000000000000000000000000",
+                      "value": "38078396",
+                      "transactionHash": "0xd801007d3194c56061fafe8ae195a82fa7f3a79438719550a60a51eeb41cf383",
+                      "transactionIndex": 227
+                    },
+                    {
+                      "...": "output truncated. Returns up to 1000 token transfers."
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "ERC-721 token transfers",
+          "description": "Return all ERC-721 token transfers to or from a given address. [Sample CURL call](/sample-calls#getTokenTransfersByAddressERC721)",
+          "params": [
+            {
+              "name": "address",
+              "value": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e"
+            },
+            {
+              "name": "blockStart",
+              "value": 1
+            },
+            {
+              "name": "blockEnd",
+              "value": 14355891
+            },
+            {
+              "name": "addressFilter",
+              "value": "SENDER_OR_RECEIVER"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockStart": 1,
+              "blockEnd": 14355891,
+              "blocks": [
+                {
+                  "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
+                  "blockNumber": 14355891,
+                  "blockTimestamp": 1646872195,
+                  "tokenTransfers": [
+                    {
+                      "tokenAddress": "0x4bb08998a697d0db666783ba5b56e85b33ba262f",
+                      "tokenType": "erc721",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e",
+                      "tokenID": "4404",
+                      "transactionHash": "0xedb1cd88557ca9f4c5057ad2b237b1427208bc6820005e73535466c1b2bc1884",
+                      "transactionIndex": 90
+                    },
+                    {
+                      "tokenAddress": "0x4bb08998a697d0db666783ba5b56e85b33ba262f",
+                      "tokenType": "erc721",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e",
+                      "tokenID": "4405",
+                      "transactionHash": "0xedb1cd88557ca9f4c5057ad2b237b1427208bc6820005e73535466c1b2bc1884",
+                      "transactionIndex": 90
+                    },
+                    {
+                      "tokenAddress": "0x4bb08998a697d0db666783ba5b56e85b33ba262f",
+                      "tokenType": "erc721",
+                      "from": "0x0000000000000000000000000000000000000000",
+                      "to": "0x3d31c409c48fee50c2e5b9a85820291b1e859a9e",
+                      "tokenID": "4406",
+                      "transactionHash": "0xedb1cd88557ca9f4c5057ad2b237b1427208bc6820005e73535466c1b2bc1884",
+                      "transactionIndex": 90
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTransactionByHash",
+      "paramStructure": "either",
+      "summary": "Get transfers initiated by a transaction",
+      "description": "Returns all transfers caused by the transaction identified by the input transaction hash. This includes all internal transactions as well as all token transfers that were triggered by the transaction. \n\n **Use cases:** \n - Get complete data for a transaction \n - Get all the internal transactions and token transfers triggered by a transaction \n\n\n **Constraints:** \n\n - Static calls among smart contracts can result in zero balance transfers in Ethereum. Such transfers are excluded from the output. \n - This API doesn't currently support pagination. All the data for the transaction will be returned in a single call.",
+      "tags": [
+        {
+          "name": "Transactions"
+        }
+      ],
+      "params": [
+        {
+          "name": "transactionHash",
+          "summary": "Transaction hash",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Returned transactions",
+        "description": "Returns the given transaction with all associated internal transactions and token transfers.",
+        "schema": {
+          "$ref": "#/components/schemas/Transaction"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "ETH transfer",
+          "description": "Return transactions resulting from an ETH transfer. [Sample CURL call](/sample-calls#getTransactionByHashETHtransfer)",
+          "params": [
+            {
+              "name": "transactionHash",
+              "value": "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "transaction": {
+                "transactionHash": "0xb407e98dcbf5c2a3b22809940784440cb1d909d9177d0f7dd859a21672ca65a3",
+                "transactionIndex": 84,
+                "from": "0x848176950e1ddf51085f264617203e6696d9a36c",
+                "to": "0xf66ced605fb69b3fa490cb83b713fcb2f554b512",
+                "value": "124101199128327938",
+                "gasLimit": 21000,
+                "gasPrice": 33063676112,
+                "gasUsed": 21000,
+                "status": "1",
+                "input": "0x",
+                "nonce": 27,
+                "blockHash": "0x34f7c346ce0cc29dd1c3f645b6816e04c9856dc66dab2e6f27c4748e192a102c",
+                "blockNumber": 14360907,
+                "blockTimestamp": 1646939319,
+                "internalTransactions": [
+                  {
+                    "traceType": "CALL",
+                    "from": "0x848176950e1ddf51085f264617203e6696d9a36c",
+                    "to": "0xf66ced605fb69b3fa490cb83b713fcb2f554b512",
+                    "value": "124101199128327938"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "ERC-721 transfer.",
+          "description": "Return transactions resulting from an ERC-721 transfer. [Sample CURL call](/sample-calls#getTransactionByHashERC721transfer)",
+          "params": [
+            {
+              "name": "transactionHash",
+              "value": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "transaction": {
+                "transactionHash": "0xdd0971856280e6e4db0ce31072b9780c4c3f96d70351d5b7ef3edf924583d2c6",
+                "transactionIndex": 96,
+                "from": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
+                "to": "0x00000000a50bb64b4bbeceb18715748dface08af",
+                "value": "10000000000000000",
+                "gasLimit": 239976,
+                "gasPrice": 23192015945,
+                "gasUsed": 215360,
+                "status": "1",
+                "input": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab03b6622941eeaf5760607ead7e0a152f8b9987e95174fc32af701beb95fc2c3158ae81f246fb6f7cabbcbb0ced7b2f4272d9d02bd1da8a91f77658516e7bc301c009ff4bd73f5a65c0fe4ac0ede825c96467d54573f3df0e8b974f000000000000000000000000000000000000000000000000000000000000043962326ebd31040358f1366dbadb386e898cfea9c9d2e741697be05272dc33b5b543f3fb46000000002386f26fc10000",
+                "nonce": 130,
+                "blockHash": "0x84210a366e05d2cb7ac1674901e259620c5485ccfa079618c2b07d5c5466dc3d",
+                "blockNumber": 14355891,
+                "blockTimestamp": 1646872195,
+                "internalTransactions": [
+                  {
+                    "traceType": "CALL",
+                    "from": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
+                    "to": "0x00000000a50bb64b4bbeceb18715748dface08af",
+                    "value": "10000000000000000",
+                    "gasLimit": 216368
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x00000000a50bb64b4bbeceb18715748dface08af",
+                    "to": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "value": "10000000000000000",
+                    "gasLimit": 203117
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x0000000000000000000000000000000000000001",
+                    "value": "0",
+                    "gasLimit": 165004
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+                    "value": "0",
+                    "gasLimit": 148219
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+                    "value": "950000000000000",
+                    "gasLimit": 2300
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xaf5760607ead7e0a152f8b9987e95174fc32af70",
+                    "value": "9050000000000000",
+                    "gasLimit": 2300
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+                    "value": "0",
+                    "gasLimit": 103863
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+                    "value": "0",
+                    "gasLimit": 98366
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+                    "value": "0",
+                    "gasLimit": 94230
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+                    "to": "0xf9e266af4bca5890e2781812cc6a6e89495a79f2",
+                    "value": "0",
+                    "gasLimit": 89570
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+                    "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+                    "value": "0",
+                    "gasLimit": 82851
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+                    "to": "0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7",
+                    "value": "0",
+                    "gasLimit": 79157
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0xf729cb7083f5367056e2f2d376a3451260a00cfe",
+                    "to": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab",
+                    "value": "0",
+                    "gasLimit": 74247
+                  }
+                ],
+                "tokenTransfers": [
+                  {
+                    "tokenAddress": "0x0da642e3ed481b119cc212b6f1c9bef04e3211ab",
+                    "tokenType": "erc721",
+                    "from": "0xaf5760607ead7e0a152f8b9987e95174fc32af70",
+                    "to": "0xf88ad3b265a92acfc9f7157f927950dc5317cae5",
+                    "tokenID": "1081"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "ERC-20 swap",
+          "description": "Return transactions resulting from an ERC-20 swap. [Sample CURL call](/sample-calls#getTransactionByHashERC20swap)",
+          "params": [
+            {
+              "name": "transactionHash",
+              "value": "0xb7ff063e414059e41ab3acc69e4a08b18438df49c847977ca5bdcd012121c1b9"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "transaction": {
+                "transactionHash": "0xb7ff063e414059e41ab3acc69e4a08b18438df49c847977ca5bdcd012121c1b9",
+                "transactionIndex": 14,
+                "from": "0x8e8f818d3371f797a2db7edb32803607c8b3c6a9",
+                "to": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                "value": "0",
+                "gasLimit": 300000,
+                "gasPrice": 59184147559,
+                "gasUsed": 99851,
+                "status": "1",
+                "input": "0xce2e62ff000000000000000000000000000000000000000000000355a627675139e0000000000000000000000000000000000000000000000000000021f31cc480121600000000000000000000000000611cde65dea90918c0078ac0400a72b0d25b9bb1000000000000000000000000408e41876cccdc0f92210600ef50372656052a3800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000062294499",
+                "nonce": 11131,
+                "blockHash": "0x78956753e993db281b4e8217229b74a64e095135f06cf4ef23606de934651605",
+                "blockNumber": 14355849,
+                "blockTimestamp": 1646871637,
+                "internalTransactions": [
+                  {
+                    "traceType": "CALL",
+                    "from": "0x8e8f818d3371f797a2db7edb32803607c8b3c6a9",
+                    "to": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                    "value": "0",
+                    "gasLimit": 277460
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                    "to": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "value": "0",
+                    "gasLimit": 265326
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                    "to": "0x408e41876cccdc0f92210600ef50372656052a38",
+                    "value": "0",
+                    "gasLimit": 258369
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                    "to": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "value": "0",
+                    "gasLimit": 241818
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "to": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "value": "0",
+                    "gasLimit": 224736
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "to": "0x408e41876cccdc0f92210600ef50372656052a38",
+                    "value": "0",
+                    "gasLimit": 211456
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "to": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "value": "0",
+                    "gasLimit": 210394
+                  }
+                ],
+                "tokenTransfers": [
+                  {
+                    "tokenAddress": "0x408e41876cccdc0f92210600ef50372656052a38",
+                    "tokenType": "erc20",
+                    "from": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                    "to": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "value": "15747045346607196274688"
+                  },
+                  {
+                    "tokenAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "tokenType": "erc20",
+                    "from": "0x611cde65dea90918c0078ac0400a72b0d25b9bb1",
+                    "to": "0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e",
+                    "value": "2448181478250605140"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "ERC-721 sale",
+          "description": "Return transactions resulting from an ERC-721 sale. [Sample CURL call](/sample-calls#getTransactionByHashERC721sale)",
+          "params": [
+            {
+              "name": "transactionHash",
+              "value": "0xb67be27ff44ba97f39fa68953350adade5fdbd983571a3b2b81080565d7744a3"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "transaction": {
+                "transactionHash": "0xb67be27ff44ba97f39fa68953350adade5fdbd983571a3b2b81080565d7744a3",
+                "transactionIndex": 225,
+                "from": "0xeb016b0b8976a8a9b56d0d48c98d2cffb0459226",
+                "to": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                "value": "389000000000000000",
+                "gasLimit": 258613,
+                "gasPrice": 22528875897,
+                "gasUsed": 193992,
+                "status": "1",
+                "input": "0xab834bab0000000000000000000000007f268357a8c2552623316e2562d90e642bb538e5000000000000000000000000eb016b0b8976a8a9b56d0d48c98d2cffb0459226000000000000000000000000605dd719317f9236277fd4dcc7e8cadff38d1dcb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000baf2127b49fc93cbca6269fade0f7f31df4c88a7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007f268357a8c2552623316e2562d90e642bb538e5000000000000000000000000605dd719317f9236277fd4dcc7e8cadff38d1dcb00000000000000000000000000000000000000000000000000000000000000000000000000000000000000005b3256965e7c3cf26e11fcaf296dfc8807c01073000000000000000000000000baf2127b49fc93cbca6269fade0f7f31df4c88a70000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000566017061a08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000622943ca00000000000000000000000000000000000000000000000000000000000000002a3740ff6f969f359068cc9d9f12340bb634b3b24c9d79067af4f9b2b3f1ca0800000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000566017061a080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006229346b0000000000000000000000000000000000000000000000000000000062325850bc19a3b1b00ae00728e35de79af17c5b0abb96195b8f320136beaa4abfd7da4f0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000006a000000000000000000000000000000000000000000000000000000000000007c000000000000000000000000000000000000000000000000000000000000008e00000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000b200000000000000000000000000000000000000000000000000000000000000b20000000000000000000000000000000000000000000000000000000000000001b000000000000000000000000000000000000000000000000000000000000001bbef4356df39df54574e8a1c4aebd0add6c2534880b29972fd0de014b7f71f11a5ebd6da0ea7ac2cc11bda801fe5fd6c923e9afe6a89dbc8794288e5359e38763bef4356df39df54574e8a1c4aebd0add6c2534880b29972fd0de014b7f71f11a5ebd6da0ea7ac2cc11bda801fe5fd6c923e9afe6a89dbc8794288e5359e38763000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e4fb16a5950000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eb016b0b8976a8a9b56d0d48c98d2cffb04592260000000000000000000000008d609bd201beaea7dccbfbd9c22851e23da686910000000000000000000000000000000000000000000000000000000000000901000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e4fb16a595000000000000000000000000605dd719317f9236277fd4dcc7e8cadff38d1dcb00000000000000000000000000000000000000000000000000000000000000000000000000000000000000008d609bd201beaea7dccbfbd9c22851e23da686910000000000000000000000000000000000000000000000000000000000000901000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e400000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e4000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "nonce": 36,
+                "blockHash": "0x78956753e993db281b4e8217229b74a64e095135f06cf4ef23606de934651605",
+                "blockNumber": 14355849,
+                "blockTimestamp": 1646871637,
+                "internalTransactions": [
+                  {
+                    "traceType": "CALL",
+                    "from": "0xeb016b0b8976a8a9b56d0d48c98d2cffb0459226",
+                    "to": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "value": "389000000000000000",
+                    "gasLimit": 219285
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x0000000000000000000000000000000000000001",
+                    "value": "0",
+                    "gasLimit": 180920
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+                    "value": "0",
+                    "gasLimit": 163958
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+                    "value": "38900000000000000",
+                    "gasLimit": 2300
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x605dd719317f9236277fd4dcc7e8cadff38d1dcb",
+                    "value": "350100000000000000",
+                    "gasLimit": 2300
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+                    "value": "0",
+                    "gasLimit": 119602
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x7ec65765408e188666097f9b7267f8d0a9dd0c87",
+                    "value": "0",
+                    "gasLimit": 114105
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7f268357a8c2552623316e2562d90e642bb538e5",
+                    "to": "0x7ec65765408e188666097f9b7267f8d0a9dd0c87",
+                    "value": "0",
+                    "gasLimit": 109969
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7ec65765408e188666097f9b7267f8d0a9dd0c87",
+                    "to": "0xf9e266af4bca5890e2781812cc6a6e89495a79f2",
+                    "value": "0",
+                    "gasLimit": 105063
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7ec65765408e188666097f9b7267f8d0a9dd0c87",
+                    "to": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
+                    "value": "0",
+                    "gasLimit": 98102
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7ec65765408e188666097f9b7267f8d0a9dd0c87",
+                    "to": "0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7",
+                    "value": "0",
+                    "gasLimit": 94408
+                  },
+                  {
+                    "traceType": "CALL",
+                    "from": "0x7ec65765408e188666097f9b7267f8d0a9dd0c87",
+                    "to": "0x8d609bd201beaea7dccbfbd9c22851e23da68691",
+                    "value": "0",
+                    "gasLimit": 89260
+                  }
+                ],
+                "tokenTransfers": [
+                  {
+                    "tokenAddress": "0x8d609bd201beaea7dccbfbd9c22851e23da68691",
+                    "tokenType": "erc721",
+                    "from": "0x605dd719317f9236277fd4dcc7e8cadff38d1dcb",
+                    "to": "0xeb016b0b8976a8a9b56d0d48c98d2cffb0459226",
+                    "tokenID": "2305"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTokenStandardEvents",
+      "paramStructure": "either",
+      "summary": "Get events triggered by the given token contract",
+      "description": "Returns events triggered by the input token contracts. The event data is returned in an easy to read format. Only supports events defined by Ethereum standards for ERC-20 and ERC-721 tokens. \n\nDifferent event types will return different event data:\n\n |Event type|Event data|Signature|Signature hash|\n|-|-|-|-|\n|Transfer (ERC-20 or ERC-721)|Returns `from` address, `to` address, and `data`: value of transfer for ERC-20, Token ID transferred for ERC-721|Transfer(address,address,unit256)|0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|ApprovalForAll (ERC-721)|Returns `owner` address, `operator` address, and `approved`: <bool>|ApprovalForAll(address,address,bool)|0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31|\n|Approval (ERC-20 or ERC-721)|Returns `owner` address, `spender` address, and `data`: <unit256>|Approval(address,address,unit256)|0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925|\n|Other|Returns `event`: input data to the transaction and `topics`: where `topics[0]` is the hashed event signature and other entries are relevant addresses.|Not included|Varies based on event type| \n\n **Use cases:**\n - Get events for smart contracts that implement standard token interfaces \n - Get historical events \n - Get events in easy to read format \n\n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally. \n - Up to 1000 events are returned or all events within a single transaction; whichever is greater.  \n\n\n **Pagination support:** \n\n Clients can use block ranges to iterate through transactions and transfers if there are more than 1000. \n\n E.g., a client wants to get all the transactions from genesis to the latest block. In this example, assume 100 is the latest block: \n\n |API Calls|Input|Output|\n|-|-|-|\n|1|Block range: 0 -> latest,|Block range scanned: *98* -> 100|\n|2|Block range: 0 -> *97*,|Block range scanned: **34** -> 97|\n|3|Block range: 0 -> **33**,|Block range scanned: 0 -> 33|\n Done. All data is returned for the range 0 -> 100.",
+      "tags": [
+        {
+          "name": "Contracts"
+        }
+      ],
+      "params": [
+        {
+          "name": "contract",
+          "summary": "Token contract",
+          "description": "The token contract to get events triggered by",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockStart",
+          "summary": "Start of block range to scan for transactions",
+          "description": "",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "blockEnd",
+          "summary": "End of block range to scan for transactions",
+          "description": "Defaults to latest. Can be used for pagination. See **Pagination support** for more information",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "eventSignatureHashes",
+          "summary": "List of event signature hashes to include in the response",
+          "description": "Defaults to all standard events for ERC-20/ERC-721 (`Transfer`, `Approval`, `ApprovalForAll`)",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/EventSignatureHashes"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Returned events triggered by the input token contract",
+        "description": "A list of parent transactions in the given block range, each with a sub-list of events that occurred as part of the parent transaction. Note: The output does not specify the token type (ERC20 vs ERC721).",
+        "schema": {
+          "$ref": "#/components/schemas/GetTokenStandardEventsResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "ERC 721",
+          "description": "Retrieve events triggered by the token contract address. [Sample CURL call](/sample-calls#getTokenStandardEventsERC721)",
+          "params": [
+            {
+              "name": "contract",
+              "value": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            },
+            {
+              "name": "blockStart",
+              "value": 1
+            },
+            {
+              "name": "blockEnd",
+              "value": 14699965
+            },
+            {
+              "name": "eventSignatureHashes",
+              "value": [
+                "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+              ]
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "balances",
+            "value": {
+              "blockStart": 14699876,
+              "blockEnd": 14699965,
+              "events": [
+                {
+                  "blockHash": "0x801b8afac89d96d9c6f054275bc9fc0274c831372603dc34aae7401931f58849",
+                  "blockNumber": 14699965,
+                  "blockTimestamp": 1651517188,
+                  "events": [
+                    {
+                      "transactionHash": "0xe11f4b1dd9fbd62b5a4afe11a6f6289e4d90ba5aaf04ce75ff2031b9ebe39fa5",
+                      "data": {
+                        "data": "514711238152814592",
+                        "from": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
+                        "name": "Transfer",
+                        "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
+                      },
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0x1db9620f152626ed8f964971e8f86f8a861ba0a0712f9c105404c7f41bb1cd94",
+                      "transactionIndex": 1,
+                      "data": {
+                        "data": "1195169635397992762",
+                        "from": "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc",
+                        "name": "Transfer",
+                        "to": "0x8aa34c7866da901b3b55d162821ef3dae87851f3"
+                      },
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0xc272abff0db861a07499accc6f27f2b31fc3a5d823ed74b8921e70808491d9e1",
+                      "transactionIndex": 2,
+                      "data": {
+                        "data": "666767006594236416",
+                        "from": "0x8aa34c7866da901b3b55d162821ef3dae87851f3",
+                        "name": "Transfer",
+                        "to": "0x00000000003b3cc22af3ae1eac0440bcee416b40"
+                      },
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "...": "output truncated."
+                    }
+                  ]
+                },
+                {
+                  "blockHash": "0xc977a5cc4b0580dcbf2acc5a89404d516cf11d20b4e16a3217c029fc87cbb229",
+                  "blockNumber": 14699963,
+                  "blockTimestamp": 1651517178,
+                  "events": [
+                    {
+                      "transactionHash": "0x7446a45a7c5f67201c40d5d75e8efc15b9c4e7f8da113a94c70eddf4c0b56250",
+                      "transactionIndex": 14,
+                      "data": {
+                        "data": "2100000000000000000",
+                        "from": "0x16e75b7b8bea3787da601ba8291fc601f31c800c",
+                        "name": "Transfer",
+                        "to": "0xbe71372995e8e920e4e72a29a51463677a302e8d"
+                      },
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0x818de41b4a83ea0d902f69a51f9eedc541041cb49b5624e024de057401a3baf0",
+                      "data": {
+                        "data": "186174816314904516734",
+                        "from": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+                        "name": "Transfer",
+                        "to": "0x56178a0d5f301baf6cf3e1cd53d9863437345bf9"
+                      },
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "transactionHash": "0x937d08c73a28618410aec6e06f7abe5c76b116adcc2b86adcfddd5aabada69b1",
+                      "transactionIndex": 13,
+                      "data": {
+                        "data": "1224000000000000000",
+                        "from": "0x759ec1b3326de6fd4ba316f65a6f689c4e4c3092",
+                        "name": "Transfer",
+                        "to": "0x6bee0f0dea573ec04a77ff3547691f2edccf2a7c"
+                      },
+                      "eventType": "Transfer",
+                      "signature": "Transfer(address, address, uint256)",
+                      "signatureHash": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+                    },
+                    {
+                      "...": "output truncated."
+                    }
+                  ]
+                },
+                {
+                  "...": "output truncated."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coinbaseCloud_getTokenMetadata",
+      "paramStructure": "either",
+      "summary": "Get metadata for the given token contract address",
+      "description": "Returns metadata for the input token contract address. \n\n **Constraints:** \n - Only ERC20 and ERC721 token standards are supported. More (e.g. ERC1155) will be added incrementally.",
+      "tags": [
+        {
+          "name": "Contracts"
+        }
+      ],
+      "params": [
+        {
+          "name": "contract",
+          "summary": "Token contract",
+          "description": "The token contract to get metadata for",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "blockchain",
+          "summary": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc.",
+          "description": "E.g. Ethereum, Bitcoin, Optimism, Arbitrum, etc. Currently only supports Ethereum.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "network",
+          "summary": "E.g. Mainnet, Testnet",
+          "description": "E.g. Mainnet, Testnet. Currently only supports Testnet.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "summary": "Metadata for the input token contract",
+        "description": "Returns either ERC-20 token metadata or ERC-721 token metadata based on the input. \n\n ERC-20 returns: \n\n - Name \n - Symbol \n - Decimals \n - Total supply \n\n\n ERC-721 returns: \n\n - Name \n - Symbol \n - Total supply \n - Tokens \n   - Token ID \n   - Index \n   - Token URI",
+        "schema": {
+          "$ref": "#/components/schemas/GetTokenMetadataResponse"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SetInvalidParamError"
+        },
+        {
+          "$ref": "#/components/errors/SetInvalidRequestError"
+        },
+        {
+          "$ref": "#/components/errors/SetServerError"
+        },
+        {
+          "$ref": "#/components/errors/SetMethodNotFoundError"
+        },
+        {
+          "$ref": "#/components/errors/AuthorizationError"
+        },
+        {
+          "$ref": "#/components/errors/MethodNotAllowedError"
+        },
+        {
+          "$ref": "#/components/errors/RateLimitError"
+        }
+      ],
+      "examples": [
+        {
+          "name": "USDC (ERC-20)",
+          "description": "Retrieve token metadata for USDC. [Sample CURL call](/sample-calls#getTokenMetadataERC20)",
+          "params": [
+            {
+              "name": "contract",
+              "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+            },
+            {
+              "name": "blockchain",
+              "value": "Ethereum"
+            },
+            {
+              "name": "network",
+              "value": "Mainnet"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockHeight": 14832446,
+              "tokenMetadata": {
+                "name": "USD Coin",
+                "symbol": "USDC",
+                "totalSupply": "45182454435259550",
+                "decimals": 6
+              }
+            }
+          }
+        },
+        {
+          "name": "NFT (ERC-721)",
+          "description": "Retrieve token metadata for an NFT. [Sample CURL call](/sample-calls#getTokenMetadataERC721)",
+          "params": [
+            {
+              "name": "contract",
+              "value": "0x1A92f7381B9F03921564a437210bB9396471050C"
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": {
+              "blockHeight": 14893782,
+              "tokenMetadata": {
+                "name": "Cool Cats",
+                "symbol": "COOL",
+                "totalSupply": "9941"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "components": {
+    "contentDescriptors": {},
+    "errors": {
+      "SetInvalidParamError": {
+        "code": -32602,
+        "message": "Incorrect number of input params. Please check the spec and ensure all required params are provided."
+      },
+      "SetInvalidRequestError": {
+        "code": -32600,
+        "message": "The JSON sent is not a valid Request object."
+      },
+      "SetServerError": {
+        "code": -32000,
+        "message": "A Server Error has occurred. Retrying may resolve the issue."
+      },
+      "SetMethodNotFoundError": {
+        "code": -32601,
+        "message": "Method not found."
+      },
+      "AuthorizationError": {
+        "code": 401,
+        "message": "unauthorized"
+      },
+      "MethodNotAllowedError": {
+        "code": 405,
+        "message": "method not allowed"
+      },
+      "RateLimitError": {
+        "code": 429,
+        "message": "too many requests"
+      },
+      "Other errors":{
+        "code": 429,
+        "message": "too many requests"
+      }
+    },
+    "schemas": {
+      "Address": {
+        "name": "address",
+        "description": "Account address",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Contract": {
+        "name": "contract",
+        "description": "Token identifier",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "AddressAndContract": {
+        "type": "object",
+        "required": [
+          "address",
+          "contract"
+        ],
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/Contract"
+          }
+        }
+      },
+      "AddressAndContractList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AddressAndContract"
+        }
+      },
+      "TokenBalance": {
+        "type": "object",
+        "required": [
+          "contract",
+          "amount",
+          "decimals"
+        ],
+        "properties": {
+          "contract": {
+            "type": "string",
+            "$ref": "#/components/schemas/Contract"
+          },
+          "amount": {
+            "description": "Balance Amount (For ERC-721 it is the number of tokens).",
+            "type": "string"
+          },
+          "decimals": {
+            "description": "Unit (decimals for ERC-20).",
+            "type": "integer"
+          }
+        }
+      },
+      "BlockHeight": {
+        "name": "blockHeight",
+        "description": "Block range in which the balances were computed. Start is genesis.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "NativeAmount": {
+        "name": "nativeAmount",
+        "description": "Balance of the native cryptocurrency (ETH, BTC, etc) for the blockchain and network. Balance is returned in the smallest possible unit. 1 ETH = 10^18 Wei.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "NativeUnit": {
+        "name": "nativeUnit",
+        "description": "Unit the balance is returned in. Currently Wei-only.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "MultiTokenBalance": {
+        "type": "object",
+        "required": [
+          "blockHeight",
+          "address",
+          "nativeAmount",
+          "nativeUnit",
+          "tokenBalances"
+        ],
+        "properties": {
+          "blockHeight": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockHeight"
+          },
+          "address": {
+            "type": "string",
+            "$ref": "#/components/schemas/Address"
+          },
+          "nativeAmount": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeAmount"
+          },
+          "nativeUnit": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeUnit"
+          },
+          "tokenBalances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenBalance"
+            }
+          }
+        }
+      },
+      "GetBalancesResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MultiTokenBalance"
+        }
+      },
+      "GetSingleBalanceResponse": {
+        "type": "object",
+        "required": [
+          "blockHeight",
+          "address",
+          "nativeAmount",
+          "nativeUnit",
+          "tokenBalances"
+        ],
+        "properties": {
+          "blockHeight": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockHeight"
+          },
+          "address": {
+            "type": "string",
+            "$ref": "#/components/schemas/Address"
+          },
+          "nativeAmount": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeAmount"
+          },
+          "nativeUnit": {
+            "type": "string",
+            "$ref": "#/components/schemas/NativeUnit"
+          },
+          "tokenBalance": {
+            "type": "object",
+            "$ref": "#/components/schemas/TokenBalance"
+          }
+        }
+      },
+      "Owner": {
+        "name": "owner",
+        "description": "Owner address",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Spender": {
+        "name": "spender",
+        "description": "Spender address",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Allowance": {
+        "type": "object",
+        "required": [
+          "owner",
+          "spender",
+          "contracts"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "$ref": "#/components/schemas/Owner"
+          },
+          "spender": {
+            "type": "string",
+            "$ref": "#/components/schemas/Spender"
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "$ref": "#/components/schemas/Contract"
+            }
+          }
+        }
+      },
+      "Allowances": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Allowance"
+        }
+      },
+      "AllowancesResponse": {
+        "type": "object",
+        "required": [
+          "blockHeight",
+          "owner",
+          "spender",
+          "tokenAllowances"
+        ],
+        "properties": {
+          "blockHeight": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockHeight"
+          },
+          "owner": {
+            "type": "string",
+            "$ref": "#/components/schemas/Owner"
+          },
+          "spender": {
+            "type": "string",
+            "$ref": "#/components/schemas/Spender"
+          },
+          "tokenAllowances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenBalance"
+            }
+          }
+        }
+      },
+      "GetTokenAllowancesResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AllowancesResponse"
+        }
+      },
+      "InternalTransaction": {
+        "type": "object",
+        "required": [
+          "traceType",
+          "from",
+          "to",
+          "value"
+        ],
+        "properties": {
+          "traceType": {
+            "type": "string",
+            "description": "Type of internal transaction, e.g. `CREATE`, `CALL`, `CALLCODE`, `DELEGATECALL`, `SUICIDE`"
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "$ref": "#/components/schemas/Value"
+          },
+          "gasLimit": {
+            "type": "integer",
+            "$ref": "#/components/schemas/GasLimit"
+          }
+        }
+      },
+      "TransactionHash": {
+        "name": "transactionHash",
+        "type": "string",
+        "description": "The transaction's hash identifier"
+      },
+      "TransactionIndex": {
+        "name": "transactionIndex",
+        "type": "integer",
+        "description": "The transaction's index in block"
+      },
+      "TransactionsTokenTransfer": {
+        "type": "object",
+        "required": [
+          "tokenAddress",
+          "tokenType",
+          "from",
+          "to",
+          "value"
+        ],
+        "properties": {
+          "tokenAddress": {
+            "type": "string",
+            "description": "Address location for the token contract"
+          },
+          "tokenType": {
+            "type": "string",
+            "description": "\"erc20\" or \"erc721\""
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "description": "For ERC-20, gives quantity of tokens transferred. For ERC-721, gives list of token IDs of the token transferred"
+          }
+        }
+      },
+      "TokenTransfer": {
+        "type": "object",
+        "required": [
+          "tokenAddress",
+          "tokenType",
+          "from",
+          "to",
+          "value",
+          "transactionHash",
+          "transactionIndex"
+        ],
+        "properties": {
+          "tokenAddress": {
+            "type": "string",
+            "description": "Address location for the token contract"
+          },
+          "tokenType": {
+            "type": "string",
+            "description": "\"erc20\" or \"erc721\""
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "description": "For ERC-20, gives quantity of tokens transferred. For ERC-721, gives list of token IDs of the token transferred"
+          },
+          "transactionHash": {
+            "type": "string",
+            "description": "The transaction's identifying hash",
+            "$ref": "#/components/schemas/TransactionHash"
+          },
+          "transactionIndex": {
+            "type": "integer",
+            "description": "The transaction's index position",
+            "$ref": "#/components/schemas/TransactionIndex"
+          }
+        }
+      },
+      "BlockHash": {
+        "name": "blockHash",
+        "type": "string",
+        "description": "Block's hash identifier"
+      },
+      "BlockNumber": {
+        "name": "blockNumber",
+        "type": "integer",
+        "description": "Block's number"
+      },
+      "BlockTimestamp": {
+        "name": "blockTimestamp",
+        "type": "integer",
+        "description": "Timestamp of when block was mined"
+      },
+      "BlockStart": {
+        "name": "blockStart",
+        "type": "integer",
+        "description": "The starting block number"
+      },
+      "BlockEnd": {
+        "name": "blockEnd",
+        "type": "integer",
+        "description": "The ending block number"
+      },
+      "From": {
+        "name": "from",
+        "type": "string",
+        "description": "Origin address"
+      },
+      "To": {
+        "name": "to",
+        "type": "string",
+        "description": "Destination address"
+      },
+      "Value": {
+        "name": "value",
+        "type": "string",
+        "description": "Value in native blockchain currency"
+      },
+      "GasLimit": {
+        "name": "gasLimit",
+        "type": "integer",
+        "description": "Value in native blockchain currency"
+      },
+      "Transaction": {
+        "type": "object",
+        "required": [
+          "transactionHash",
+          "transactionIndex",
+          "from",
+          "to",
+          "value",
+          "gasLimit",
+          "gasPrice",
+          "gasUsed",
+          "status",
+          "input",
+          "nonce",
+          "blockHash",
+          "blockNumber",
+          "blockTimestamp"
+        ],
+        "properties": {
+          "transactionHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/TransactionHash"
+          },
+          "transactionIndex": {
+            "type": "integer",
+            "$ref": "#/components/schemas/TransactionIndex"
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "value": {
+            "type": "string",
+            "$ref": "#/components/schemas/Value"
+          },
+          "gasLimit": {
+            "type": "integer",
+            "$ref": "#/components/schemas/GasLimit"
+          },
+          "gasPrice": {
+            "type": "integer",
+            "description": "Transaction's gas price in native blockchain currency"
+          },
+          "gasUsed": {
+            "type": "integer",
+            "description": "Amount of gas used in transaction"
+          },
+          "status": {
+            "type": "string",
+            "description": "\"1\": Success\", \"0\": Fail, Other return codes: Unknown"
+          },
+          "input": {
+            "type": "string",
+            "description": "Transaction's input data"
+          },
+          "nonce": {
+            "type": "integer",
+            "description": "Transaction's nonce"
+          },
+          "blockHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/BlockHash"
+          },
+          "blockNumber": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockNumber"
+          },
+          "blockTimestamp": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockTimestamp"
+          },
+          "internalTransactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InternalTransaction"
+            }
+          },
+          "tokenTransfers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenTransfer"
+            }
+          }
+        }
+      },
+      "BlockTransaction": {
+        "type": "object",
+        "required": [
+          "blockHash",
+          "blockNumber",
+          "blockTimestamp",
+          "transactions"
+        ],
+        "properties": {
+          "blockHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/BlockHash"
+          },
+          "blockNumber": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockNumber"
+          },
+          "blockTimestamp": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockTimestamp"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionsTokenTransfer"
+            }
+          }
+        }
+      },
+      "GetTransactionsByAddressResponse": {
+        "type": "object",
+        "required": [
+          "blockStart",
+          "blockEnd",
+          "blocks"
+        ],
+        "properties": {
+          "blockStart": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockStart"
+          },
+          "blockEnd": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockEnd"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlockTransaction"
+            }
+          }
+        }
+      },
+      "BlockTokens": {
+        "type": "object",
+        "required": [
+          "blockHash",
+          "blockNumber",
+          "blockTimestamp",
+          "tokenTransfers"
+        ],
+        "properties": {
+          "blockHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/BlockHash"
+          },
+          "blockNumber": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockNumber"
+          },
+          "blockTimestamp": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockTimestamp"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenTransfer"
+            }
+          }
+        }
+      },
+      "GetTokenTransfersByAddressResponse": {
+        "type": "object",
+        "required": [
+          "blockStart",
+          "blockEnd",
+          "blocks"
+        ],
+        "properties": {
+          "blockStart": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockStart"
+          },
+          "blockEnd": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockEnd"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlockTokens"
+            }
+          }
+        }
+      },
+      "EventSignatureHash": {
+        "name": "to",
+        "type": "string",
+        "description": "Hashed event signature"
+      },
+      "EventSignatureHashes": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/EventSignatureHash"
+        }
+      },
+      "TokenEventData": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "For ERC-20 this represents the value. For ERC-721 this represents the token id."
+          },
+          "from": {
+            "type": "string",
+            "$ref": "#/components/schemas/From"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the event type, e.g. `Transfer`, `Approval`."
+          },
+          "to": {
+            "type": "string",
+            "$ref": "#/components/schemas/To"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Token owner address"
+          },
+          "spender": {
+            "type": "string",
+            "description": "Token spender address"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Token operator address"
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "`true` when operator receives approval, `false` when approval is revoked."
+          },
+          "topics": {
+            "type": "string",
+            "description": "Stringified array. `topics[0]` is the hashed event signature. Other entries in the array may include to and from addresses."
+          }
+        }
+      },
+      "TokenEvent": {
+        "type": "object",
+        "required": [
+          "transactionHash",
+          "data",
+          "eventType",
+          "signature",
+          "signatureHash"
+        ],
+        "properties": {
+          "transactionHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/TransactionHash"
+          },
+          "transactionIndex": {
+            "type": "integer",
+            "$ref": "#/components/schemas/TransactionIndex"
+          },
+          "data": {
+            "type": "object",
+            "description": "Data returned for specific transaction. Returns different properties based on event type, see examples.",
+            "$ref": "#/components/schemas/TokenEventData"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "`Transfer` (ERC-20 and ERC-721), `Approval` (ERC-20 and ERC-721), or `ApprovalForAll` (ERC-721 only).  Defaults to hashed signature if not one of the previous."
+          },
+          "signature": {
+            "type": "string",
+            "description": "Method signature for the event type"
+          },
+          "signatureHash": {
+            "type": "string",
+            "description": "Hash of the event signature"
+          }
+        }
+      },
+      "BlockTokenEvent": {
+        "type": "object",
+        "required": [
+          "blockHash",
+          "blockNumber",
+          "blockTimestamp",
+          "events"
+        ],
+        "properties": {
+          "blockHash": {
+            "type": "string",
+            "$ref": "#/components/schemas/BlockHash"
+          },
+          "blockNumber": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockNumber"
+          },
+          "blockTimestamp": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockTimestamp"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenEvent"
+            }
+          }
+        }
+      },
+      "GetTokenStandardEventsResponse": {
+        "type": "object",
+        "required": [
+          "blockStart",
+          "blockEnd",
+          "events"
+        ],
+        "properties": {
+          "blockStart": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockStart"
+          },
+          "blockEnd": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockEnd"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlockTokenEvent"
+            }
+          }
+        }
+      },
+      "TokenInfo": {
+        "type": "object",
+        "required": [
+          "tokenID",
+          "tokenURI"
+        ],
+        "properties": {
+          "tokenID": {
+            "type": "string",
+            "description": "Token ID"
+          },
+          "tokenURI": {
+            "type": "string",
+            "description": "URI for token"
+          },
+          "index": {
+            "type": "string",
+            "description": "Index for specific token"
+          }
+        }
+      },
+      "TokenMetadata": {
+        "type": "object",
+        "required": [
+          "name",
+          "symbol",
+          "totalSupply"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of token"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Symbol for token"
+          },
+          "totalSupply": {
+            "type": "string",
+            "description": "Total amount of token"
+          },
+          "decimals": {
+            "type": "string",
+            "description": "Number of decimals"
+          }
+        }
+      },
+      "GetTokenMetadataResponse": {
+        "type": "object",
+        "required": [
+          "blockHeight",
+          "tokenMetadata"
+        ],
+        "properties": {
+          "blockHeight": {
+            "type": "integer",
+            "$ref": "#/components/schemas/BlockHeight"
+          },
+          "tokenMetadata": {
+            "type": "object",
+            "$ref": "#/components/schemas/TokenMetadata"
+          }
+        }
+      }
+    }
+  }
+}
