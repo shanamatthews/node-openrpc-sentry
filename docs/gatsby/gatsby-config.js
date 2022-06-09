@@ -15,7 +15,7 @@ module.exports = {
         ignoreNextPrev: true
       },
       {
-        name: 'Advanced Query API documentation',
+        name: 'Advanced Query documentation',
         link: '/api-documentation',
         ignoreNextPrev: true
       },
