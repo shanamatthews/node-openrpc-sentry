@@ -51,6 +51,25 @@
       }
     },
     {
+      "name": "eth_call",
+      "summary": "Executes a new message call (locally) immediately without creating a transaction on the block chain.",
+      "params": [
+        {
+          "$ref": "#/components/contentDescriptors/Transaction"
+        },
+        {
+          "$ref": "#/components/contentDescriptors/BlockNumber"
+        }
+      ],
+      "result": {
+        "name": "returnValue",
+        "description": "The return value of the executed contract",
+        "schema": {
+          "$ref": "#/components/schemas/Bytes"
+        }
+      }
+    },
+    {
       "name": "eth_chainId",
       "summary": "Returns the currently configured chain id",
       "description": "Returns the currently configured chain id, a value used in replay-protected transaction signing as introduced by [EIP-155](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md).",
