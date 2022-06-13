@@ -63,9 +63,9 @@ For preview, the API endpoint is the same across all projects.
 
 ```json
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
-  -u <username>:<password> \
+  -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
   "method": "coinbaseCloud_getTransactionsByAddress",
   "params": {

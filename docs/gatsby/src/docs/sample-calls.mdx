@@ -14,7 +14,7 @@ Retrieve balances for USDC and DAI.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getBalances",
     "params": {
@@ -75,7 +75,7 @@ Retrieve NFT tokens.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getBalances",
     "params": {
@@ -125,7 +125,7 @@ Retrieve balances for USDC.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
   "method": "coinbaseCloud_getSingleBalance",
   "params": [
@@ -169,7 +169,7 @@ Retrieve NFT tokens.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getSingleBalance",
     "params": {
@@ -213,7 +213,7 @@ Retrieve token allowances for USDT.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTokenAllowances",
     "params": {
@@ -267,7 +267,7 @@ Retrieve transactions for ERC-20 tokens.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTransactionsByAddress",
     "params": {
@@ -451,7 +451,7 @@ Return all ERC-20 and ERC-721 token transfers to the burn wallet.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
   "method": "coinbaseCloud_getTokenTransfersByAddress",
   "params": [
@@ -590,7 +590,7 @@ Return all ERC-721 token transfers to or from a given address.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTokenTransfersByAddress",
     "params": {
@@ -665,7 +665,7 @@ Return transactions resulting from an ETH transfer.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
   "method": "coinbaseCloud_getTransactionByHash",
   "params": [
@@ -721,7 +721,7 @@ Return transactions resulting from an ERC-721 transfer.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTransactionByHash",
     "params": {
@@ -871,7 +871,7 @@ Return transactions resulting from an ERC-20 swap.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTransactionByHash",
     "params": {
@@ -986,7 +986,7 @@ Return transactions resulting from an ERC-721 sale.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTransactionByHash",
     "params": {
@@ -1131,7 +1131,7 @@ Retrieve events triggered by the token contract address.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTokenStandardEvents",
     "params": {
@@ -1271,7 +1271,7 @@ Retrieve token metadata for USDC.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
   "method": "coinbaseCloud_getTokenMetadata",
   "params": [
@@ -1312,7 +1312,7 @@ Retrieve token metadata for an NFT.
 curl https://2f9c52e0-c2db-4687-b81c-67e834fe65f5.ethereum.bison.run \
   -u username:password \
   -X POST \
-  -H 'Content-Type: text/plain' \
+  -H 'Content-Type: application/json' \
   -d '{
     "method": "coinbaseCloud_getTokenMetadata",
     "params": {
