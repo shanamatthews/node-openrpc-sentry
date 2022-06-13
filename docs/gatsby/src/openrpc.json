@@ -85,7 +85,7 @@
       "examples": [
         {
           "name": "USDC & DAI (ERC-20)",
-          "description": "Retrieve balances for USDC and DAI. [Sample CURL call](/sample-calls#getBalancesERC20)",
+          "description": "Retrieve balances for USDC and DAI. Note that this example shows how Advanced Query APIs normalize input and accept long, mixed-case address. [Sample CURL call](/sample-calls#getBalancesERC20)",
           "params": [
             {
               "name": "addressAndContractList",
@@ -250,7 +250,7 @@
       "examples": [
         {
           "name": "USDC (ERC-20)",
-          "description": "Retrieve balances for USDC. [Sample CURL call](/sample-calls#getSingleBalanceERC20)",
+          "description": "Retrieve balances for USDC. Note that this example shows how Advanced Query APIs normalize input and accept long, mixed-case address. [Sample CURL call](/sample-calls#getSingleBalanceERC20)",
           "params": [
             {
               "name": "address",
